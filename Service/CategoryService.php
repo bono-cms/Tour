@@ -13,7 +13,9 @@ namespace Tour\Service;
 
 use Tour\Storage\CategoryMapperInterface;
 use Cms\Service\AbstractManager;
+use Cms\Service\WebPageManagerInterface;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Stdlib\ArrayUtils;
 
 final class CategoryService extends AbstractManager
 {
@@ -47,7 +49,7 @@ final class CategoryService extends AbstractManager
     /**
      * {@inheritDoc}
      */
-    protected function toEntity()
+    protected function toEntity(array $category)
     {
         $entity = new VirtualEntity();
         $entity->setId($category['id'], VirtualEntity::FILTER_INT)
@@ -74,6 +76,10 @@ final class CategoryService extends AbstractManager
      */
     public function fetchById($id, $withTranslations)
     {
-        return $this->prepareResult($this->categoryMapper->fetchById($id, $withTranslations));
+        if ($withTranslations == true) {
+            return $this->prepareResults($this->categoryMapper->fetchById($id, true));
+        } else {
+            return $this->prepareResult($this->categoryMapper->fetchById($id, false));
+        }
     }
 }
