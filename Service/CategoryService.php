@@ -85,6 +85,16 @@ final class CategoryService extends AbstractManager
     }
 
     /**
+     * Fetches as a list
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        return $this->categoryMapper->fetchList();
+    }
+
+    /**
      * Returns category's last id
      * 
      * @return string

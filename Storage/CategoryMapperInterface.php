@@ -21,4 +21,11 @@ interface CategoryMapperInterface
      * @return array
      */
     public function fetchById($id, $withTranslations);
+
+    /**
+     * Fetches as a list
+     * 
+     * @return array
+     */
+    public function fetchList();
 }
