@@ -22,9 +22,10 @@ final class Module extends AbstractCmsModule
     public function getServiceProviders()
     {
         $categoryMapper = $this->getMapper('/Tour/Storage/MySQL/CategoryMapper');
+        $webPageManager = $this->getWebPageManager();
 
         return array(
-            'categoryService' => new CategoryService($categoryMapper)
+            'categoryService' => new CategoryService($categoryMapper, $webPageManager)
         );
     }
 }
