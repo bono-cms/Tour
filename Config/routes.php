@@ -24,5 +24,9 @@ return array(
     
     '/%s/module/tour/category/edit/(:var)' => array(
         'controller' => 'Admin:Category@editAction'
+    ),
+
+    '/%s/module/tour/category/delete/(:var)' => array(
+        'controller' => 'Admin:Category@deleteAction'
     )
 );

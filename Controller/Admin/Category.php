@@ -67,6 +67,21 @@ final class Category extends AbstractController
     }
 
     /**
+     * Deletes a category
+     * 
+     * @param int $id
+     * @return string
+     */
+    public function deleteAction($id)
+    {
+        $service = $this->getModuleService('categoryService');
+        $service->deleteById($id);
+
+        $this->flashBag->set('success', 'Selected element has been removed successfully');
+        return 1;
+    }
+
+    /**
      * Persists a category
      * 
      * @return string
