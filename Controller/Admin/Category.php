@@ -43,7 +43,10 @@ final class Category extends AbstractController
      */
     public function addAction()
     {
-        return $this->createForm(new VirtualEntity());
+        $category = new VirtualEntity();
+        $category->setSeo(true); // Make SEO checked by default
+
+        return $this->createForm($category);
     }
 
     /**
