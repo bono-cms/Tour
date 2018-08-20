@@ -82,4 +82,48 @@ final class CategoryService extends AbstractManager
             return $this->prepareResult($this->categoryMapper->fetchById($id, false));
         }
     }
+
+    /**
+     * Returns category's last id
+     * 
+     * @return string
+     */
+    public function getLastId()
+    {
+        return $this->categoryMapper->getLastId();
+    }
+
+    /**
+     * Saves a page
+     * 
+     * @param array $input
+     * @return boolean
+     */
+    private function savePage(array $input)
+    {
+        $input['category'] = ArrayUtils::arrayWithout($input['category'], array('slug'));
+        return $this->categoryMapper->savePage('Tour (Categories)', 'Tour:Tour@indexAction', $input['category'], $input['translation']);
+    }
+
+    /**
+     * Adds a category
+     * 
+     * @param array $input Raw input data
+     * @return boolean Depending on success
+     */
+    public function add(array $input)
+    {
+        return $this->savePage($input);
+    }
+
+    /**
+     * Updates a category
+     * 
+     * @param array $input Raw input data
+     * @return boolean Depending on success
+     */
+    public function update(array $input)
+    {
+        return $this->savePage($input);
+    }
 }
