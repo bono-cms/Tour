@@ -23,6 +23,9 @@ final class Grid extends AbstractController
      */
     public function indexAction()
     {
+        // Append breadcrumb
+        $this->view->getBreadcrumbBag()->addOne('Tours');
+
         return $this->view->render('grid', array(
             'categories' => $this->getModuleService('categoryService')->fetchList()
         ));

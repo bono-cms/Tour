@@ -1,0 +1,44 @@
+<?php
+
+use Krystal\Grid\Grid;
+use Krystal\Form\Element;
+
+?>
+
+<div class="row">
+    <div class="col-lg-6">
+        <?= Grid::render($categories, array(
+            // A column to be considered as a primary key
+            'pk' => 'id',
+            'batch' => false,
+            'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+            'columns' => array(
+                array(
+                    'column' => 'id',
+                    'label' => '#'
+                ),
+
+                array(
+                    'column' => 'name',
+                ),
+            ),
+            
+            'actions' => array(
+                'edit' => function($row){
+                    return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:Category@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this category'), 'data-button' => 'edit'));
+                },
+
+                'remove' => function($row){
+                    return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Remove this category'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:Category@deleteAction', $row['id'])));
+                }
+            )
+
+        ), $this->translator); ?>
+
+        <?php if (empty($categories)): ?>
+        <div class="center-block">
+            <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No categories'); ?></h2>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
