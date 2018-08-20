@@ -105,6 +105,17 @@ final class CategoryService extends AbstractManager
     }
 
     /**
+     * Deletes a category by its ID
+     * 
+     * @param int $id Category ID
+     * @return boolean
+     */
+    public function deleteById($id)
+    {
+        return $this->categoryMapper->deletePage($id);
+    }
+
+    /**
      * Saves a page
      * 
      * @param array $input
