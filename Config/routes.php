@@ -10,6 +10,10 @@
  */
 
 return array(
+    '/%s/module/tour' => array(
+        'controller' => 'Admin:Grid@indexAction'
+    ),
+
     '/%s/module/tour/category/save' => array(
         'controller' => 'Admin:Category@saveAction'
     ),
