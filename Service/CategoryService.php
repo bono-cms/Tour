@@ -55,6 +55,7 @@ final class CategoryService extends AbstractManager
         $entity->setId($category['id'], VirtualEntity::FILTER_INT)
                ->setWebPageId($category['web_page_id'], VirtualEntity::FILTER_INT)
                ->setLangId($category['lang_id'], VirtualEntity::FILTER_INT)
+               ->setOrder($category['order'], VirtualEntity::FILTER_INT)
                ->setDescription($category['description'], VirtualEntity::FILTER_SAFE_TAGS)
                ->setName($category['name'], VirtualEntity::FILTER_HTML)
                ->setSlug($category['slug'], VirtualEntity::FILTER_HTML)
