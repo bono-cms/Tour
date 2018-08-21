@@ -124,7 +124,7 @@ final class CategoryService extends AbstractManager
     private function savePage(array $input)
     {
         $input['category'] = ArrayUtils::arrayWithout($input['category'], array('slug'));
-        return $this->categoryMapper->savePage('Tour (Categories)', 'Tour:Tour@indexAction', $input['category'], $input['translation']);
+        return $this->categoryMapper->savePage('Tour (Categories)', 'Tour:Category@indexAction', $input['category'], $input['translation']);
     }
 
     /**
