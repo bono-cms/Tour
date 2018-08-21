@@ -31,4 +31,25 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     {
         return TourTranslationMapper::getTableName();
     }
+
+    /**
+     * Returns columns to be selected
+     * 
+     * @return array
+     */
+    private function getColumns()
+    {
+        return array(
+            self::column('id'),
+            self::column('order'),
+            self::column('seo'),
+            TourTranslationMapper::column('lang_id'),
+            TourTranslationMapper::column('web_page_id'),
+            TourTranslationMapper::column('name'),
+            TourTranslationMapper::column('description'),
+            TourTranslationMapper::column('title'),
+            TourTranslationMapper::column('meta_keywords'),
+            TourTranslationMapper::column('meta_description')
+        );
+    }
 }
