@@ -13,4 +13,12 @@ namespace Tour\Storage;
 
 interface TourMapperInterface
 {
+    /**
+     * Fetches tour data by its associated id
+     * 
+     * @param string $id Tour id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return array
+     */
+    public function fetchById($id, $withTranslations);
 }

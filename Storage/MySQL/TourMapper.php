@@ -11,6 +11,7 @@
 
 namespace Tour\Storage\MySQL;
 
+use Cms\Storage\MySQL\WebPageMapper;
 use Cms\Storage\MySQL\AbstractMapper;
 use Tour\Storage\TourMapperInterface;
 
@@ -49,7 +50,20 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             TourTranslationMapper::column('description'),
             TourTranslationMapper::column('title'),
             TourTranslationMapper::column('meta_keywords'),
-            TourTranslationMapper::column('meta_description')
+            TourTranslationMapper::column('meta_description'),
+            WebPageMapper::column('slug')
         );
+    }
+
+    /**
+     * Fetches tour data by its associated id
+     * 
+     * @param string $id Tour id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return array
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        return $this->findWebPage($this->getColumns(), $id, $withTranslations);
     }
 }
