@@ -66,4 +66,22 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     {
         return $this->findWebPage($this->getColumns(), $id, $withTranslations);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = array())
+    {
+        if (!$sortingColumn) {
+            $sortingColumn = self::column('id');
+        }
+
+        $db = $this->createWebPageSelect($this->getColumns())
+                    // Filtering condition
+                    ->whereEquals(TourTranslationMapper::column('lang_id'), $this->getLangId())
+                    ->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'))
+                    ->paginate($page, $itemsPerPage);
+
+        return $db->queryAll();
+    }
 }
