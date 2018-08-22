@@ -24,10 +24,27 @@ final class Grid extends AbstractController
     public function indexAction()
     {
         // Append breadcrumb
-        $this->view->getBreadcrumbBag()->addOne('Tours');
+        $this->view->getBreadcrumbBag()
+                   ->addOne('Tours');
+
+        // Grab tour service
+        $tourService = $this->getModuleService('tourService');
+
+        // Current URL params
+        $params = array_merge($this->request->getQuery(), array('page' => '(:var)'));
+
+        $url = $this->urlBuilder->createQueryUrl('Tour:Admin:Grid@indexAction', $params, 0);
+
+        // Configure pagination
+        $paginator = $tourService->getPaginator();
+        $paginator->setUrl($url);
+
+        $tours = $this->getFilter($tourService, $url);
 
         return $this->view->render('grid', array(
-            'categories' => $this->getModuleService('categoryService')->fetchList()
+            'categories' => $this->getModuleService('categoryService')->fetchList(),
+            'tours' => $tours,
+            'paginator' => $paginator
         ));
     }
 }

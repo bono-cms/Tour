@@ -7,6 +7,43 @@ use Krystal\Form\Element;
 
 <div class="row">
     <div class="col-lg-6">
+        <?php $this->loadPartial('items-per-page', array('caption' => 'Tours')); ?>
+
+        <?= Grid::render($tours, array(
+            // A column to be considered as a primary key
+            'pk' => 'id',
+            'batch' => true,
+            'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+            'columns' => array(
+                array(
+                    'column' => 'id',
+                    'label' => '#'
+                ),
+
+                array(
+                    'column' => 'name',
+                ),
+
+                array(
+                    'column' => 'order',
+                )
+            ),
+            
+            'actions' => array(
+                'edit' => function($row){
+                    return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:Tour@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this tour'), 'data-button' => 'edit'));
+                },
+
+                'remove' => function($row){
+                    return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Remove this tour'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:Tour@deleteAction', $row['id'])));
+                }
+            )
+        ), $this->translator); ?>
+    </div>
+
+    <div class="col-lg-6">
+        <h2><?php $this->show('Categories'); ?> <small>(<?php echo count($categories); ?>)</small></h2>
+
         <?= Grid::render($categories, array(
             // A column to be considered as a primary key
             'pk' => 'id',
