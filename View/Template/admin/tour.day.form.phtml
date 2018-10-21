@@ -1,0 +1,78 @@
+<?php
+
+use Krystal\Form\Element;
+use Cms\Service\LanguageManager;
+
+defined('KRYSTAL') or die;
+
+?>
+
+<form data-group="category">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Tour day'); ?></a></li>
+        <li role="presentation"><a href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Configuration'); ?></a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="page" role="tabpanel">
+            <div class="well">
+                <?php $this->loadPartial('language-tabs'); ?>
+
+                <div class="tab-content">
+                    <?php foreach ($languages as $index => $language): ?>
+                    <div class="tab-pane fade in <?php echo $index == 0 ? 'active' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                        <?php $entity = LanguageManager::findByLangId($language->getId(), $day); ?>
+
+                        <?php echo Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                        <?php echo Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+
+                        <?php $this->loadPartial('language-name', array('language' => $language)); ?>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><?php $this->show('Title'); ?></label>
+                            <div class="col-lg-10">
+                                <div class="input-group">
+                                    <?php echo Element::text(sprintf('translation[%s][title]', $language->getId()), $entity->getTitle(), array('class' => 'form-control', 'placeholder' => $this->translate('Category name'))); ?>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
+                            <div class="col-lg-10">
+                                <?php echo Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('data-wysiwyg' => 'true')); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+			</div>
+
+            <?php if ($entity->getId()):?>
+			<button data-button="save" data-url="<?php echo $this->url('Tour:Admin:TourDay@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+            <button data-button="save-create" data-back-url="<?php echo $this->url('Tour:Admin:TourDay@addAction'); ?>" data-url="<?php echo $this->url('Tour:Admin:TourDay@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-open"></i> <?php $this->show('Save & Create new'); ?></button>
+
+            <?php else: ?>
+            <button data-button="add" data-back-url="<?php echo $this->url('Tour:Admin:TourDay@editAction', null); ?>" data-url="<?php echo $this->url('Tour:Admin:TourDay@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
+            <button data-button="add-create" data-url="<?php echo $this->url('Tour:Admin:TourDay@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-open"></i> <?php $this->show('Add & Create new'); ?></button>
+
+			<?php endif; ?>
+            <button data-button="cancel" data-url="<?php echo $this->url('Tour:Admin:Grid@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-open"></i> <?php $this->show('Cancel'); ?></button>
+		</div>
+
+        <div role="tabpanel" class="tab-pane" id="configuration">
+            <div class="well">
+                <?php echo Element::hidden('day[id]', $entity->getId()); ?>
+                <?php echo Element::hidden('day[tour_id]', $entity->getTourId()); ?>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::number('day[order]', $entity->getOrder(), array('class' => 'form-control', 'min' => 0)) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</form>
