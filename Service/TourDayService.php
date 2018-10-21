@@ -32,4 +32,14 @@ final class TourDayService
     {
         $this->tourDayMapper = $tourDayMapper;
     }
+
+    /**
+     * Returns last id
+     * 
+     * @return int
+     */
+    public function getLastId()
+    {
+        return $this->tourDayMapper->getMaxId();
+    }
 }
