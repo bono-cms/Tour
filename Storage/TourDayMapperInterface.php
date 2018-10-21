@@ -13,4 +13,20 @@ namespace Tour\Storage;
 
 interface TourDayMapperInterface
 {
+    /**
+     * Fetch all items
+     * 
+     * @param int $tourId Attached tour ID
+     * @return array
+     */
+    public function fetchAll($tourId);
+
+    /**
+     * Fetches tour day by its associated id
+     * 
+     * @param string $id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return array
+     */
+    public function fetchById($id, $withTranslations);
 }
