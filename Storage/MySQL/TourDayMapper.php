@@ -12,8 +12,9 @@
 namespace Tour\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
+use Tour\Storage\TourDayMapperInterface;
 
-final class TourDayMapper extends AbstractMapper
+final class TourDayMapper extends AbstractMapper implements TourDayMapperInterface
 {
     /**
      * {@inheritDoc}
