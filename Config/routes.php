@@ -46,5 +46,22 @@ return array(
 
     '/%s/module/tour/delete/(:var)' => array(
         'controller' => 'Admin:Tour@deleteAction'
+    ),
+
+    // Tour days
+    '/%s/module/tour-day/add/(:var)' => array(
+        'controller' => 'Admin:TourDay@addAction'
+    ),
+
+    '/%s/module/tour-day/edit/(:var)' => array(
+        'controller' => 'Admin:TourDay@editAction'
+    ),
+
+    '/%s/module/tour-day/save' => array(
+        'controller' => 'Admin:TourDay@saveAction'
+    ),
+
+    '/%s/module/tour-day/delete/(:var)' => array(
+        'controller' => 'Admin:TourDay@deleteAction'
     )
 );
