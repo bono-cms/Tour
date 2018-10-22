@@ -40,7 +40,7 @@ final class Tour extends AbstractController
 
         return $this->view->render('tour.form', array(
             'tour' => $entity,
-            'days' => $id !== null ? $this->getModuleService('tourDayService')->fetchAll($id) : array()
+            'days' => $id !== null ? $this->getModuleService('tourDayService')->fetchAll($id, false) : array()
         ));
     }
 
