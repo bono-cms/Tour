@@ -75,8 +75,6 @@ final class TourDayMapper extends AbstractMapper implements TourDayMapperInterfa
             ));
         }
 
-        //echo $db;exit;
-        
         return $db->queryAll();
     }
 
