@@ -63,5 +63,22 @@ return array(
 
     '/%s/module/tour/day/delete/(:var)' => array(
         'controller' => 'Admin:TourDay@deleteAction'
+    ),
+
+    // Tour gallery
+    '/%s/module/tour/gallery/add/(:var)' => array(
+        'controller' => 'Admin:TourGallery@addAction'
+    ),
+
+    '/%s/module/tour/gallery/edit/(:var)' => array(
+        'controller' => 'Admin:TourGallery@editAction'
+    ),
+
+    '/%s/module/tour/gallery/save' => array(
+        'controller' => 'Admin:TourGallery@saveAction'
+    ),
+
+    '/%s/module/tour/gallery/delete/(:var)' => array(
+        'controller' => 'Admin:TourGallery@deleteAction'
     )
 );
