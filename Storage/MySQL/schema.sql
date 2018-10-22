@@ -73,9 +73,8 @@ CREATE TABLE `bono_module_tour_tours_days_translations` (
 
 /* Tour gallery */
 DROP TABLE IF EXISTS `bono_module_tour_gallery`;
-
 CREATE TABLE `bono_module_tour_gallery` (
-    `id` INT NOT NULL COMMENT 'Tour ID',
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `tour_id` INT NOT NULL COMMENT 'Attached tour',
     `order` INT NOT NULL COMMENT 'Sorting order',
     `image` varchar(255) NOT NULL COMMENT 'Image file',
