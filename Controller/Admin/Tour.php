@@ -24,6 +24,13 @@ final class Tour extends AbstractController
      */
     private function createForm($entity)
     {
+        // Grab ID
+        if (is_array($entity)) {
+            $id = $entity[0]['id'];
+        } else {
+            $id = null;
+        }
+
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                        ->addOne(!is_array($entity) ? 'Add a tour' : 'Edit the tour');
@@ -32,7 +39,8 @@ final class Tour extends AbstractController
                    ->load($this->getWysiwygPluginName());
 
         return $this->view->render('tour.form', array(
-            'tour' => $entity
+            'tour' => $entity,
+            'days' => $id !== null ? $this->getModuleService('tourDayService')->fetchAll($id, false) : array()
         ));
     }
 

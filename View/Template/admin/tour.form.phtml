@@ -1,6 +1,7 @@
 <?php
 
 use Krystal\Form\Element;
+use Krystal\Grid\Grid;
 use Cms\Service\LanguageManager;
 
 defined('KRYSTAL') or die;
@@ -9,7 +10,8 @@ defined('KRYSTAL') or die;
 
 <form data-group="category">
 	<ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Category'); ?></a></li>
+        <li role="presentation" class="active"><a href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Tour'); ?></a></li>
+        <li role="presentation"><a href="#days" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Days'); ?></a></li>
         <li role="presentation"><a href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Configuration'); ?></a></li>
     </ul>
 
@@ -118,6 +120,40 @@ defined('KRYSTAL') or die;
                         <?php echo Element::number('tour[order]', $entity->getOrder(), array('class' => 'form-control', 'min' => 0)) ?>
                     </div>
                 </div>
+            </div>
+        </div>
+        
+        <div role="tabpanel" class="tab-pane" id="days">
+            <div class="well">
+                <p>
+                    <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDay@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new day'); ?></a>
+                </p>
+
+                <?php echo Grid::render($days, array(
+                    'pk' => 'id',
+                    'columns' => array(
+                        array(
+                            'column' => 'id',
+                            'label' => '#'
+                        ),
+                        array(
+                            'column' => 'title'
+                        ),
+                        array(
+                            'column' => 'order'
+                        )
+                    ),
+                    'actions' => array(
+                        'edit' => function($entity){
+                            return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourDay@editAction', $entity['id']));
+                        },
+                        'delete' => function($entity){
+                            // Generate URL
+                            $url = $this->url('Tour:Admin:TourDay@deleteAction', $entity['id']);
+                            return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
+                        }
+                    )
+                ), $this->translator); ?>
             </div>
         </div>
 	</div>
