@@ -15,6 +15,7 @@ use Cms\AbstractCmsModule;
 use Tour\Service\CategoryService;
 use Tour\Service\TourService;
 use Tour\Service\TourDayService;
+use Tour\Service\TourGalleryService;
 
 final class Module extends AbstractCmsModule
 {
@@ -26,13 +27,15 @@ final class Module extends AbstractCmsModule
         $categoryMapper = $this->getMapper('/Tour/Storage/MySQL/CategoryMapper');
         $tourMapper = $this->getMapper('/Tour/Storage/MySQL/TourMapper');
         $tourDayMapper = $this->getMapper('/Tour/Storage/MySQL/TourDayMapper');
+        $tourGalleryMapper = $this->getMapper('/Tour/Storage/MySQL/TourGalleryMapper');
 
         $webPageManager = $this->getWebPageManager();
 
         return array(
             'categoryService' => new CategoryService($categoryMapper, $webPageManager),
             'tourService' => new TourService($tourMapper, $webPageManager),
-            'tourDayService' => new TourDayService($tourDayMapper)
+            'tourDayService' => new TourDayService($tourDayMapper),
+            'tourGalleryService' => new TourGalleryService($tourGalleryMapper)
         );
     }
 }
