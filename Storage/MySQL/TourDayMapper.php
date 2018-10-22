@@ -11,6 +11,7 @@
 
 namespace Tour\Storage\MySQL;
 
+use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\AbstractMapper;
 use Tour\Storage\TourDayMapperInterface;
 
@@ -50,21 +51,32 @@ final class TourDayMapper extends AbstractMapper implements TourDayMapperInterfa
     }
 
     /**
-     * Fetch all items
+     * Fetch all tour days
      * 
      * @param int $tourId Attached tour ID
+     * @param boolean $sort Whether to sort by corresponding sorting order
      * @return array
      */
-    public function fetchAll($tourId)
+    public function fetchAll($tourId, $sort)
     {
         $db = $this->createEntitySelect($this->getColumns())
                    // Language ID constraint
                    ->whereEquals(TourDayTranslationMapper::column('lang_id'), $this->getLangId())
-                   ->andWhereEquals(self::column('tour_id'), $tourId)
-                   // Sort by last IDs
-                   ->orderBy(self::column('id'))
-                   ->desc();
+                   ->andWhereEquals(self::column('tour_id'), $tourId);
 
+        if ($sort === false) {
+            // Sort by last IDs
+            $db->orderBy(self::column('id'))
+               ->desc();
+        } else {
+            $db->orderBy(array(
+                self::column('order'), 
+                new RawSqlFragment(sprintf('CASE WHEN %s = 0 THEN %s END DESC', self::column('order'), self::column('id')))
+            ));
+        }
+
+        //echo $db;exit;
+        
         return $db->queryAll();
     }
 

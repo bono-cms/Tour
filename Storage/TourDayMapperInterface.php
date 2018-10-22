@@ -14,12 +14,13 @@ namespace Tour\Storage;
 interface TourDayMapperInterface
 {
     /**
-     * Fetch all items
+     * Fetch all tour days
      * 
      * @param int $tourId Attached tour ID
+     * @param boolean $sort Whether to sort by corresponding sorting order
      * @return array
      */
-    public function fetchAll($tourId);
+    public function fetchAll($tourId, $sort);
 
     /**
      * Fetches tour day by its associated id

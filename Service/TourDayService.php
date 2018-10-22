@@ -76,11 +76,12 @@ final class TourDayService extends AbstractManager
      * Fetch all days
      * 
      * @param int $tourId Attached tour ID
+     * @param boolean $sort Whether to sort by corresponding sorting order
      * @return array
      */
-    public function fetchAll($tourId)
+    public function fetchAll($tourId, $sort)
     {
-        return $this->prepareResults($this->tourDayMapper->fetchAll($tourId));
+        return $this->prepareResults($this->tourDayMapper->fetchAll($tourId, $sort));
     }
 
     /**
