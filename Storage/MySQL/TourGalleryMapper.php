@@ -11,6 +11,7 @@
 
 namespace Tour\Storage\MySQL;
 
+use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\AbstractMapper;
 use Tour\Storage\TourGalleryMapperInterface;
 
@@ -22,5 +23,32 @@ final class TourGalleryMapper extends AbstractMapper implements TourGalleryMappe
     public static function getTableName()
     {
         return self::getWithPrefix('bono_module_tour_gallery');
+    }
+
+    /**
+     * Fetch all tour images
+     * 
+     * @param int $tourId Attached tour ID
+     * @param boolean $sort Whether to sort by corresponding sorting order
+     * @return array
+     */
+    public function fetchAll($tourId, $sort)
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->whereEquals(self::column('tour_id'), $tourId);
+
+        if ($sort === false) {
+            // Sort by last IDs
+            $db->orderBy(self::column('id'))
+               ->desc();
+        } else {
+            $db->orderBy(array(
+                self::column('order'), 
+                new RawSqlFragment(sprintf('CASE WHEN %s = 0 THEN %s END DESC', self::column('order'), self::column('id')))
+            ));
+        }
+
+        return $db->queryAll();
     }
 }
