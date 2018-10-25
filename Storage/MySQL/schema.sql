@@ -70,3 +70,14 @@ CREATE TABLE `bono_module_tour_tours_days_translations` (
 
     FOREIGN KEY (id) REFERENCES bono_module_tour_tours_days(id) ON DELETE CASCADE
 );
+
+/* Tour gallery */
+DROP TABLE IF EXISTS `bono_module_tour_gallery`;
+CREATE TABLE `bono_module_tour_gallery` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `tour_id` INT NOT NULL COMMENT 'Attached tour',
+    `order` INT NOT NULL COMMENT 'Sorting order',
+    `image` varchar(255) NOT NULL COMMENT 'Image file',
+
+    FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
+);
