@@ -91,7 +91,7 @@ final class CategoryService extends AbstractManager
      */
     public function fetchList()
     {
-        return $this->categoryMapper->fetchList();
+        return ArrayUtils::arrayList($this->categoryMapper->fetchList(), 'id', 'name');
     }
 
     /**
