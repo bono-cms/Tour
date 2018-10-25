@@ -81,3 +81,14 @@ CREATE TABLE `bono_module_tour_gallery` (
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
 );
+
+/* Tour-category relation */
+DROP TABLE IF EXISTS `bono_module_tour_category_relation`;
+
+CREATE TABLE `bono_module_tour_category_relation` (
+    `master_id` INT NOT NULL COMMENT 'Tour ID',
+    `slave_id` INT NOT NULL COMMENT 'Category ID',
+
+    FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
+    FOREIGN KEY (slave_id) REFERENCES bono_module_tour_category(id) ON DELETE CASCADE
+);
