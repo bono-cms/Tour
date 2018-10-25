@@ -100,11 +100,11 @@ final class TourGallery extends AbstractController
         $service = $this->getModuleService('tourGalleryService');
 
         if ($input['id']) {
-            $service->update($input);
+            $service->update($this->request->getAll());
             $this->flashBag->set('success', 'The element has been updated successfully');
             return '1';
         } else {
-            $service->add($input);
+            $service->add($this->request->getAll());
             $this->flashBag->set('success', 'The element has been created successfully');
             return $service->getLastId();
         }

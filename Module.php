@@ -11,6 +11,7 @@
 
 namespace Tour;
 
+use Krystal\Image\Tool\ImageManager;
 use Cms\AbstractCmsModule;
 use Tour\Service\CategoryService;
 use Tour\Service\TourService;
@@ -19,6 +20,31 @@ use Tour\Service\TourGalleryService;
 
 final class Module extends AbstractCmsModule
 {
+    /**
+     * Builds gallery image manager service
+     * 
+     * @return \Krystal\Image\Tool\ImageManager
+     */
+    private function createTourGalleryImageManager()
+    {
+        $plugins = array(
+            'thumb' => array(
+                'quality' => 80,
+                'dimensions' => array(
+                    // For administration panel
+                    array(400, 400)
+                )
+            )
+        );
+
+        return new ImageManager(
+            '/data/uploads/module/tour/gallery/',
+            $this->appConfig->getRootDir(),
+            $this->appConfig->getRootUrl(),
+            $plugins
+        );
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -35,7 +61,7 @@ final class Module extends AbstractCmsModule
             'categoryService' => new CategoryService($categoryMapper, $webPageManager),
             'tourService' => new TourService($tourMapper, $webPageManager),
             'tourDayService' => new TourDayService($tourDayMapper),
-            'tourGalleryService' => new TourGalleryService($tourGalleryMapper)
+            'tourGalleryService' => new TourGalleryService($tourGalleryMapper, $this->createTourGalleryImageManager())
         );
     }
 }

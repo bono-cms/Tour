@@ -11,6 +11,7 @@
 
 namespace Tour\Service;
 
+use Krystal\Image\Tool\ImageManagerInterface;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Service\AbstractManager;
 use Tour\Storage\TourGalleryMapperInterface;
@@ -25,14 +26,23 @@ final class TourGalleryService extends AbstractManager
     private $tourGalleryMapper;
 
     /**
+     * Image manager service
+     * 
+     * @var \Krystal\Image\Tool\ImageManagerInterface
+     */
+    private $imageManager;
+
+    /**
      * State initialization
      * 
      * @param \Tour\Storage\TourGalleryMapperInterface $tourGalleryMapper
+     * @param \Krystal\Image\Tool\ImageManagerInterface $imageManager
      * @return void
      */
-    public function __construct(TourGalleryMapperInterface $tourGalleryMapper)
+    public function __construct(TourGalleryMapperInterface $tourGalleryMapper, ImageManagerInterface $imageManager)
     {
         $this->tourGalleryMapper = $tourGalleryMapper;
+        $this->imageManager = $imageManager;
     }
 
     /**
@@ -40,11 +50,18 @@ final class TourGalleryService extends AbstractManager
      */
     protected function toEntity(array $row)
     {
-        $image = new VirtualEntity();
+        $image = new ImageEntity();
         $image->setId($row['id'])
               ->setTourId($row['tour_id'])
               ->setOrder($row['order'])
               ->setImage($row['image']);
+
+        // Configure image bag
+        $imageBag = clone $this->imageManager->getImageBag();
+        $imageBag->setId((int) $row['id'])
+                 ->setCover($row['image']);
+
+        $image->setImageBag($imageBag);
 
         return $image;
     }
@@ -90,7 +107,7 @@ final class TourGalleryService extends AbstractManager
      */
     public function deleteById($id)
     {
-        return $this->tourGalleryMapper->deleteByPk($id);
+        return $this->tourGalleryMapper->deleteByPk($id) && $this->imageManager->delete($id);
     }
 
     /**
@@ -101,7 +118,22 @@ final class TourGalleryService extends AbstractManager
      */
     public function add(array $input)
     {
-        return $this->tourGalleryMapper->persist($input);
+        $image = $input['data']['image'];
+        $file = $input['files']['file'];
+
+        // Filter files input
+        $this->filterFileInput($file);
+
+        // Define image attribute
+        $image['image'] = $file[0]->getName();
+
+        // Save image first, because we need to get its ID for image uploading
+        $this->tourGalleryMapper->persist($image);
+
+        // And now upload image
+        $this->imageManager->upload($this->getLastId(), $file);
+
+        return true;
     }
 
     /**
@@ -112,6 +144,24 @@ final class TourGalleryService extends AbstractManager
      */
     public function update(array $input)
     {
-        return $this->tourGalleryMapper->persist($input);
+        // Grab a reference to image data
+        $image = $input['data']['image'];
+
+        // If file new provided, than start handling
+        if (!empty($input['files'])) {
+            // If we have a previous cover, then we gotta remove it
+            $this->imageManager->delete($image['id'], $image['image']);
+
+            $file = $input['files']['file'];
+
+            // Before we start uploading a file, we need to filter its base name
+            $this->filterFileInput($file);
+            $this->imageManager->upload($image['id'], $file);
+
+            // Now override cover's value with file's base name we currently have from user's input
+            $image['image'] = $file[0]->getName();
+        }
+
+        return $this->tourGalleryMapper->persist($image);
     }
 }

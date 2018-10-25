@@ -172,7 +172,10 @@ defined('KRYSTAL') or die;
                             'label' => '#'
                         ),
                         array(
-                            'column' => 'image'
+                            'column' => 'image',
+                            'value' => function($entity){
+                                return Element::image($entity->getImageUrl('400x400'), array('class' => 'img-responsive center-block'));                                
+                            }
                         ),
                         array(
                             'column' => 'order'
