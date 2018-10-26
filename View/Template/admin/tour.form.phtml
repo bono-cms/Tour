@@ -111,7 +111,7 @@ defined('KRYSTAL') or die;
                 <div class="form-group">
                     <label class="col-lg-2 control-label"><?php $this->show('Categories'); ?></label>
                     <div class="col-lg-10">
-                        <?php echo Element::select('categories[]', $categories, $entity->getCategoryIds(), array('class' => 'form-control', 'multiple' => true)) ?>
+                        <?php echo Element::select('categories[]', $categories, $entity->getCategoryIds(), array('class' => 'form-control', 'multiple' => true, 'data-plugin' => 'chosen')) ?>
                     </div>
                 </div>
 
