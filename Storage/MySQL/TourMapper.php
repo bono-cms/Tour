@@ -68,6 +68,17 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     }
 
     /**
+     * Find related category IDs
+     * 
+     * @param int $id Tour ID
+     * @return array
+     */
+    public function findCategoryIds($id)
+    {
+        return $this->getSlaveIdsFromJunction(TourCategoryRelation::getTableName(), $id);
+    }
+
+    /**
      * Fetches tour data by its associated id
      * 
      * @param string $id Tour id
