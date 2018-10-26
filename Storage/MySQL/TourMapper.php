@@ -61,6 +61,29 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     }
 
     /**
+     * Attach related tours
+     * 
+     * @param int $id Main tour ID
+     * @param array $tourIds Related tour IDs to be attached
+     * @return boolean
+     */
+    public function attachRelatedTours($id, array $tourIds)
+    {
+        return $this->syncWithJunction(TourRelatedRelation::getTableName(), $id, $tourIds);
+    }
+
+    /**
+     * Find related category IDs
+     * 
+     * @param int $id Tour ID
+     * @return array
+     */
+    public function findRelatedIds($id)
+    {
+        return $this->getSlaveIdsFromJunction(TourRelatedRelation::getTableName(), $id);
+    }
+
+    /**
      * Attach category IDs
      * 
      * @param int $id Tour ID
@@ -69,7 +92,7 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
      */
     public function attachCategories($id, array $categoryIds)
     {
-        return $this->syncWithJunction(TourCategoryRelation::getTableName(), $id, $categoryIds);        
+        return $this->syncWithJunction(TourCategoryRelation::getTableName(), $id, $categoryIds);
     }
 
     /**
@@ -81,6 +104,26 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     public function findCategoryIds($id)
     {
         return $this->getSlaveIdsFromJunction(TourCategoryRelation::getTableName(), $id);
+    }
+
+    /**
+     * Fetch all available tours
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        // Columns to be selected
+        $columns = array(
+            self::column('id'),
+            TourTranslationMapper::column('name')
+        );
+
+        return $this->createEntitySelect($columns)
+                    ->whereEquals(TourTranslationMapper::column('lang_id'), $this->getLangId())
+                    ->orderBy(self::column('id'))
+                    ->desc()
+                    ->queryAll();
     }
 
     /**
