@@ -135,6 +135,20 @@ defined('KRYSTAL') or die;
                         <?php echo Element::number('tour[order]', $entity->getOrder(), array('class' => 'form-control', 'min' => 0)) ?>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Number of adults'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::number('tour[adults]', $entity->getAdults(), array('class' => 'form-control', 'min' => 0)) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Number of children'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::number('tour[children]', $entity->getChildren(), array('class' => 'form-control', 'min' => 0)) ?>
+                    </div>
+                </div>
             </div>
         </div>
         
