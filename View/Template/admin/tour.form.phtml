@@ -49,6 +49,20 @@ defined('KRYSTAL') or die;
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><?php $this->show('What\'s included'); ?></label>
+                            <div class="col-lg-10">
+                                <?php echo Element::textarea(sprintf('translation[%s][included]', $language->getId()), $entity->getIncluded(), array('data-wysiwyg' => 'true')); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><?php $this->show('What\'s not included'); ?></label>
+                            <div class="col-lg-10">
+                                <?php echo Element::textarea(sprintf('translation[%s][excluded]', $language->getId()), $entity->getExcluded(), array('data-wysiwyg' => 'true')); ?>
+                            </div>
+                        </div>
+
                         <div class="options">
                             <div class="form-group">
                                 <label class="col-lg-2 control-label"><?php $this->show('Slug'); ?></label>
