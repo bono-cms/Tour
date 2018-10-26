@@ -66,6 +66,11 @@ final class TourService extends AbstractManager implements FilterableServiceInte
                ->setKeywords($tour['meta_keywords'], VirtualEntity::FILTER_HTML)
                ->setMetaDescription($tour['meta_description'], VirtualEntity::FILTER_HTML);
 
+        // If it's not new tour, then it must have attached categories
+        if ($entity->getId()) {
+            $entity->setCategoryIds($this->tourMapper->findCategoryIds($entity->getId()));
+        }
+
         return $entity;
     }
 
@@ -110,7 +115,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
             return $this->prepareResult($this->tourMapper->fetchById($id, false));
         }
     }
-    
+
     /**
      * Returns category's last id
      * 
