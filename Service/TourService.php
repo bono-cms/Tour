@@ -74,6 +74,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         // If it's not new tour, then it must have attached categories
         if ($entity->getId()) {
             $entity->setCategoryIds($this->tourMapper->findCategoryIds($entity->getId()));
+            $entity->setRelatedIds($this->tourMapper->findRelatedIds($entity->getId()));
         }
 
         return $entity;
@@ -170,7 +171,14 @@ final class TourService extends AbstractManager implements FilterableServiceInte
             $input['categories'] = array();
         }
 
+        // Related ones
+        if (!isset($input['related'])) {
+            $input['related'] = array();
+        }
+
+        // Attach related ones
         $this->tourMapper->attachCategories($id, $input['categories']);
+        $this->tourMapper->attachRelatedTours($id, $input['related']);
 
         return true;
     }
