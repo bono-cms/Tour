@@ -14,6 +14,23 @@ namespace Tour\Storage;
 interface TourMapperInterface
 {
     /**
+     * Attach related tours
+     * 
+     * @param int $id Main tour ID
+     * @param array $tourIds Related tour IDs to be attached
+     * @return boolean
+     */
+    public function attachRelatedTours($id, array $tourIds);
+
+    /**
+     * Find related category IDs
+     * 
+     * @param int $id Tour ID
+     * @return array
+     */
+    public function findRelatedIds($id);
+
+    /**
      * Fetches tour data by its associated id
      * 
      * @param string $id Tour id
