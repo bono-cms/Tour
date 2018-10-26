@@ -122,6 +122,16 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     }
 
     /**
+     * Fetch all tours as a hash map
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        return ArrayUtils::arrayList($this->tourMapper->fetchList(), 'id', 'name');
+    }
+
+    /**
      * Returns category's last id
      * 
      * @return string

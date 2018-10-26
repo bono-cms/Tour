@@ -84,6 +84,26 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     }
 
     /**
+     * Fetch all available tours
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        // Columns to be selected
+        $columns = array(
+            self::column('id'),
+            TourTranslationMapper::column('name')
+        );
+
+        return $this->createEntitySelect($columns)
+                    ->whereEquals(TourTranslationMapper::column('lang_id'), $this->getLangId())
+                    ->orderBy(self::column('id'))
+                    ->desc()
+                    ->queryAll();
+    }
+
+    /**
      * Fetches tour data by its associated id
      * 
      * @param string $id Tour id
