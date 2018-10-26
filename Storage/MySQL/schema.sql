@@ -24,14 +24,14 @@ CREATE TABLE `bono_module_tour_category_translation` (
     `meta_description` TEXT NOT NULL COMMENT 'Meta description for search engines'
 );
 
-
 /* Tours */
 DROP TABLE IF EXISTS `bono_module_tour_tours`;
 
 CREATE TABLE `bono_module_tour_tours` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `order` INT NOT NULL COMMENT 'Sorting order',
-    `seo` BOOLEAN NOT NULL COMMENT 'Whether SEO is enabled'
+    `seo` BOOLEAN NOT NULL COMMENT 'Whether SEO is enabled',
+    `published` BOOLEAN NOT NULL COMMENT 'Whether this tour is published or not'
 );
 
 DROP TABLE IF EXISTS `bono_module_tour_tours_translation`;

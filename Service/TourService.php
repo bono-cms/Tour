@@ -63,6 +63,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()))
                ->setTitle($tour['title'], VirtualEntity::FILTER_HTML)
                ->setSeo(isset($tour['seo']) ? $tour['seo'] : null, VirtualEntity::FILTER_BOOL)
+               ->setPublished(isset($tour['published']) ? $tour['published'] : null, VirtualEntity::FILTER_BOOL)
                ->setKeywords($tour['meta_keywords'], VirtualEntity::FILTER_HTML)
                ->setMetaDescription($tour['meta_description'], VirtualEntity::FILTER_HTML);
 
