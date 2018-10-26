@@ -31,6 +31,8 @@ CREATE TABLE `bono_module_tour_tours` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `order` INT NOT NULL COMMENT 'Sorting order',
     `seo` BOOLEAN NOT NULL COMMENT 'Whether SEO is enabled',
+    `adults` INT NOT NULL COMMENT 'Number of adults',
+    `children` INT NOT NULL COMMENT 'NUMBER of children',
     `published` BOOLEAN NOT NULL COMMENT 'Whether this tour is published or not'
 );
 

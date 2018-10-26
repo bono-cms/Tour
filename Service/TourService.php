@@ -57,6 +57,8 @@ final class TourService extends AbstractManager implements FilterableServiceInte
                ->setWebPageId($tour['web_page_id'], VirtualEntity::FILTER_INT)
                ->setLangId($tour['lang_id'], VirtualEntity::FILTER_INT)
                ->setOrder($tour['order'], VirtualEntity::FILTER_INT)
+               ->setAdults($tour['adults'], VirtualEntity::FILTER_INT)
+               ->setChildren($tour['children'], VirtualEntity::FILTER_INT)
                ->setDescription($tour['description'], VirtualEntity::FILTER_SAFE_TAGS)
                ->setName($tour['name'], VirtualEntity::FILTER_HTML)
                ->setSlug($tour['slug'], VirtualEntity::FILTER_HTML)
