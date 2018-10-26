@@ -39,6 +39,14 @@ use Krystal\Form\Element;
 
                 array(
                     'column' => 'order',
+                ),
+
+                array(
+                    'column' => 'published',
+                    'translateable' => true,
+                    'value' => function($row){
+                        return $row['published'] ? 'Yes' : 'No';
+                    }
                 )
             ),
             
