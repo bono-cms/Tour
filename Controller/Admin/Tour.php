@@ -102,17 +102,32 @@ final class Tour extends AbstractController
     }
 
     /**
-     * Deletes a tour
+     * Deletes a tour (or batch)
      * 
-     * @param int $id
-     * @return string
+     * @param int $id Tour ID
+     * @return int
      */
     public function deleteAction($id)
     {
         $service = $this->getModuleService('tourService');
-        $service->deleteById($id);
 
-        $this->flashBag->set('success', 'Selected element has been removed successfully');
+        // Batch removal
+        if ($this->request->hasPost('batch')) {
+            $ids = array_keys($this->request->getPost('batch'));
+
+            $service->delete($ids);
+            $this->flashBag->set('success', 'Selected elements have been removed successfully');
+
+        } else {
+            $this->flashBag->set('warning', 'You should select at least one element to remove');
+        }
+
+        // Single removal
+        if (!empty($id)) {
+            $service->delete($id);
+            $this->flashBag->set('success', 'Selected element has been removed successfully');
+        }
+
         return 1;
     }
 }

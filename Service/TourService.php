@@ -130,10 +130,10 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     /**
      * Deletes a category by its ID
      * 
-     * @param int $id Category ID
+     * @param int|array $id Tour ID (or IDs)
      * @return boolean
      */
-    public function deleteById($id)
+    public function delete($id)
     {
         return $this->tourMapper->deletePage($id);
     }
