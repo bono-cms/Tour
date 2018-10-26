@@ -109,6 +109,13 @@ defined('KRYSTAL') or die;
                 <?php echo Element::hidden('tour[id]', $entity->getId()); ?>
 
                 <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Categories'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::select('categories[]', $categories, null, array('class' => 'form-control', 'multiple' => true)) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-lg-2 control-label"><?php $this->show('Enable SEO'); ?></label>
                     <div class="col-lg-10">
                         <?php echo Element::checkbox('tour[seo]', $entity->getSeo(), array('class' => 'form-control')) ?>

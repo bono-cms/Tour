@@ -136,12 +136,23 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      * Saves a page
      * 
      * @param array $input
+     * @param int $id Tour ID
      * @return boolean
      */
-    private function savePage(array $input)
+    private function savePage(array $input, $id)
     {
         $input['tour'] = ArrayUtils::arrayWithout($input['tour'], array('slug'));
-        return $this->tourMapper->savePage('Tour (Tours)', 'Tour:Tour@indexAction', $input['tour'], $input['translation']);
+
+        $this->tourMapper->savePage('Tour (Tours)', 'Tour:Tour@indexAction', $input['tour'], $input['translation']);
+
+        // Categories
+        if (!isset($input['categories'])) {
+            $input['categories'] = array();
+        }
+
+        $this->tourMapper->attachCategories($id, $input['categories']);
+
+        return true;
     }
 
     /**
@@ -152,7 +163,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     public function add(array $input)
     {
-        return $this->savePage($input);
+        return $this->savePage($input, $this->getLastId());
     }
 
     /**
@@ -163,6 +174,6 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     public function update(array $input)
     {
-        return $this->savePage($input);
+        return $this->savePage($input, $input['tour']['id']);
     }
 }
