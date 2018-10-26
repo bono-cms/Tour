@@ -36,12 +36,13 @@ final class Tour extends AbstractController
                                        ->addOne(!is_array($entity) ? 'Add a tour' : 'Edit the tour');
         // Load plugins
         $this->view->getPluginBag()
-                   ->load($this->getWysiwygPluginName());
+                   ->load(array($this->getWysiwygPluginName(), 'chosen'));
 
         return $this->view->render('tour.form', array(
             'tour' => $entity,
             'days' => $id !== null ? $this->getModuleService('tourDayService')->fetchAll($id, false) : array(),
-            'gallery' => $id !== null ? $this->getModuleService('tourGalleryService')->fetchAll($id, false) : array()
+            'gallery' => $id !== null ? $this->getModuleService('tourGalleryService')->fetchAll($id, false) : array(),
+            'categories' => $this->getModuleService('categoryService')->fetchList(true)
         ));
     }
 
