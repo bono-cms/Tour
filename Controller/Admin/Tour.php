@@ -42,7 +42,7 @@ final class Tour extends AbstractController
             'tour' => $entity,
             'days' => $id !== null ? $this->getModuleService('tourDayService')->fetchAll($id, false) : array(),
             'gallery' => $id !== null ? $this->getModuleService('tourGalleryService')->fetchAll($id, false) : array(),
-            'categories' => $this->getModuleService('categoryService')->fetchList()
+            'categories' => $this->getModuleService('categoryService')->fetchList(true)
         ));
     }
 

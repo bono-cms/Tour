@@ -42,7 +42,7 @@ final class Grid extends AbstractController
         $tours = $this->getFilter($tourService, $url);
 
         return $this->view->render('grid', array(
-            'categories' => $this->getModuleService('categoryService')->fetchList(),
+            'categories' => $this->getModuleService('categoryService')->fetchList(false),
             'tours' => $tours,
             'paginator' => $paginator
         ));
