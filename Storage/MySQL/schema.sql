@@ -96,3 +96,14 @@ CREATE TABLE `bono_module_tour_category_relation` (
     FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
     FOREIGN KEY (slave_id) REFERENCES bono_module_tour_category(id) ON DELETE CASCADE
 );
+
+/* Related tours */
+DROP TABLE IF EXISTS `bono_module_tour_related_relation`;
+
+CREATE TABLE `bono_module_tour_related_relation` (
+    `master_id` INT NOT NULL COMMENT 'Main tour ID',
+    `slave_id` INT NOT NULL COMMENT 'Related Tour ID',
+
+    FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
+    FOREIGN KEY (slave_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
+);
