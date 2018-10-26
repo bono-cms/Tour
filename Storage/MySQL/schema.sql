@@ -44,6 +44,8 @@ CREATE TABLE `bono_module_tour_tours_translation` (
     `web_page_id` INT NOT NULL COMMENT 'Attached web-page ID',
     `name` varchar(255) NOT NULL COMMENT 'Tour name',
     `description` TEXT NOT NULL COMMENT 'Tour description',
+    `included` TEXT NOT NULL COMMENT 'What\'s included',
+    `excluded` TEXT NOT NULL COMMENT 'What\'s not included',
 
     `title` varchar(255) NOT NULL COMMENT 'Page title',
     `meta_keywords` TEXT NOT NULL COMMENT 'Keywords for search engines',
