@@ -47,6 +47,7 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             self::column('published'),
             self::column('adults'),
             self::column('children'),
+            self::column('recommended'),
             TourTranslationMapper::column('lang_id'),
             TourTranslationMapper::column('web_page_id'),
             TourTranslationMapper::column('name'),

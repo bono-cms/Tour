@@ -59,6 +59,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
                ->setOrder($tour['order'], VirtualEntity::FILTER_INT)
                ->setAdults($tour['adults'], VirtualEntity::FILTER_INT)
                ->setChildren($tour['children'], VirtualEntity::FILTER_INT)
+               ->setRecommended($tour['recommended'], VirtualEntity::FILTER_BOOL)
                ->setDescription($tour['description'], VirtualEntity::FILTER_SAFE_TAGS)
                ->setIncluded($tour['included'], VirtualEntity::FILTER_SAFE_TAGS)
                ->setExcluded($tour['excluded'], VirtualEntity::FILTER_SAFE_TAGS)
