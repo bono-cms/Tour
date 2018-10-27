@@ -144,6 +144,13 @@ defined('KRYSTAL') or die;
                 </div>
 
                 <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Recommended'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::checkbox('tour[recommended]', $entity->getRecommended(), array('class' => 'form-control')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
                     <div class="col-lg-10">
                         <?php echo Element::checkbox('tour[published]', $entity->getPublished(), array('class' => 'form-control')) ?>
