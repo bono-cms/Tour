@@ -166,19 +166,9 @@ final class TourService extends AbstractManager implements FilterableServiceInte
 
         $this->tourMapper->savePage('Tour (Tours)', 'Tour:Tour@indexAction', $input['tour'], $input['translation']);
 
-        // Categories
-        if (!isset($input['categories'])) {
-            $input['categories'] = array();
-        }
-
-        // Related ones
-        if (!isset($input['related'])) {
-            $input['related'] = array();
-        }
-
         // Attach related ones
-        $this->tourMapper->attachCategories($id, $input['categories']);
-        $this->tourMapper->attachRelatedTours($id, $input['related']);
+        $this->tourMapper->attachCategories($id, isset($input['categories']) ? $input['categories'] : array());
+        $this->tourMapper->attachRelatedTours($id, isset($input['related']) ? $input['related'] : array());
 
         return true;
     }
