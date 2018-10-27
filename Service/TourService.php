@@ -181,7 +181,10 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     public function add(array $input)
     {
-        return $this->savePage($input, $this->getLastId());
+        $id = $this->getLastId();
+        $this->savePage($input, $id);
+
+        return $id;
     }
 
     /**

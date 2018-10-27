@@ -95,9 +95,9 @@ final class Tour extends AbstractController
             }
 
         } else {
-            if ($service->add($input)) {
+            if ($id = $service->add($input)) {
                 $this->flashBag->set('success', 'The element has been created successfully');
-                return $service->getLastId();
+                return $id;
             }
         }
     }
