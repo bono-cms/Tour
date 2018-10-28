@@ -23,7 +23,22 @@ final class Tour extends AbstractController
      */
     public function tourAction($id)
     {
-        
+        $service = $this->getModuleService('tourService');
+        $tour = $service->fetchById($id, false);
+
+        if ($tour !== false) {
+            // Load global view plugins
+            $this->loadSitePlugins();
+
+            return $this->view->render('tour-single', array(
+                'tour' => $tour,
+                'page' => $tour,
+                'languages' => $service->getSwitchUrls($id)
+            ));
+
+        } else {
+            return false;
+        }
     }
 
     /**
