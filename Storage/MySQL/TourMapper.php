@@ -11,6 +11,7 @@
 
 namespace Tour\Storage\MySQL;
 
+use Krystal\Db\Filter\InputDecorator;
 use Cms\Storage\MySQL\WebPageMapper;
 use Cms\Storage\MySQL\AbstractMapper;
 use Tour\Storage\TourMapperInterface;
@@ -144,15 +145,43 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
      */
     public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = array())
     {
+        if (!($input instanceof InputDecorator)) {
+            $input = new InputDecorator($input);
+        }
+
         if (!$sortingColumn) {
             $sortingColumn = self::column('id');
         }
 
-        $db = $this->createWebPageSelect($this->getColumns())
-                    // Filtering condition
-                    ->whereEquals(TourTranslationMapper::column('lang_id'), $this->getLangId())
-                    ->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'))
-                    ->paginate($page, $itemsPerPage);
+        // Whether category ID filter provided
+        $hasCategory = isset($input['category_id']);
+
+        // Columns to be selected
+        $columns = $this->getColumns();
+
+        // Append attached category ID column
+        if ($hasCategory) {
+            $columns[TourCategoryRelation::column('slave_id')] = 'category_id';
+        }
+
+        $db = $this->createWebPageSelect($columns);
+
+        // If explicit category ID provided, then first append related to be able to filter by it
+        if ($hasCategory) {
+            $db->leftJoin(TourCategoryRelation::getTableName(), array(
+                TourCategoryRelation::column('master_id') => self::getRawColumn('id')
+            ));
+        }
+
+        // Filtering condition
+        $db->whereEquals(TourTranslationMapper::column('lang_id'), $this->getLangId());
+
+        if ($hasCategory) {
+            $db->andWhereEquals(TourCategoryRelation::column('slave_id'), $input['category_id']);
+        }
+
+        $db->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'))
+           ->paginate($page, $itemsPerPage);
 
         return $db->queryAll();
     }
