@@ -47,6 +47,17 @@ final class CategoryService extends AbstractManager
     }
 
     /**
+     * Returns a collection of switching URLs
+     * 
+     * @param string $id Category ID
+     * @return array
+     */
+    public function getSwitchUrls($id)
+    {
+        return $this->categoryMapper->createSwitchUrls($id, 'Tour (Categories)', 'Tour:Tour@categoryAction');
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function toEntity(array $category)
@@ -131,7 +142,7 @@ final class CategoryService extends AbstractManager
     private function savePage(array $input)
     {
         $input['category'] = ArrayUtils::arrayWithout($input['category'], array('slug'));
-        return $this->categoryMapper->savePage('Tour (Categories)', 'Tour:Category@indexAction', $input['category'], $input['translation']);
+        return $this->categoryMapper->savePage('Tour (Categories)', 'Tour:Tour@categoryAction', $input['category'], $input['translation']);
     }
 
     /**

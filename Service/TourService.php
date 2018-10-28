@@ -48,6 +48,17 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     }
 
     /**
+     * Returns a collection of switching URLs
+     * 
+     * @param string $id Tour ID
+     * @return array
+     */
+    public function getSwitchUrls($id)
+    {
+        return $this->categoryMapper->createSwitchUrls($id, 'Tour (Tours)', 'Tour:Tour@tourAction');
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function toEntity(array $tour)
@@ -165,7 +176,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     {
         $input['tour'] = ArrayUtils::arrayWithout($input['tour'], array('slug'));
 
-        $this->tourMapper->savePage('Tour (Tours)', 'Tour:Tour@indexAction', $input['tour'], $input['translation']);
+        $this->tourMapper->savePage('Tour (Tours)', 'Tour:Tour@tourAction', $input['tour'], $input['translation']);
 
         // Attach related ones
         $this->tourMapper->attachCategories($id, isset($input['categories']) ? $input['categories'] : array());
