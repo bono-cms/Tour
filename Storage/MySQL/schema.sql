@@ -109,3 +109,17 @@ CREATE TABLE `bono_module_tour_related_relation` (
     FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
     FOREIGN KEY (slave_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
 );
+
+/* Tour bookings */
+DROP TABLE IF EXISTS `bono_module_tour_booking`;
+
+CREATE TABLE `bono_module_tour_booking` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `tour_id` INT NOT NULL COMMENT 'Attached tour ID',
+    `tour` varchar(255) NOT NULL COMMENT 'Tour name',
+    `client` varchar(255) NOT NULL COMMENT 'Client name',
+    `email` varchar(255) NOT NULL COMMENT 'Client email',
+    `phone` varchar(255) NOT NULL COMMENT 'Client phone',
+    `datetime` DATETIME NOT NULL COMMENT 'Unqury datetime',
+    `amount` FLOAT NOT NULL COMMENT 'Price'
+);
