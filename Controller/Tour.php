@@ -61,6 +61,9 @@ final class Tour extends AbstractController
             // Load global view plugins
             $this->loadSitePlugins();
 
+            // Append breadcrumb
+            $this->view->getBreadcrumbBag()->addOne($category->getName());
+
             // Grab all tours filtering by category ID
             $tours = $tourService->fetchAllByCategoryId($id, $pageNumber, 10);
             
