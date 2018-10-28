@@ -14,6 +14,27 @@ return array(
         'controller' => 'Admin:Grid@indexAction'
     ),
 
+    // Booking
+    '/%s/module/tour/booking/index' => array(
+        'controller' => 'Admin:Booking@indexAction'
+    ),
+
+    '/%s/module/tour/booking/save' => array(
+        'controller' => 'Admin:Booking@saveAction'
+    ),
+
+    '/%s/module/tour/booking/add' => array(
+        'controller' => 'Admin:Booking@addAction'
+    ),
+
+    '/%s/module/tour/booking/edit/(:var)' => array(
+        'controller' => 'Admin:Booking@editAction'
+    ),
+
+    '/%s/module/tour/booking/delete/(:var)' => array(
+        'controller' => 'Admin:Booking@deleteAction'
+    ),
+
     // Category
     '/%s/module/tour/category/save' => array(
         'controller' => 'Admin:Category@saveAction'
