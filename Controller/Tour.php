@@ -52,6 +52,32 @@ final class Tour extends AbstractController
      */
     public function categoryAction($id = false, $pageNumber = 1, $code = null, $slug = null)
     {
-        
+        $categoryService = $this->getModuleService('categoryService');
+        $tourService = $this->getModuleService('tourService');
+
+        $category = $categoryService->fetchById($id, false);
+
+        if ($category !== false) {
+            // Load global view plugins
+            $this->loadSitePlugins();
+
+            // Grab all tours filtering by category ID
+            $tours = $tourService->fetchAllByCategoryId($id, $pageNumber, 10);
+            
+            // Prepare pagination
+            $paginator = $tourService->getPaginator();
+            $this->preparePaginator($paginator, $code, $slug, $pageNumber);
+
+            return $this->view->render('tour-category', array(
+                'tours' => $tours,
+                'category' => $category,
+                'page' => $category,
+                'paginator' => $paginator,
+                'languages' => $categoryService->getSwitchUrls($id)
+            ));
+
+        } else {
+            return false;
+        }
     }
 }
