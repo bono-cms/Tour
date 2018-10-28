@@ -103,13 +103,13 @@ final class CategoryService extends AbstractManager
      */
     public function fetchList($list)
     {
-        $rows = $this->categoryMapper->fetchList();
+        $rows = $this->categoryMapper->fetchAll();
 
         if ($list === true) {
-            $rows = ArrayUtils::arrayList($rows, 'id', 'name');
+            return ArrayUtils::arrayList($rows, 'id', 'name');
         }
 
-        return $rows;
+        return $this->prepareResults($rows);
     }
 
     /**

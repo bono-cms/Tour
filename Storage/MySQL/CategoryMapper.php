@@ -68,26 +68,16 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
     }
 
     /**
-     * Fetches as a list
+     * Fetches all categories
      * 
      * @return array
      */
-    public function fetchList()
+    public function fetchAll()
     {
-        $columns = array(
-            self::column('id'), 
-            CategoryTranslationMapper::column('name')
-        );
-
-        return $this->db->select($columns)
-                        ->from(self::getTableName())
-                        // Translation relation
-                        ->innerJoin(CategoryTranslationMapper::getTableName(), array(
-                            self::column('id') => CategoryTranslationMapper::getRawColumn('id')
-                        ))
-                        ->whereEquals('lang_id', $this->getLangId())
-                        ->orderBy(self::column($this->getPk()))
-                        ->desc()
-                        ->queryAll();
+        return $this->createWebPageSelect($this->getColumns())
+                    ->whereEquals(CategoryTranslationMapper::column('lang_id'), $this->getLangId())
+                    ->orderBy(self::column($this->getPk()))
+                    ->desc()
+                    ->queryAll();
     }
 }

@@ -23,9 +23,9 @@ interface CategoryMapperInterface
     public function fetchById($id, $withTranslations);
 
     /**
-     * Fetches as a list
+     * Fetches all categories
      * 
      * @return array
      */
-    public function fetchList();
+    public function fetchAll();
 }
