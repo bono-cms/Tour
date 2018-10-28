@@ -119,6 +119,23 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     }
 
     /**
+     * Fetch all tours filtered by category ID
+     * 
+     * @param int $categoryId
+     * @param int $page Current page number
+     * @param int $itemsPerPage Per page count
+     * @return array
+     */
+    public function fetchAllByCategoryId($categoryId, $page, $itemsPerPage)
+    {
+        $filter = array(
+            'category_id' => $categoryId
+        );
+
+        return $this->filter($filter, $page, $itemsPerPage, false, true);
+    }
+
+    /**
      * Fetches tour data by its associated id
      * 
      * @param string $id Tour id
