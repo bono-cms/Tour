@@ -72,6 +72,13 @@ defined('KRYSTAL') or die;
                         <?php echo Element::number('day[order]', $entity->getOrder(), array('class' => 'form-control', 'min' => 0)) ?>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Time'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::time('day[time]', $entity->getTime(), array('class' => 'form-control')) ?>
+                    </div>
+                </div>
             </div>
         </div>
 	</div>
