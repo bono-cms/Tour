@@ -11,10 +11,21 @@
 
 namespace Tour\Controller;
 
+use Krystal\Form\Gadget\LastCategoryKeeper;
 use Site\Controller\AbstractController;
 
 final class Tour extends AbstractController
 {
+    /**
+     * Returns prepared instance of LastCategoryKeeper
+     * 
+     * @return \Krystal\Form\Gadget\LastCategoryKeeper
+     */
+    private function createLastCategoryKeeper()
+    {
+        return new LastCategoryKeeper($this->sessionBag, 'tour_last_category_id', false);
+    }
+
     /**
      * Renders tour template
      * 
@@ -29,6 +40,16 @@ final class Tour extends AbstractController
         if ($tour !== false) {
             // Load global view plugins
             $this->loadSitePlugins();
+
+            $keeper = $this->createLastCategoryKeeper();
+
+            if ($keeper->hasLastCategoryId()) {
+                $category = $this->getModuleService('categoryService')->fetchById($keeper->getLastCategoryId(), false);
+
+                // Append breadcrumbs
+                $this->view->getBreadcrumbBag()->addOne($category->getName())
+                                               ->addOne($tour->getName());
+            }
 
             return $this->view->render('tour-single', array(
                 'tour' => $tour,
@@ -58,6 +79,9 @@ final class Tour extends AbstractController
         $category = $categoryService->fetchById($id, false);
 
         if ($category !== false) {
+            // Save last category ID
+            $this->createLastCategoryKeeper()->persistLastCategoryId($id);
+
             // Load global view plugins
             $this->loadSitePlugins();
 
