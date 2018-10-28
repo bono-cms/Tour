@@ -23,4 +23,19 @@ final class TourBookingMapper extends AbstractMapper implements TourBookingMappe
     {
         return self::getWithPrefix('bono_module_tour_booking');
     }
+
+    /**
+     * Fetch all bookings
+     * 
+     * @return array
+     */
+    public function fetchAll()
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->orderBy('id')
+                       ->desc();
+
+        return $db->queryAll();
+    }
 }
