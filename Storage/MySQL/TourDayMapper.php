@@ -44,6 +44,7 @@ final class TourDayMapper extends AbstractMapper implements TourDayMapperInterfa
             self::column('id'),
             self::column('tour_id'),
             self::column('order'),
+            self::column('time'),
             TourDayTranslationMapper::column('lang_id'),
             TourDayTranslationMapper::column('title'),
             TourDayTranslationMapper::column('description')

@@ -61,6 +61,7 @@ CREATE TABLE `bono_module_tour_tours_days` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `tour_id` INT NOT NULL COMMENT 'Attached tour',
     `order` INT NOT NULL COMMENT 'Sorting order',
+    `time` TIME NOT NULL COMMENT 'Optional time when it starts'
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
 );

@@ -45,6 +45,7 @@ final class TourDayService extends AbstractManager
             ->setLangId($row['lang_id'])
             ->setTourId($row['tour_id'])
             ->setOrder($row['order'])
+            ->setTime($row['time'])
             ->setTitle($row['title'])
             ->setDescription($row['description']);
 
