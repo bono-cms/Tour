@@ -55,7 +55,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     public function getSwitchUrls($id)
     {
-        return $this->categoryMapper->createSwitchUrls($id, 'Tour (Tours)', 'Tour:Tour@tourAction');
+        return $this->tourMapper->createSwitchUrls($id, 'Tour (Tours)', 'Tour:Tour@tourAction');
     }
 
     /**
