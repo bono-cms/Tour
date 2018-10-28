@@ -122,5 +122,6 @@ CREATE TABLE `bono_module_tour_booking` (
     `email` varchar(255) NOT NULL COMMENT 'Client email',
     `phone` varchar(255) NOT NULL COMMENT 'Client phone',
     `datetime` DATETIME NOT NULL COMMENT 'Unqury datetime',
-    `amount` FLOAT NOT NULL COMMENT 'Price'
+    `amount` FLOAT NOT NULL COMMENT 'Price',
+    `token` varchar(32) NOT NULL COMMENT 'Unique order token'
 );

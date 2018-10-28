@@ -13,6 +13,7 @@ namespace Tour\Service;
 
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Date\TimeHelper;
+use Krystal\Text\TextUtils;
 use Cms\Service\AbstractManager;
 use Tour\Storage\TourBookingMapperInterface;
 
@@ -107,6 +108,7 @@ final class BookingService extends AbstractManager
         if (!$input['id']) {
             $input['datetime'] = TimeHelper::getNow();
             $input['status'] = -1; // Temporary
+            $input['token'] = TextUtils::uniqueString();
         }
 
         return $this->tourBookingMapper->persist($input);
