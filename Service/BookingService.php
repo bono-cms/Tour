@@ -43,6 +43,7 @@ final class BookingService extends AbstractManager
     {
         $booking = new VirtualEntity();
         $booking->setId($row['id'])
+                ->setStatus($row['status'])
                 ->setTour($row['tour'])
                 ->setClient($row['client'])
                 ->setEmail($row['email'])
@@ -105,6 +106,7 @@ final class BookingService extends AbstractManager
     {
         if (!$input['id']) {
             $input['datetime'] = TimeHelper::getNow();
+            $input['status'] = -1; // Temporary
         }
 
         return $this->tourBookingMapper->persist($input);

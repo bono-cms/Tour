@@ -116,6 +116,7 @@ DROP TABLE IF EXISTS `bono_module_tour_booking`;
 CREATE TABLE `bono_module_tour_booking` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `tour_id` INT NOT NULL COMMENT 'Attached tour ID',
+    `status` SMALLINT NOT NULL COMMENT 'Order status',
     `tour` varchar(255) NOT NULL COMMENT 'Tour name',
     `client` varchar(255) NOT NULL COMMENT 'Client name',
     `email` varchar(255) NOT NULL COMMENT 'Client email',
