@@ -99,8 +99,12 @@ use Krystal\Form\Element;
                     'column' => 'name',
                 ),
             ),
-            
+
             'actions' => array(
+                'view' => function($row){
+                    return Element::icon('glyphicon glyphicon-search', $row->getUrl(), array('target' => '_blank', 'data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('View this category on site')));
+                },
+
                 'edit' => function($row){
                     return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:Category@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this category'), 'data-button' => 'edit'));
                 },
