@@ -1,0 +1,79 @@
+<?php
+
+use Krystal\Grid\Grid;
+use Krystal\Form\Element;
+
+?>
+
+<div class="btn-toolbar">
+	<div class="btn-group">
+	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		<i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?> <span class="caret"></span>
+	  </button>
+
+	  <ul class="dropdown-menu">
+		 <li><a href="<?php echo $this->url('Tour:Admin:Booking@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('New booking'); ?></a></li>
+         <li class="divider"></li>
+         <li class="dropdown-header"><?php $this->show('Actions'); ?></li>
+
+         <?php if (!empty($bookings)): ?>
+         <li><a href="#" data-button="remove-selected" data-url="<?php echo $this->url('Tour:Admin:Booking@deleteAction', null); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>
+         <?php else: ?>
+         <li class="disabled"><a><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>         
+         <?php endif; ?>
+	  </ul>
+	</div>
+</div>
+
+<?php $this->loadPartial('items-per-page', array('caption' => 'Bookings')); ?>
+
+<form>
+    <?= Grid::render($bookings, array(
+        // A column to be considered as a primary key
+        'pk' => 'id',
+        'batch' => true,
+        'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+        'columns' => array(
+            array(
+                'column' => 'id',
+                'label' => '#'
+            ),
+
+            array(
+                'column' => 'tour',
+            ),
+
+            array(
+                'column' => 'client',
+            ),
+
+            array(
+                'column' => 'email',
+            ),
+
+            array(
+                'column' => 'phone',
+            ),
+            
+            array(
+                'column' => 'datetime',
+                'label' => 'Date and time'
+            ),
+            
+            array(
+                'column' => 'amount',
+            )
+        ),
+        
+        'actions' => array(
+            'edit' => function($row){
+                return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:Booking@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this booking')));
+            },
+
+            'remove' => function($row){
+                return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Delete this booking'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:Booking@deleteAction', $row['id'])));
+            }
+        )
+    ), $this->translator); ?>
+</form>
+

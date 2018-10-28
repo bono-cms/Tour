@@ -1,0 +1,72 @@
+<?php
+
+use Krystal\Form\Element;
+defined('KRYSTAL') or die;
+
+?>
+
+<form data-group="booking">
+    <div class="well">
+        <?php echo Element::hidden('booking[id]', $booking->getId()); ?>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label"><?php $this->show('Tour'); ?></label>
+            <div class="col-lg-10">
+                <div class="input-group">
+                    <?php echo Element::text('booking[tour]', $booking->getTour(), array('class' => 'form-control', 'placeholder' => $this->translate('Tour name'))); ?>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label"><?php $this->show('Client'); ?></label>
+            <div class="col-lg-10">
+                <div class="input-group">
+                    <?php echo Element::text('booking[client]', $booking->getClient(), array('class' => 'form-control', 'placeholder' => $this->translate('Client name'))); ?>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-lg-2 control-label"><?php $this->show('Email'); ?></label>
+            <div class="col-lg-10">
+                <div class="input-group">
+                    <?php echo Element::text('booking[email]', $booking->getEmail(), array('class' => 'form-control', 'placeholder' => $this->translate('Client email'))); ?>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-lg-2 control-label"><?php $this->show('Phone'); ?></label>
+            <div class="col-lg-10">
+                <div class="input-group">
+                    <?php echo Element::text('booking[phone]', $booking->getPhone(), array('class' => 'form-control', 'placeholder' => $this->translate('Client phone'))); ?>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label"><?php $this->show('Amount'); ?></label>
+            <div class="col-lg-10">
+                <div class="input-group">
+                    <?php echo Element::text('booking[amount]', $booking->getAmount(), array('class' => 'form-control', 'placeholder' => $this->translate('Amount to be charged'))); ?>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php if (!$booking->getId()): ?>
+    <button data-button="add" data-back-url="<?php echo $this->url('Tour:Admin:Booking@editAction', null); ?>" data-url="<?php echo $this->url('Tour:Admin:Booking@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
+    <button data-button="add-create" data-back-url="<?php echo $this->url('Tour:Admin:Booking@addAction'); ?>" data-url="<?php echo $this->url('Tour:Admin:Booking@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Create new'); ?></button>
+
+    <?php else: ?>
+    <button data-button="save" data-url="<?php echo $this->url('Tour:Admin:Booking@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+    <?php endif; ?>
+
+    <button data-button="cancel" data-url="<?php echo $this->url('Tour:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
+</form>
