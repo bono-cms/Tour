@@ -65,6 +65,10 @@ use Krystal\Form\Element;
                 ),
                 
                 'actions' => array(
+                    'view' => function($row){
+                        return Element::icon('glyphicon glyphicon-search', $row->getUrl(), array('target' => '_blank', 'data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('View this tour on site')));
+                    },
+
                     'edit' => function($row){
                         return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:Tour@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this tour'), 'data-button' => 'edit'));
                     },
