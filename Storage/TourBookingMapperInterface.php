@@ -13,5 +13,11 @@ namespace Tour\Storage;
 
 interface TourBookingMapperInterface
 {
-    
+    /**
+     * Finds row by its associated token
+     * 
+     * @param string $token
+     * @return array
+     */
+    public function findByToken(string $token);
 }
