@@ -50,7 +50,8 @@ final class BookingService extends AbstractManager
                 ->setEmail($row['email'])
                 ->setPhone($row['phone'])
                 ->setDatetime($row['datetime'])
-                ->setAmount($row['amount']);
+                ->setAmount($row['amount'])
+                ->setToken($row['token']);
 
         return $booking;
     }
