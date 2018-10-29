@@ -15,7 +15,6 @@ use Cms\Service\WebPageManagerInterface;
 use Cms\Service\AbstractManager;
 use Tour\Storage\TourMapperInterface;
 use Krystal\Stdlib\ArrayUtils;
-use Krystal\Stdlib\VirtualEntity;
 use Krystal\Db\Filter\FilterableServiceInterface;
 
 final class TourService extends AbstractManager implements FilterableServiceInterface
@@ -63,26 +62,26 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     protected function toEntity(array $tour)
     {
-        $entity = new VirtualEntity();
-        $entity->setId($tour['id'], VirtualEntity::FILTER_INT)
-               ->setWebPageId($tour['web_page_id'], VirtualEntity::FILTER_INT)
-               ->setLangId($tour['lang_id'], VirtualEntity::FILTER_INT)
-               ->setOrder($tour['order'], VirtualEntity::FILTER_INT)
-               ->setAdults($tour['adults'], VirtualEntity::FILTER_INT)
-               ->setChildren($tour['children'], VirtualEntity::FILTER_INT)
-               ->setRecommended($tour['recommended'], VirtualEntity::FILTER_BOOL)
-               ->setPrice($tour['price'], VirtualEntity::FILTER_FLOAT)
-               ->setDescription($tour['description'], VirtualEntity::FILTER_SAFE_TAGS)
-               ->setIncluded($tour['included'], VirtualEntity::FILTER_SAFE_TAGS)
-               ->setExcluded($tour['excluded'], VirtualEntity::FILTER_SAFE_TAGS)
-               ->setName($tour['name'], VirtualEntity::FILTER_HTML)
-               ->setSlug($tour['slug'], VirtualEntity::FILTER_HTML)
+        $entity = new TourEntity();
+        $entity->setId($tour['id'], TourEntity::FILTER_INT)
+               ->setWebPageId($tour['web_page_id'], TourEntity::FILTER_INT)
+               ->setLangId($tour['lang_id'], TourEntity::FILTER_INT)
+               ->setOrder($tour['order'], TourEntity::FILTER_INT)
+               ->setAdults($tour['adults'], TourEntity::FILTER_INT)
+               ->setChildren($tour['children'], TourEntity::FILTER_INT)
+               ->setRecommended($tour['recommended'], TourEntity::FILTER_BOOL)
+               ->setPrice($tour['price'], TourEntity::FILTER_FLOAT)
+               ->setDescription($tour['description'], TourEntity::FILTER_SAFE_TAGS)
+               ->setIncluded($tour['included'], TourEntity::FILTER_SAFE_TAGS)
+               ->setExcluded($tour['excluded'], TourEntity::FILTER_SAFE_TAGS)
+               ->setName($tour['name'], TourEntity::FILTER_HTML)
+               ->setSlug($tour['slug'], TourEntity::FILTER_HTML)
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()))
-               ->setTitle($tour['title'], VirtualEntity::FILTER_HTML)
-               ->setSeo(isset($tour['seo']) ? $tour['seo'] : null, VirtualEntity::FILTER_BOOL)
-               ->setPublished(isset($tour['published']) ? $tour['published'] : null, VirtualEntity::FILTER_BOOL)
-               ->setKeywords($tour['meta_keywords'], VirtualEntity::FILTER_HTML)
-               ->setMetaDescription($tour['meta_description'], VirtualEntity::FILTER_HTML);
+               ->setTitle($tour['title'], TourEntity::FILTER_HTML)
+               ->setSeo(isset($tour['seo']) ? $tour['seo'] : null, TourEntity::FILTER_BOOL)
+               ->setPublished(isset($tour['published']) ? $tour['published'] : null, TourEntity::FILTER_BOOL)
+               ->setKeywords($tour['meta_keywords'], TourEntity::FILTER_HTML)
+               ->setMetaDescription($tour['meta_description'], TourEntity::FILTER_HTML);
 
         // If it's not new tour, then it must have attached categories
         if ($entity->getId()) {
