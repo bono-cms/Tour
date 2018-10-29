@@ -19,6 +19,14 @@ return array(
         'controller' => 'Payment@successAction'
     ),
 
+    '/module/tour/payment/invoice' => array(
+        'controller' => 'Payment@invoiceAction'
+    ),
+
+    '/module/tour/payment/book' => array(
+        'controller' => 'Tour@bookAction'
+    ),
+
     '/%s/module/tour' => array(
         'controller' => 'Admin:Grid@indexAction'
     ),

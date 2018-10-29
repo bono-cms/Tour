@@ -11,6 +11,7 @@
 
 namespace Tour\Controller;
 
+use Krystal\Stdlib\VirtualEntity;
 use Krystal\Form\Gadget\LastCategoryKeeper;
 use Site\Controller\AbstractController;
 
@@ -24,6 +25,31 @@ final class Tour extends AbstractController
     private function createLastCategoryKeeper()
     {
         return new LastCategoryKeeper($this->sessionBag, 'tour_last_category_id', false);
+    }
+
+    /**
+     * Renders booking template
+     * 
+     * @return string
+     */
+    public function bookAction()
+    {
+        $this->loadSitePlugins();
+
+        $entity = new VirtualEntity();
+        $entity->setTitle($this->translator->translate('Book a tour'));
+
+        // Fill amount and product if provided
+        $entity['product'] = $this->request->getQuery('product');
+        $entity['amount'] = $this->request->getQuery('amount', false);
+
+        return $this->view->render('tour-booking', array(
+            'invoice' => $entity,
+            'title' => 'New invoice',
+            'asClient' => true,
+            'page' => $entity,
+            'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true)
+        ));
     }
 
     /**
