@@ -30,7 +30,7 @@ final class TourBookingMapper extends AbstractMapper implements TourBookingMappe
      * @param string $token
      * @return array
      */
-    public function findByToken(string $token)
+    public function findByToken($token)
     {
         return $this->fetchByColumn('token', $token);
     }
