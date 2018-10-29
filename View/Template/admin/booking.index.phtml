@@ -66,6 +66,15 @@ use Krystal\Form\Element;
         ),
         
         'actions' => array(
+            'notify' => function($row){
+                // Don't let
+                if ($row['amount'] == 0) {
+                    return null;
+                }
+
+                return Element::icon('glyphicon glyphicon-envelope', $this->url('Tour:Admin:Booking@notifyAction', $row['token']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Send invoice to their email')));
+            },
+
             'edit' => function($row){
                 return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:Booking@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this booking')));
             },
