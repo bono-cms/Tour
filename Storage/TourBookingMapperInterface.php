@@ -20,4 +20,11 @@ interface TourBookingMapperInterface
      * @return array
      */
     public function findByToken(string $token);
+
+    /**
+     * Fetch all bookings
+     * 
+     * @return array
+     */
+    public function fetchAll();
 }
