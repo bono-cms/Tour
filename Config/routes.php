@@ -10,6 +10,15 @@
  */
 
 return array(
+    // Payment
+    '/module/tour/payment/gateway/(:var)' => array(
+        'controller' => 'Payment@gatewayAction'
+    ),
+
+    '/module/tour/payment/success/(:var)' => array(
+        'controller' => 'Payment@successAction'
+    ),
+
     '/%s/module/tour' => array(
         'controller' => 'Admin:Grid@indexAction'
     ),
