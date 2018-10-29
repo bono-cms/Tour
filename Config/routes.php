@@ -32,6 +32,10 @@ return array(
     ),
 
     // Booking
+    '/%s/module/tour/booking/notify/(:var)' => array(
+        'controller' => 'Admin:Booking@notifyAction'
+    ),
+
     '/%s/module/tour/booking/index' => array(
         'controller' => 'Admin:Booking@indexAction'
     ),

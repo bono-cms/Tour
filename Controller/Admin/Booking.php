@@ -17,6 +17,37 @@ use Cms\Controller\Admin\AbstractController;
 final class Booking extends AbstractController
 {
     /**
+     * Notify client about payment
+     * 
+     * @param string $token
+     * @return mixed
+     */
+    public function notifyAction($token)
+    {
+        // Find invoice by its token
+        $invoice = $this->getModuleService('bookingService')->findByToken($token);
+
+        if ($invoice) {
+            $params = array_merge($invoice->getProperties(), [
+                'link' => $this->request->getBaseUrl() . $this->createUrl('Tour:Payment@gatewayAction', array($invoice['token']))
+            ]);
+
+            // Create email body
+            $body = $this->view->renderRaw('Tour', 'mail', 'notify', $params);
+
+            // Now send it
+            $this->getService('Cms', 'mailer')->sendTo($invoice['email'], $this->translator->translate('Please confirm payment'), $body);
+
+            $this->flashBag->set('success', $this->translator->translate('Notification to %s has been successfully sent', $invoice['email']));
+            $this->response->redirectToPreviousPage();
+
+        } else {
+            // Invalid token
+            return false;
+        }
+    }
+
+    /**
      * Render all bookings
      * 
      * @return string
