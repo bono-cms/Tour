@@ -66,6 +66,17 @@ final class BookingService extends AbstractManager
     }
 
     /**
+     * Confirms that payment is done by token
+     * 
+     * @param string $token
+     * @return boolean
+     */
+    public function confirmPayment($token)
+    {
+        return $this->tourBookingMapper->updateStatusByToken($token, 1);
+    }
+
+    /**
      * Fetch booking by its ID
      * 
      * @param int $id
@@ -74,6 +85,17 @@ final class BookingService extends AbstractManager
     public function fetchById($id)
     {
         return $this->prepareResult($this->tourBookingMapper->findByPk($id));
+    }
+
+    /**
+     * Finds row by its associated token
+     * 
+     * @param string $token
+     * @return array
+     */
+    public function findByToken($token)
+    {
+        return $this->prepareResult($this->tourBookingMapper->findByToken($token));
     }
 
     /**
