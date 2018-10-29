@@ -8,6 +8,7 @@ defined('KRYSTAL') or die;
 <form data-group="booking">
     <div class="well">
         <?php echo Element::hidden('booking[id]', $booking->getId()); ?>
+        <?php echo Element::hidden('booking[token]', $booking->getToken()); ?>
 
         <div class="form-group">
             <label class="col-lg-2 control-label"><?php $this->show('Tour'); ?></label>
