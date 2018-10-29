@@ -14,6 +14,15 @@ namespace Tour\Storage;
 interface TourBookingMapperInterface
 {
     /**
+     * Updates booking status by its token
+     * 
+     * @param string $token
+     * @param int $status
+     * @return boolean
+     */
+    public function updateStatusByToken($token, $status);
+
+    /**
      * Finds row by its associated token
      * 
      * @param string $token

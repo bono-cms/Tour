@@ -25,6 +25,20 @@ final class TourBookingMapper extends AbstractMapper implements TourBookingMappe
     }
 
     /**
+     * Updates booking status by its token
+     * 
+     * @param string $token
+     * @param int $status
+     * @return boolean
+     */
+    public function updateStatusByToken($token, $status)
+    {
+        return $this->db->update(self::getTableName(), array('status' => $status))
+                        ->whereEquals('token', $token)
+                        ->execute();
+    }
+
+    /**
      * Finds row by its associated token
      * 
      * @param string $token
