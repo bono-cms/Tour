@@ -123,16 +123,23 @@ final class BookingService extends AbstractManager
      * Save booking
      * 
      * @param array $input
-     * @return boolean
+     * @return string
      */
     public function save(array $input)
     {
+        // Unset CAPTCHA if present
+        if (isset($input['captcha'])) {
+            unset($input['captcha']);
+        }
+
         if (!$input['id']) {
             $input['datetime'] = TimeHelper::getNow();
             $input['status'] = -1; // Temporary
             $input['token'] = TextUtils::uniqueString();
         }
 
-        return $this->tourBookingMapper->persist($input);
+        $this->tourBookingMapper->persist($input);
+
+        return $input['token'];
     }
 }
