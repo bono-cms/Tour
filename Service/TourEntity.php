@@ -25,4 +25,15 @@ final class TourEntity extends VirtualEntity
         $price = $this->getPrice();
         return $price && $price > 0;
     }
+
+    /**
+     * Checks whether current tour has a starting price
+     * 
+     * @return boolean
+     */
+    public function hasStartPrice()
+    {
+        $price = $this->getStartPrice();
+        return $price && $price > 0;
+    }
 }
