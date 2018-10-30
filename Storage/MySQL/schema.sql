@@ -35,7 +35,8 @@ CREATE TABLE `bono_module_tour_tours` (
     `children` INT NOT NULL COMMENT 'NUMBER of children',
     `published` BOOLEAN NOT NULL COMMENT 'Whether this tour is published or not',
     `recommended` BOOLEAN NOT NULL COMMENT 'Whether marked as recommended',
-    `price` FLOAT NOT NULL COMMENT 'Price of this tour'
+    `price` FLOAT NOT NULL COMMENT 'Price of this tour',
+    `start_price` FLOAT NOT NULL COMMENT 'Starting price'
 );
 
 DROP TABLE IF EXISTS `bono_module_tour_tours_translation`;
