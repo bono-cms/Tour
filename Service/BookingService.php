@@ -57,6 +57,16 @@ final class BookingService extends AbstractManager
     }
 
     /**
+     * Returns prepared pagination instance
+     * 
+     * @return \Krystal\Paginate\Paginator
+     */
+    public function getPaginator()
+    {
+        return $this->tourBookingMapper->getPaginator();
+    }
+
+    /**
      * Returns last ID
      * 
      * @return int
