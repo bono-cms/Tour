@@ -11,9 +11,10 @@ use Krystal\Form\Element;
 		<i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?> <span class="caret"></span>
 	  </button>
 
-	  <ul class="dropdown-menu">
+      <ul class="dropdown-menu">
 		 <li><a href="<?php echo $this->url('Tour:Admin:Tour@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Add a tour'); ?></a></li>
 		 <li><a href="<?php echo $this->url('Tour:Admin:Category@addAction'); ?>"><i class="glyphicon glyphicon-folder-open"></i> <?php $this->show('Add category'); ?></a></li>
+		 <li><a href="<?php echo $this->url('Tour:Admin:Booking@indexAction'); ?>"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Bookings'); ?></a></li>
          <li class="divider"></li>
          <li class="dropdown-header"><?php $this->show('Actions'); ?></li>
 

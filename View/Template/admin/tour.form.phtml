@@ -8,7 +8,7 @@ defined('KRYSTAL') or die;
 
 ?>
 
-<form data-group="category">
+<form data-group="category" novalidate>
 	<ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Tour'); ?></a></li>
         <li role="presentation"><a href="#days" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Days'); ?></a></li>
@@ -154,6 +154,13 @@ defined('KRYSTAL') or die;
                     <label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
                     <div class="col-lg-10">
                         <?php echo Element::checkbox('tour[published]', $entity->getPublished(), array('class' => 'form-control')) ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Price'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::number('tour[price]', $entity->getPrice(), array('class' => 'form-control', 'min' => 1)) ?>
                     </div>
                 </div>
 

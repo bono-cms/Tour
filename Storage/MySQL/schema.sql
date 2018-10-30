@@ -34,7 +34,8 @@ CREATE TABLE `bono_module_tour_tours` (
     `adults` INT NOT NULL COMMENT 'Number of adults',
     `children` INT NOT NULL COMMENT 'NUMBER of children',
     `published` BOOLEAN NOT NULL COMMENT 'Whether this tour is published or not',
-    `recommended` BOOLEAN NOT NULL COMMENT 'Whether marked as recommended'
+    `recommended` BOOLEAN NOT NULL COMMENT 'Whether marked as recommended',
+    `price` FLOAT NOT NULL COMMENT 'Price of this tour'
 );
 
 DROP TABLE IF EXISTS `bono_module_tour_tours_translation`;
@@ -108,4 +109,20 @@ CREATE TABLE `bono_module_tour_related_relation` (
 
     FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
     FOREIGN KEY (slave_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
+);
+
+/* Tour bookings */
+DROP TABLE IF EXISTS `bono_module_tour_booking`;
+
+CREATE TABLE `bono_module_tour_booking` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `tour_id` INT NOT NULL COMMENT 'Attached tour ID',
+    `status` SMALLINT NOT NULL COMMENT 'Order status',
+    `tour` varchar(255) NOT NULL COMMENT 'Tour name',
+    `client` varchar(255) NOT NULL COMMENT 'Client name',
+    `email` varchar(255) NOT NULL COMMENT 'Client email',
+    `phone` varchar(255) NOT NULL COMMENT 'Client phone',
+    `datetime` DATETIME NOT NULL COMMENT 'Unqury datetime',
+    `amount` FLOAT NOT NULL COMMENT 'Price',
+    `token` varchar(32) NOT NULL COMMENT 'Unique order token'
 );

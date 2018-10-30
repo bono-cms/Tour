@@ -10,8 +10,50 @@
  */
 
 return array(
+    // Payment
+    '/module/tour/payment/gateway/(:var)' => array(
+        'controller' => 'Payment@gatewayAction'
+    ),
+
+    '/module/tour/payment/success/(:var)' => array(
+        'controller' => 'Payment@successAction'
+    ),
+
+    '/module/tour/payment/invoice' => array(
+        'controller' => 'Payment@invoiceAction'
+    ),
+
+    '/module/tour/payment/book/(:var)' => array(
+        'controller' => 'Tour@bookAction'
+    ),
+
     '/%s/module/tour' => array(
         'controller' => 'Admin:Grid@indexAction'
+    ),
+
+    // Booking
+    '/%s/module/tour/booking/notify/(:var)' => array(
+        'controller' => 'Admin:Booking@notifyAction'
+    ),
+
+    '/%s/module/tour/booking/index' => array(
+        'controller' => 'Admin:Booking@indexAction'
+    ),
+
+    '/%s/module/tour/booking/save' => array(
+        'controller' => 'Admin:Booking@saveAction'
+    ),
+
+    '/%s/module/tour/booking/add' => array(
+        'controller' => 'Admin:Booking@addAction'
+    ),
+
+    '/%s/module/tour/booking/edit/(:var)' => array(
+        'controller' => 'Admin:Booking@editAction'
+    ),
+
+    '/%s/module/tour/booking/delete/(:var)' => array(
+        'controller' => 'Admin:Booking@deleteAction'
     ),
 
     // Category
