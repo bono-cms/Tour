@@ -23,7 +23,7 @@ return array(
         'controller' => 'Payment@invoiceAction'
     ),
 
-    '/module/tour/payment/book' => array(
+    '/module/tour/payment/book/(:var)' => array(
         'controller' => 'Tour@bookAction'
     ),
 

@@ -30,26 +30,37 @@ final class Tour extends AbstractController
     /**
      * Renders booking template
      * 
+     * @param int $tourId Tour ID
      * @return string
      */
-    public function bookAction()
+    public function bookAction($tourId)
     {
-        $this->loadSitePlugins();
+        // Find tour entity by its ID
+        $tour = $this->getModuleService('tourService')->fetchById($tourId, false);
 
-        $entity = new VirtualEntity();
-        $entity->setTitle($this->translator->translate('Book a tour'));
+        if ($tour !== false) {
+            $this->loadSitePlugins();
 
-        // Fill amount and product if provided
-        $entity['product'] = $this->request->getQuery('product');
-        $entity['amount'] = $this->request->getQuery('amount', false);
+            $entity = new VirtualEntity();
+            $entity->setTitle($this->translator->translate('Book a tour'));
 
-        return $this->view->render('tour-booking', array(
-            'invoice' => $entity,
-            'title' => 'New invoice',
-            'asClient' => true,
-            'page' => $entity,
-            'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true)
-        ));
+            // Fill amount and product if provided
+            if ($tour->hasPrice()) {
+                $entity->setAmount($tour->getPrice());
+            }
+
+            $entity->setTour($tour->getName());
+
+            return $this->view->render('tour-booking', array(
+                'invoice' => $entity,
+                'title' => 'New invoice',
+                'asClient' => true,
+                'page' => $entity,
+                'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true)
+            ));
+        } else {
+            return false;
+        }
     }
 
     /**
