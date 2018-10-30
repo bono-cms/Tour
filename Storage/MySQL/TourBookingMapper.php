@@ -52,14 +52,21 @@ final class TourBookingMapper extends AbstractMapper implements TourBookingMappe
     /**
      * Fetch all bookings
      * 
+     * @param int $page Current page number
+     * @param int $itemsPerPage Per page count
      * @return array
      */
-    public function fetchAll()
+    public function fetchAll($page, $itemsPerPage)
     {
         $db = $this->db->select('*')
                        ->from(self::getTableName())
                        ->orderBy('id')
                        ->desc();
+
+        // Apply pagination if required
+        if ($page !== null && $itemsPerPage !== null){
+            $db->paginate($page, $itemsPerPage);
+        }
 
         return $db->queryAll();
     }

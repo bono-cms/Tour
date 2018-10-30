@@ -33,7 +33,9 @@ interface TourBookingMapperInterface
     /**
      * Fetch all bookings
      * 
+     * @param int $page Current page number
+     * @param int $itemsPerPage Per page count
      * @return array
      */
-    public function fetchAll();
+    public function fetchAll($page, $itemsPerPage);
 }
