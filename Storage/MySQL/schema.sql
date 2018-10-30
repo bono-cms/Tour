@@ -127,3 +127,16 @@ CREATE TABLE `bono_module_tour_booking` (
     `amount` FLOAT NOT NULL COMMENT 'Price',
     `token` varchar(32) NOT NULL COMMENT 'Unique order token'
 );
+
+/* Tour reviews */
+DROP TABLE IF EXISTS `bono_module_tour_reviews`;
+
+CREATE TABLE `bono_module_tour_reviews` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `tour_id` INT NOT NULL COMMENT 'Attached tour ID',
+    `datetime` DATETIME NOT NULL COMMENT 'Date and time',
+    `name` varchar(255) NOT NULL COMMENT 'Author name',
+    `message` TEXT NOT NULL COMMENT 'Review',
+
+    FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
+);
