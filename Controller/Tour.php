@@ -41,15 +41,12 @@ final class Tour extends AbstractController
         if ($tour !== false) {
             $this->loadSitePlugins();
 
-            $entity = new VirtualEntity();
-            $entity->setTitle($this->translator->translate('Book a tour'));
-
             // Fill amount and product if provided
-            if ($tour->hasPrice()) {
-                $entity->setAmount($tour->getPrice());
-            }
-
-            $entity->setTour($tour->getName());
+            $entity = new VirtualEntity();
+            $entity->setTitle($this->translator->translate('Book a tour'))
+                   ->setTour($tour->getName())
+                   ->setTourId($tour->getId())
+                   ->setAmount($tour->hasPrice() ? $tour->getPrice() : false);
 
             return $this->view->render('tour-booking', array(
                 'invoice' => $entity,
