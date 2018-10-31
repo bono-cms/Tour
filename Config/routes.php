@@ -31,6 +31,15 @@ return array(
         'controller' => 'Admin:Grid@indexAction'
     ),
 
+    // Reviews
+    '/%s/module/tour/reviews/(:var)' => array(
+        'controller' => 'Admin:TourReview@indexAction'
+    ),
+
+    '/%s/module/tour/reviews/delete/(:var)' => array(
+        'controller' => 'Admin:TourReview@deleteAction'
+    ),
+    
     // Booking
     '/%s/module/tour/booking/notify/(:var)' => array(
         'controller' => 'Admin:Booking@notifyAction'
