@@ -35,6 +35,17 @@ final class TourReviewService extends AbstractManager
     }
 
     /**
+     * Deletes tour review by its ID
+     * 
+     * @param int $id Review ID
+     * @return boolean
+     */
+    public function deleteById($id)
+    {
+        return $this->tourReviewMapper->deleteByPk($id);
+    }
+
+    /**
      * Returns prepared pagination instance
      * 
      * @return \Krystal\Paginate\Paginator
