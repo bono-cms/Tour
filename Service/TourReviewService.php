@@ -33,15 +33,27 @@ final class TourReviewService extends AbstractManager
     {
         $this->tourReviewMapper = $tourReviewMapper;
     }
-    
+
+    /**
+     * Returns prepared pagination instance
+     * 
+     * @return \Krystal\Paginate\Paginator
+     */
+    public function getPaginator()
+    {
+        return $this->tourReviewMapper->getPaginator();
+    }
+
     /**
      * Fetch all tour reviews by its ID
      * 
      * @param int $tourId
+     * @param int|null $page Current page number
+     * @param int|null $itemsPerPage Per page count
      * @return array
      */
-    public function fetchAll($tourId = null)
+    public function fetchAll($tourId = null, $page = null, $itemsPerPage = null)
     {
-        return $this->tourReviewMapper->fetchAll($tourId);
+        return $this->tourReviewMapper->fetchAll($tourId, $page, $itemsPerPage);
     }
 }

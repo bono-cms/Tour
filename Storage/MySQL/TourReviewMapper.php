@@ -28,9 +28,11 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
      * Fetch all tour reviews by its ID
      * 
      * @param int|null $tourId
+     * @param int|null $page Current page number
+     * @param int|null $itemsPerPage Per page count
      * @return array
      */
-    public function fetchAll($tourId = null)
+    public function fetchAll($tourId = null, $page = null, $itemsPerPage = null)
     {
         // To be selected
         $columns = array(
@@ -57,6 +59,11 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
 
         if ($tourId !== null) {
             $db->whereEquals(self::column('tour_id'), $tourId);
+        }
+
+        // Apply pagination if required
+        if ($page !== null && $itemsPerPage !== null) {
+            $db->paginate($page, $itemsPerPage);
         }
 
         return $db->queryAll();
