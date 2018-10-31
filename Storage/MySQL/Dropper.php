@@ -29,6 +29,7 @@ final class Dropper extends AbstractStorageDropper
             TourCategoryRelation::getTableName(),
             TourRelatedRelation::getTableName(),
             TourBookingMapper::getTableName(),
+            TourReviewMapper::getTableName(),
             CategoryMapper::getTableName(),
             CategoryTranslationMapper::getTableName()
         );

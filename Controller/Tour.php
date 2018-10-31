@@ -11,6 +11,7 @@
 
 namespace Tour\Controller;
 
+use Krystal\Validate\Pattern;
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Form\Gadget\LastCategoryKeeper;
 use Site\Controller\AbstractController;
@@ -25,6 +26,38 @@ final class Tour extends AbstractController
     private function createLastCategoryKeeper()
     {
         return new LastCategoryKeeper($this->sessionBag, 'tour_last_category_id', false);
+    }
+
+    /**
+     * Leaves a review
+     * 
+     * @return mixed
+     */
+    public function reviewAction()
+    {
+        // Grab POST data
+        $input = $this->request->getPost();
+
+        $formValidator = $this->createValidator(array(
+            'input' => array(
+                'source' => $input,
+                'definition' => array(
+                    'name' => new Pattern\Name(),
+                    'message' => new Pattern\Message()
+                )
+            )
+        ));
+
+        if ($formValidator->isValid()) {
+            // Saves a review
+            $this->getModuleService('tourReviewService')->save($input);
+            
+            $this->flashBag->set('success', 'Thank you for your review!');
+            return 1;
+
+        } else {
+            return $formValidator->getErrors();
+        }
     }
 
     /**
