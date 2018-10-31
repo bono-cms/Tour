@@ -1,0 +1,43 @@
+<?php
+
+use Krystal\Grid\Grid;
+use Krystal\Form\Element;
+
+?>
+
+<?= Grid::render($reviews, array(
+    // A column to be considered as a primary key
+    'pk' => 'id',
+    'batch' => true,
+    'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+    'columns' => array(
+        array(
+            'column' => 'id',
+            'label' => '#'
+        ),
+
+        array(
+            'column' => 'tour',
+        ),
+
+        array(
+            'column' => 'datetime',
+            'label' => 'Date and time'
+        ),
+
+        array(
+            'column' => 'name',
+        ),
+
+        array(
+            'column' => 'message',
+        )
+    ),
+    
+    'actions' => array(
+        'remove' => function($row){
+            return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Remove this review'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:TourReview@deleteAction', $row['id'])));
+        }
+    )
+
+), $this->translator); ?>
