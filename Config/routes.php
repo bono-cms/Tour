@@ -32,6 +32,10 @@ return array(
     ),
 
     // Reviews
+    '/module/tour/reviews/new' => array(
+        'controller' => 'Tour@reviewAction'
+    ),
+
     '/%s/module/tour/reviews/(:var)' => array(
         'controller' => 'Admin:TourReview@indexAction'
     ),
