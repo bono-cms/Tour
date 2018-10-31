@@ -11,6 +11,7 @@
 
 namespace Tour\Service;
 
+use Krystal\Date\TimeHelper;
 use Tour\Storage\TourReviewMapperInterface;
 use Cms\Service\AbstractManager;
 
@@ -32,6 +33,21 @@ final class TourReviewService extends AbstractManager
     public function __construct(TourReviewMapperInterface $tourReviewMapper)
     {
         $this->tourReviewMapper = $tourReviewMapper;
+    }
+
+    /**
+     * Saves a review
+     * 
+     * @param array $input
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        if (empty($input['id'])) {
+            $input['datetime'] = TimeHelper::getNow();
+        }
+
+        return $this->tourReviewMapper->persist($input);
     }
 
     /**
