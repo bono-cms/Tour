@@ -26,11 +26,22 @@ final class TourReviewService extends AbstractManager
     /**
      * State initialization
      * 
-     * @param \Tour\Storage\TourReviewMapperInterface
+     * @param \Tour\Storage\TourReviewMapperInterface $tourReviewMapper
      * @return void
      */
     public function __construct(TourReviewMapperInterface $tourReviewMapper)
     {
         $this->tourReviewMapper = $tourReviewMapper;
+    }
+    
+    /**
+     * Fetch all tour reviews by its ID
+     * 
+     * @param int $tourId
+     * @return array
+     */
+    public function fetchAll($tourId = null)
+    {
+        return $this->tourReviewMapper->fetchAll($tourId);
     }
 }
