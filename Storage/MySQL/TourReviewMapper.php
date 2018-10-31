@@ -61,6 +61,9 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
             $db->whereEquals(self::column('tour_id'), $tourId);
         }
 
+        // Sort by latest
+        $db->orderBy(self::column('id'));
+
         // Apply pagination if required
         if ($page !== null && $itemsPerPage !== null) {
             $db->paginate($page, $itemsPerPage);
