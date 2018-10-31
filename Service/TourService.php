@@ -198,7 +198,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     public function delete($id)
     {
-        return $this->tourMapper->deletePage($id);
+        return $this->tourMapper->deletePage($id) && $this->imageManager->delete($id);
     }
 
     /**
