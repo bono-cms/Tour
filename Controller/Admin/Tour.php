@@ -36,7 +36,7 @@ final class Tour extends AbstractController
                                        ->addOne(!is_array($entity) ? 'Add a tour' : 'Edit the tour');
         // Load plugins
         $this->view->getPluginBag()
-                   ->load(array($this->getWysiwygPluginName(), 'chosen'));
+                   ->load(array($this->getWysiwygPluginName(), 'chosen', 'preview'));
 
         return $this->view->render('tour.form', array(
             'tour' => $entity,
@@ -89,13 +89,13 @@ final class Tour extends AbstractController
         $service = $this->getModuleService('tourService');
 
         if (!empty($input['tour']['id'])) {
-            if ($service->update($input)) {
+            if ($service->update($this->request->getAll())) {
                 $this->flashBag->set('success', 'The element has been updated successfully');
                 return '1';
             }
 
         } else {
-            if ($id = $service->add($input)) {
+            if ($id = $service->add($this->request->getAll())) {
                 $this->flashBag->set('success', 'The element has been created successfully');
                 return $id;
             }

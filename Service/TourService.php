@@ -16,6 +16,7 @@ use Cms\Service\AbstractManager;
 use Tour\Storage\TourMapperInterface;
 use Krystal\Stdlib\ArrayUtils;
 use Krystal\Db\Filter\FilterableServiceInterface;
+use Krystal\Image\Tool\ImageManagerInterface;
 
 final class TourService extends AbstractManager implements FilterableServiceInterface
 {
@@ -34,16 +35,25 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     private $webPageManager;
 
     /**
+     * Image manager service
+     * 
+     * @var \Krystal\Image\Tool\ImageManagerInterface
+     */
+    private $imageManager;
+
+    /**
      * State initialization
      * 
      * @param \Tour\Storage\TourMapperInterface $tourMapper
      * @param \Cms\Service\WebPageManagerInterface $webPageManager
+     * @param \Krystal\Image\Tool\ImageManagerInterface $imageManager
      * @return void
      */
-    public function __construct(TourMapperInterface $tourMapper, WebPageManagerInterface $webPageManager)
+    public function __construct(TourMapperInterface $tourMapper, WebPageManagerInterface $webPageManager, ImageManagerInterface $imageManager)
     {
         $this->tourMapper = $tourMapper;
         $this->webPageManager = $webPageManager;
+        $this->imageManager = $imageManager;
     }
 
     /**
@@ -90,6 +100,13 @@ final class TourService extends AbstractManager implements FilterableServiceInte
             $entity->setCategoryIds($this->tourMapper->findCategoryIds($entity->getId()));
             $entity->setRelatedIds($this->tourMapper->findRelatedIds($entity->getId()));
         }
+
+        // Configure image bag
+        $imageBag = clone $this->imageManager->getImageBag();
+        $imageBag->setId((int) $tour['id'])
+                 ->setCover($tour['cover']);
+
+        $entity->setImageBag($imageBag);
 
         return $entity;
     }
@@ -193,13 +210,44 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     private function savePage(array $input, $id)
     {
-        $input['tour'] = ArrayUtils::arrayWithout($input['tour'], array('slug'));
+        // Request variables
+        $tour =& $input['data']['tour'];
+        $file = $input['files']['file'];
 
-        $this->tourMapper->savePage('Tour (Tours)', 'Tour:Tour@tourAction', $input['tour'], $input['translation']);
+        $tour = ArrayUtils::arrayWithout($tour, array('slug'));
+
+        // Adding
+        if (!$tour['id']) {
+            $this->filterFileInput($file);
+
+            // Define image attribute
+            $tour['cover'] = $file[0]->getName();
+        }
+
+        // If file new provided, than start handling
+        if ($tour['id'] && !empty($input['files'])) {
+            // If we have a previous cover, then we gotta remove it
+            $this->imageManager->delete($tour['id'], $tour['cover']);
+
+            // Before we start uploading a file, we need to filter its base name
+            $this->filterFileInput($file);
+            $this->imageManager->upload($tour['id'], $file);
+
+            // Now override cover's value with file's base name we currently have from user's input
+            $tour['cover'] = $file[0]->getName();
+        }
+
+        // Save page
+        $this->tourMapper->savePage('Tour (Tours)', 'Tour:Tour@tourAction', $tour, $input['data']['translation']);
+
+        if (!$tour['id']) {
+            // And now upload image
+            $this->imageManager->upload($id, $file);
+        }
 
         // Attach related ones
-        $this->tourMapper->attachCategories($id, isset($input['categories']) ? $input['categories'] : array());
-        $this->tourMapper->attachRelatedTours($id, isset($input['related']) ? $input['related'] : array());
+        $this->tourMapper->attachCategories($id, isset($input['data']['categories']) ? $input['data']['categories'] : array());
+        $this->tourMapper->attachRelatedTours($id, isset($input['data']['related']) ? $input['data']['related'] : array());
 
         return true;
     }
@@ -226,6 +274,6 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     public function update(array $input)
     {
-        return $this->savePage($input, $input['tour']['id']);
+        return $this->savePage($input, $input['data']['tour']['id']);
     }
 }

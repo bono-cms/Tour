@@ -16,6 +16,17 @@ use Krystal\Stdlib\VirtualEntity;
 final class TourEntity extends VirtualEntity
 {
     /**
+     * Returns a path to image URL
+     * 
+     * @param string $size
+     * @return string
+     */
+    public function getImageUrl($size)
+    {
+        return $this->getImageBag()->getUrl($size);
+    }
+
+    /**
      * Checks whether current tour has a price
      * 
      * @return boolean
