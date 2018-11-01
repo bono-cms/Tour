@@ -73,6 +73,31 @@ final class Module extends AbstractCmsModule
     }
 
     /**
+     * Builds category image manager service
+     * 
+     * @return \Krystal\Image\Tool\ImageManager
+     */
+    private function createCategoryImageManager()
+    {
+        $plugins = array(
+            'thumb' => array(
+                'quality' => 80,
+                'dimensions' => array(
+                    // For administration panel
+                    array(400, 400)
+                )
+            )
+        );
+
+        return new ImageManager(
+            '/data/uploads/module/tour/category/',
+            $this->appConfig->getRootDir(),
+            $this->appConfig->getRootUrl(),
+            $plugins
+        );
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getServiceProviders()
@@ -88,7 +113,7 @@ final class Module extends AbstractCmsModule
 
         return array(
             'bookingService' => new BookingService($bookingMapper),
-            'categoryService' => new CategoryService($categoryMapper, $webPageManager),
+            'categoryService' => new CategoryService($categoryMapper, $webPageManager, $this->createCategoryImageManager()),
             'tourService' => new TourService($tourMapper, $webPageManager, $this->createTourCoverImageManager()),
             'tourDayService' => new TourDayService($tourDayMapper),
             'tourGalleryService' => new TourGalleryService($tourGalleryMapper, $this->createTourGalleryImageManager()),
