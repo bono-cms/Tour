@@ -44,6 +44,7 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
             self::column('id'),
             self::column('order'),
             self::column('seo'),
+            self::column('cover'),
             CategoryTranslationMapper::column('lang_id'),
             CategoryTranslationMapper::column('web_page_id'),
             CategoryTranslationMapper::column('name'),

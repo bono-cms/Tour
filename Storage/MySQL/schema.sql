@@ -6,7 +6,8 @@ DROP TABLE IF EXISTS `bono_module_tour_category`;
 CREATE TABLE `bono_module_tour_category` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `order` INT NOT NULL COMMENT 'Sorting order',
-    `seo` BOOLEAN NOT NULL COMMENT 'Whether SEO is enabled'
+    `seo` BOOLEAN NOT NULL COMMENT 'Whether SEO is enabled',
+    `cover` varchar(255) NOT NULL COMMENT 'Cover file'
 );
 
 
