@@ -33,7 +33,7 @@ final class TourDate extends AbstractController
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne('Edit the date', $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
+                                       ->addOne('Edit the tour', $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
                                        ->addOne(!is_array($date) ? 'Add new date' : 'Edit the date');
         // Load plugins
         $this->view->getPluginBag()
