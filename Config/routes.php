@@ -103,6 +103,23 @@ return array(
         'controller' => 'Admin:Tour@deleteAction'
     ),
 
+    // Tour dates
+    '/%s/module/tour/date/add/(:var)' => array(
+        'controller' => 'Admin:TourDate@addAction'
+    ),
+
+    '/%s/module/tour/date/edit/(:var)' => array(
+        'controller' => 'Admin:TourDate@editAction'
+    ),
+
+    '/%s/module/tour/date/save' => array(
+        'controller' => 'Admin:TourDate@saveAction'
+    ),
+
+    '/%s/module/tour/date/delete/(:var)' => array(
+        'controller' => 'Admin:TourDate@deleteAction'
+    ),
+
     // Tour days
     '/%s/module/tour/day/add/(:var)' => array(
         'controller' => 'Admin:TourDay@addAction'
