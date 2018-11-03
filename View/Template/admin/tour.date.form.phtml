@@ -5,7 +5,7 @@ defined('KRYSTAL') or die;
 
 ?>
 
-<form data-group="date">
+<form data-group="date" autocomplete="off">
 	<div class="well">
         <?php echo Element::hidden('date[id]', $date->getId()); ?>
         <?php echo Element::hidden('date[tour_id]', $date->getTourId()); ?>
@@ -14,7 +14,7 @@ defined('KRYSTAL') or die;
 			<label class="col-lg-2 control-label"><?php $this->show('Start date'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
-                    <?php echo Element::text('date[start]', $date->getStart(), array('class' => 'form-control', 'placeholder' => $this->translate('Start date'))); ?>
+                    <?php echo Element::text('date[start]', $date->getStart(), array('class' => 'form-control', 'data-plugin' => 'datepicker', 'placeholder' => $this->translate('Start date'))); ?>
 					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 				</div>
 			</div>
@@ -24,7 +24,7 @@ defined('KRYSTAL') or die;
 			<label class="col-lg-2 control-label"><?php $this->show('End date'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
-                    <?php echo Element::text('date[end]', $date->getEnd(), array('class' => 'form-control', 'placeholder' => $this->translate('End date'))); ?>
+                    <?php echo Element::text('date[end]', $date->getEnd(), array('class' => 'form-control', 'data-plugin' => 'datepicker', 'placeholder' => $this->translate('End date'))); ?>
 					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 				</div>
 			</div>
