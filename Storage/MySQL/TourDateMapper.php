@@ -23,4 +23,15 @@ final class TourDateMapper extends AbstractMapper implements TourDateMapperInter
     {
         return self::getWithPrefix('bono_module_tour_dates');
     }
+
+    /**
+     * Fetch dates by tour ID
+     * 
+     * @param int $tourId
+     * @return array
+     */
+    public function fetchByTourId($tourId)
+    {
+        return $this->fetchAllByColumn('tour_id', $tourId);
+    }
 }
