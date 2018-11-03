@@ -12,6 +12,7 @@ defined('KRYSTAL') or die;
 	<ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Tour'); ?></a></li>
         <li role="presentation"><a href="#days" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Days'); ?></a></li>
+        <li role="presentation"><a href="#dates" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Dates'); ?></a></li>
         <li role="presentation"><a href="#gallery" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Gallery'); ?></a></li>
         <li role="presentation"><a href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Configuration'); ?></a></li>
     </ul>
@@ -240,6 +241,46 @@ defined('KRYSTAL') or die;
                 ), $this->translator); ?>
             </div>
         </div>
+        
+        <div role="tabpanel" class="tab-pane" id="dates">
+            <div class="well">
+                <p>
+                    <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDate@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new date'); ?></a>
+                </p>
+
+                <?php echo Grid::render($dates, array(
+                    'pk' => 'id',
+                    'columns' => array(
+                        array(
+                            'column' => 'id',
+                            'label' => '#'
+                        ),
+                        array(
+                            'column' => 'start',
+                            'label' => 'Start date'
+                        ),
+                        array(
+                            'column' => 'end',
+                            'label' => 'End date'
+                        )
+                    ),
+
+                    'actions' => array(
+                        'edit' => function($entity){
+                            return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourDate@editAction', $entity['id']));
+                        },
+                        'delete' => function($entity){
+                            // Generate URL
+                            $url = $this->url('Tour:Admin:TourDate@deleteAction', $entity['id']);
+                            return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
+                        }
+                    )
+
+                ), $this->translator); ?>
+
+            </div>
+        </div>
+        
 
         <div role="tabpanel" class="tab-pane" id="gallery">
             <div class="well">

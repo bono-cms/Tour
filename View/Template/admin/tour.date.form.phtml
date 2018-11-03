@@ -1,0 +1,44 @@
+<?php
+
+use Krystal\Form\Element;
+defined('KRYSTAL') or die;
+
+?>
+
+<form data-group="date" autocomplete="off">
+	<div class="well">
+        <?php echo Element::hidden('date[id]', $date->getId()); ?>
+        <?php echo Element::hidden('date[tour_id]', $date->getTourId()); ?>
+
+        <div class="form-group">
+			<label class="col-lg-2 control-label"><?php $this->show('Start date'); ?></label>
+			<div class="col-lg-10">
+				<div class="input-group">
+                    <?php echo Element::text('date[start]', $date->getStart(), array('class' => 'form-control', 'data-plugin' => 'datepicker', 'placeholder' => $this->translate('Start date'))); ?>
+					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-lg-2 control-label"><?php $this->show('End date'); ?></label>
+			<div class="col-lg-10">
+				<div class="input-group">
+                    <?php echo Element::text('date[end]', $date->getEnd(), array('class' => 'form-control', 'data-plugin' => 'datepicker', 'placeholder' => $this->translate('End date'))); ?>
+					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<?php if ($date->getId()):?>
+	<button data-button="save" data-url="<?php echo $this->url('Tour:Admin:TourDate@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+	<button data-button="save-create" data-back-url="<?php echo $this->url('Tour:Admin:TourDate@addAction'); ?>" data-url="<?php echo $this->url('Tour:Admin:TourDate@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Create new'); ?></button>
+	<?php else: ?>
+
+	<button data-button="add" data-back-url="<?php echo $this->url('Tour:Admin:TourDate@editAction', null); ?>" data-url="<?php echo $this->url('Tour:Admin:TourDate@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php echo $this->translate('Add'); ?></button>
+	<button data-button="add-create" data-url="<?php echo $this->url('Tour:Admin:TourDate@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php echo $this->translate('Add & Create new'); ?></button>
+	<?php endif; ?>
+
+    <button data-button="cancel" data-url="<?php echo $this->url('Tour:Admin:Tour@editAction', $date->getTourId()); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
+</form>

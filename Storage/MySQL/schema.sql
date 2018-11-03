@@ -142,3 +142,15 @@ CREATE TABLE `bono_module_tour_reviews` (
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
 );
+
+/* Tour dates */
+DROP TABLE IF EXISTS `bono_module_tour_dates`;
+
+CREATE TABLE `bono_module_tour_dates` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `tour_id` INT NOT NULL COMMENT 'Attached tour ID',
+    `start` DATE NOT NULL COMMENT 'Start date',
+    `end` DATE NOT NULL COMMENT 'End date',
+
+    FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
+);
