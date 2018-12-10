@@ -8,6 +8,15 @@ defined('KRYSTAL') or die;
 
 ?>
 
+<?php if (empty($categories)): ?>
+
+<div class="alert alert-dismissible alert-danger">
+    <p><?php $this->show('Error occurred'); ?>!</p>
+    <strong><?php $this->show('You have no categories to attach tours'); ?>.</strong> <?php $this->show('Please add at least one category'); ?>.
+</div>
+
+<?php else: ?>
+
 <form data-group="category" novalidate>
 	<ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Tour'); ?></a></li>
@@ -318,6 +327,7 @@ defined('KRYSTAL') or die;
                 ), $this->translator); ?>
             </div>
         </div>
-        
 	</div>
 </form>
+
+<?php endif; ?>
