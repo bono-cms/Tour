@@ -13,6 +13,7 @@ namespace Tour\Service;
 
 use Krystal\Image\Tool\ImageManagerInterface;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Stdlib\ArrayUtils;
 use Cms\Service\AbstractManager;
 use Tour\Storage\TourGalleryMapperInterface;
 
@@ -74,6 +75,26 @@ final class TourGalleryService extends AbstractManager
     public function getLastId()
     {
         return $this->tourGalleryMapper->getMaxId();
+    }
+
+    /**
+     * Fetch images as a list
+     * 
+     * @param int $tourId
+     * @param string $size Desired size of images
+     * @return array
+     */
+    public function fetchImages($tourId, $size)
+    {
+        // To be returned
+        $output = array();
+        $images = $this->fetchAll($tourId, true);
+
+        foreach ($images as $image) {
+            $output[] = $image->getImageUrl($size);
+        }
+
+        return $output;
     }
 
     /**
