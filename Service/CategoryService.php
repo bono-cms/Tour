@@ -159,28 +159,25 @@ final class CategoryService extends AbstractManager
     private function savePage(array $input)
     {
         // Request variables
-        $file = $input['files']['file'];
+        $file = isset($input['files']['file']) ? $input['files']['file'] : false;
         $category =& $input['data']['category'];
 
         // Adding
         if (!$category['id']) {
-            $this->filterFileInput($file);
-
             // Define image attribute
-            $category['cover'] = $file[0]->getName();
+            $category['cover'] = $file->getUniqueName();
         }
 
         // If file new provided, than start handling
-        if ($category['id'] && !empty($input['files'])) {
+        if ($category['id'] && $file) {
             // If we have a previous cover, then we gotta remove it
             $this->imageManager->delete($category['id'], $category['cover']);
 
             // Before we start uploading a file, we need to filter its base name
-            $this->filterFileInput($file);
             $this->imageManager->upload($category['id'], $file);
 
             // Now override cover's value with file's base name we currently have from user's input
-            $category['cover'] = $file[0]->getName();
+            $category['cover'] = $file->getUniqueName();
         }
 
         $category = ArrayUtils::arrayWithout($category, array('slug'));

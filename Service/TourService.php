@@ -212,35 +212,30 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     {
         // Request variables
         $tour =& $input['data']['tour'];
-        $file = $input['files']['file'];
+        $file = isset($input['files']['file']) ? $input['files']['file'] : false;
 
         $tour = ArrayUtils::arrayWithout($tour, array('slug'));
 
         // Adding
-        if (!$tour['id']) {
-            $this->filterFileInput($file);
-
+        if (!$tour['id'] && $file) {
             // Define image attribute
-            $tour['cover'] = $file[0]->getName();
+            $tour['cover'] = $file->getUniqueName();
         }
 
         // If file new provided, than start handling
-        if ($tour['id'] && !empty($input['files'])) {
+        if ($tour['id'] && $file) {
             // If we have a previous cover, then we gotta remove it
             $this->imageManager->delete($tour['id'], $tour['cover']);
-
-            // Before we start uploading a file, we need to filter its base name
-            $this->filterFileInput($file);
             $this->imageManager->upload($tour['id'], $file);
 
             // Now override cover's value with file's base name we currently have from user's input
-            $tour['cover'] = $file[0]->getName();
+            $tour['cover'] = $file->getUniqueName();
         }
 
         // Save page
         $this->tourMapper->savePage('Tour (Tours)', 'Tour:Tour@tourAction', $tour, $input['data']['translation']);
 
-        if (!$tour['id']) {
+        if (!$tour['id'] && $file) {
             // And now upload image
             $this->imageManager->upload($id, $file);
         }
