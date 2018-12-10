@@ -121,11 +121,8 @@ final class TourGalleryService extends AbstractManager
         $image = $input['data']['image'];
         $file = $input['files']['file'];
 
-        // Filter files input
-        $this->filterFileInput($file);
-
         // Define image attribute
-        $image['image'] = $file[0]->getName();
+        $image['image'] = $file->getUniqueName();
 
         // Save image first, because we need to get its ID for image uploading
         $this->tourGalleryMapper->persist($image);
@@ -155,11 +152,10 @@ final class TourGalleryService extends AbstractManager
             $file = $input['files']['file'];
 
             // Before we start uploading a file, we need to filter its base name
-            $this->filterFileInput($file);
             $this->imageManager->upload($image['id'], $file);
 
             // Now override cover's value with file's base name we currently have from user's input
-            $image['image'] = $file[0]->getName();
+            $image['image'] = $file->getUniqueName();
         }
 
         return $this->tourGalleryMapper->persist($image);
