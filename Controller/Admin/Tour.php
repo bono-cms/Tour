@@ -24,6 +24,8 @@ final class Tour extends AbstractController
      */
     private function createForm($entity)
     {
+        $new = is_object($entity);
+
         // Grab ID
         if (is_array($entity)) {
             $id = $entity[0]['id'];
@@ -33,16 +35,17 @@ final class Tour extends AbstractController
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne(!is_array($entity) ? 'Add a tour' : 'Edit the tour');
+                                       ->addOne($new ? 'Add a tour' : 'Edit the tour');
         // Load plugins
         $this->view->getPluginBag()
                    ->load(array($this->getWysiwygPluginName(), 'chosen', 'preview'));
 
         return $this->view->render('tour.form', array(
+            'new' => $new,
             'tour' => $entity,
-            'days' => $id !== null ? $this->getModuleService('tourDayService')->fetchAll($id, false) : array(),
-            'dates' => $id !== null ? $this->getModuleService('tourDateService')->fetchByTourId($id) : array(),
-            'gallery' => $id !== null ? $this->getModuleService('tourGalleryService')->fetchAll($id, false) : array(),
+            'days' => !$new ? $this->getModuleService('tourDayService')->fetchAll($id, false) : array(),
+            'dates' => !$new ? $this->getModuleService('tourDateService')->fetchByTourId($id) : array(),
+            'gallery' => !$new ? $this->getModuleService('tourGalleryService')->fetchAll($id, false) : array(),
             'categories' => $this->getModuleService('categoryService')->fetchList(true),
             'tours' => $this->getModuleService('tourService')->fetchList(true)
         ));

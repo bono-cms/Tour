@@ -20,10 +20,12 @@ defined('KRYSTAL') or die;
 <form data-group="category" novalidate>
 	<ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Tour'); ?></a></li>
-        <li role="presentation"><a href="#days" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Days'); ?></a></li>
-        <li role="presentation"><a href="#dates" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Dates'); ?></a></li>
-        <li role="presentation"><a href="#gallery" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Gallery'); ?></a></li>
-        <li role="presentation"><a href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Configuration'); ?></a></li>
+        <?php if (!$new): ?>
+        <li role="presentation"><a href="#days" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-time"></i> <?php $this->show('Days'); ?></a></li>
+        <li role="presentation"><a href="#dates" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-calendar"></i> <?php $this->show('Dates'); ?></a></li>
+        <li role="presentation"><a href="#gallery" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-camera"></i> <?php $this->show('Gallery'); ?></a></li>
+        <?php endif; ?>
+        <li role="presentation"><a href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-check"></i> <?php $this->show('Configuration'); ?></a></li>
     </ul>
 
     <div class="tab-content">
