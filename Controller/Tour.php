@@ -105,6 +105,9 @@ final class Tour extends AbstractController
         $tour = $service->fetchById($id, false);
 
         if ($tour !== false) {
+            // Set image gallery
+            $tour->setGallery($this->getModuleService('tourGalleryService')->fetchImages($id, 'original'));
+
             // Load global view plugins
             $this->loadSitePlugins();
 
@@ -157,7 +160,7 @@ final class Tour extends AbstractController
 
             // Grab all tours filtering by category ID
             $tours = $tourService->fetchAllByCategoryId($id, $pageNumber, 10);
-            
+
             // Prepare pagination
             $paginator = $tourService->getPaginator();
             $this->preparePaginator($paginator, $code, $slug, $pageNumber);
