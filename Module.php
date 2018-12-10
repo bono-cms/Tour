@@ -37,6 +37,10 @@ final class Module extends AbstractCmsModule
                     // For administration panel
                     array(400, 400)
                 )
+            ),
+
+            'original' => array(
+                'prefix' => 'original'
             )
         );
 
