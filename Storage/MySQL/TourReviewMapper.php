@@ -25,6 +25,17 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
     }
 
     /**
+     * Marks review as published by its ID
+     * 
+     * @param int $id Review ID
+     * @return boolean
+     */
+    public function approveById($id)
+    {
+        return $this->updateColumnsByPk($id, array('published' => 1));
+    }
+
+    /**
      * Fetch all tour reviews by its ID
      * 
      * @param int|null $tourId

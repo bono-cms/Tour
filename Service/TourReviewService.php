@@ -36,6 +36,17 @@ final class TourReviewService extends AbstractManager
     }
 
     /**
+     * Marks review as published by its ID
+     * 
+     * @param int $id Review ID
+     * @return boolean
+     */
+    public function approveById($id)
+    {
+        return $this->tourReviewMapper->approveById($id);
+    }
+
+    /**
      * Saves a review
      * 
      * @param array $input
