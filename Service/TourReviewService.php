@@ -11,6 +11,7 @@
 
 namespace Tour\Service;
 
+use Krystal\Stdlib\VirtualEntity;
 use Krystal\Date\TimeHelper;
 use Tour\Storage\TourReviewMapperInterface;
 use Cms\Service\AbstractManager;
@@ -33,6 +34,22 @@ final class TourReviewService extends AbstractManager
     public function __construct(TourReviewMapperInterface $tourReviewMapper)
     {
         $this->tourReviewMapper = $tourReviewMapper;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function toEntity(array $row)
+    {
+        $entity = new VirtualEntity();
+        $entity->setId($row['id'], VirtualEntity::FILTER_INT)
+               ->setTourId($row['tour_id'], VirtualEntity::FILTER_INT)
+               ->setDatetime($row['datetime'])
+               ->setName($row['name'], VirtualEntity::FILTER_TAGS)
+               ->setMessage($row['message'], VirtualEntity::FILTER_TAGS)
+               ->setPublished($row['published'], VirtualEntity::FILTER_BOOL);
+
+        return $entity;
     }
 
     /**
@@ -104,6 +121,7 @@ final class TourReviewService extends AbstractManager
      */
     public function fetchAll($tourId = null, $published, $page = null, $itemsPerPage = null)
     {
-        return $this->tourReviewMapper->fetchAll($tourId, $published, $page, $itemsPerPage);
+        $rows = $this->tourReviewMapper->fetchAll($tourId, $published, $page, $itemsPerPage);
+        return $this->prepareResults($rows);
     }
 }
