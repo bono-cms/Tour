@@ -28,11 +28,12 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
      * Fetch all tour reviews by its ID
      * 
      * @param int|null $tourId
+     * @param boolean $published Whether fetch only published ones or not
      * @param int|null $page Current page number
      * @param int|null $itemsPerPage Per page count
      * @return array
      */
-    public function fetchAll($tourId = null, $page = null, $itemsPerPage = null)
+    public function fetchAll($tourId = null, $published, $page = null, $itemsPerPage = null)
     {
         // To be selected
         $columns = array(
@@ -59,6 +60,11 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
 
         if ($tourId !== null) {
             $db->andWhereEquals(self::column('tour_id'), $tourId);
+        }
+
+        // Fetch only published ones?
+        if ($published) {
+            $db->andWhereEquals(self::column('published'), 1);
         }
 
         // Sort by latest
