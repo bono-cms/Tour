@@ -362,6 +362,18 @@ defined('KRYSTAL') or die;
                 ),
 
                 'actions' => array(
+                    'approve' => function($entity){
+                        if ($entity['published'] == 0){
+                            $url = $this->url('Tour:Admin:TourReview@approveAction', $entity['id']);
+
+                            return Element::icon('glyphicon glyphicon-check', $url, array(
+                                'data-toggle' => 'tooltip',
+                                'data-placement' => 'left',
+                                'data-original-title' => $this->translate('Approve this review')
+                            ));
+                        }
+                    },
+
                     'delete' => function($entity){
                         return Element::icon('glyphicon glyphicon-remove', '#', array(
                             'data-toggle' => 'tooltip',
