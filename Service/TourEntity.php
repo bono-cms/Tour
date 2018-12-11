@@ -64,6 +64,17 @@ final class TourEntity extends VirtualEntity
     }
 
     /**
+     * Checks whether there are more than one gallery image uploaded
+     * 
+     * @return boolean
+     */
+    public function hasGalleryControls()
+    {
+        $images = $this->getGallery();
+        return count($images) > 1;
+    }
+
+    /**
      * Checks whether there's at least one attached date
      * 
      * @return boolean
