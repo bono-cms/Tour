@@ -221,113 +221,112 @@ defined('KRYSTAL') or die;
         </div>
         
         <div role="tabpanel" class="tab-pane" id="days">
-            <div class="well">
-                <p>
-                    <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDay@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new day'); ?></a>
-                </p>
+            <h2 class="page-header"><i class="glyphicon glyphicon-time"></i> <?php $this->show('Days'); ?> <small>(<?= count($days); ?>)</small></h2>
 
-                <?php echo Grid::render($days, array(
-                    'pk' => 'id',
-                    'columns' => array(
-                        array(
-                            'column' => 'id',
-                            'label' => '#'
-                        ),
-                        array(
-                            'column' => 'title'
-                        ),
-                        array(
-                            'column' => 'order'
-                        )
+            <p>
+                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDay@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new day'); ?></a>
+            </p>
+
+            <?php echo Grid::render($days, array(
+                'pk' => 'id',
+                'columns' => array(
+                    array(
+                        'column' => 'id',
+                        'label' => '#'
                     ),
-                    'actions' => array(
-                        'edit' => function($entity){
-                            return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourDay@editAction', $entity['id']));
-                        },
-                        'delete' => function($entity){
-                            // Generate URL
-                            $url = $this->url('Tour:Admin:TourDay@deleteAction', $entity['id']);
-                            return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
-                        }
+                    array(
+                        'column' => 'title'
+                    ),
+                    array(
+                        'column' => 'order'
                     )
-                ), $this->translator); ?>
-            </div>
+                ),
+                'actions' => array(
+                    'edit' => function($entity){
+                        return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourDay@editAction', $entity['id']));
+                    },
+                    'delete' => function($entity){
+                        // Generate URL
+                        $url = $this->url('Tour:Admin:TourDay@deleteAction', $entity['id']);
+                        return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
+                    }
+                )
+            ), $this->translator); ?>
         </div>
         
         <div role="tabpanel" class="tab-pane" id="dates">
-            <div class="well">
-                <p>
-                    <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDate@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new date'); ?></a>
-                </p>
+            <h2 class="page-header"><i class="glyphicon glyphicon-calendar"></i> <?php $this->show('Dates'); ?> <small>(<?= count($dates); ?>)</small></h2>
 
-                <?php echo Grid::render($dates, array(
-                    'pk' => 'id',
-                    'columns' => array(
-                        array(
-                            'column' => 'id',
-                            'label' => '#'
-                        ),
-                        array(
-                            'column' => 'start',
-                            'label' => 'Start date'
-                        ),
-                        array(
-                            'column' => 'end',
-                            'label' => 'End date'
-                        )
+            <p>
+                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDate@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new date'); ?></a>
+            </p>
+
+            <?php echo Grid::render($dates, array(
+                'pk' => 'id',
+                'columns' => array(
+                    array(
+                        'column' => 'id',
+                        'label' => '#'
                     ),
-
-                    'actions' => array(
-                        'edit' => function($entity){
-                            return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourDate@editAction', $entity['id']));
-                        },
-                        'delete' => function($entity){
-                            // Generate URL
-                            $url = $this->url('Tour:Admin:TourDate@deleteAction', $entity['id']);
-                            return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
-                        }
+                    array(
+                        'column' => 'start',
+                        'label' => 'Start date'
+                    ),
+                    array(
+                        'column' => 'end',
+                        'label' => 'End date'
                     )
+                ),
 
-                ), $this->translator); ?>
+                'actions' => array(
+                    'edit' => function($entity){
+                        return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourDate@editAction', $entity['id']));
+                    },
+                    'delete' => function($entity){
+                        // Generate URL
+                        $url = $this->url('Tour:Admin:TourDate@deleteAction', $entity['id']);
+                        return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
+                    }
+                )
 
-            </div>
+            ), $this->translator); ?>
         </div>
         
         <div role="tabpanel" class="tab-pane" id="gallery">
-            <div class="well">
-                <p>
-                    <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourGallery@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new image'); ?></a>
-                </p>
+            <h2 class="page-header"><i class="glyphicon glyphicon-camera"></i> <?php $this->show('Gallery'); ?> <small>(<?= count($gallery); ?>)</small></h2>
 
-                <?php echo Grid::render($gallery, array(
-                    'pk' => 'id',
-                    'columns' => array(
-                        array(
-                            'column' => 'id',
-                            'label' => '#'
-                        ),
-                        array(
-                            'column' => 'image',
-                            'value' => function($entity){
-                                return Element::image($entity->getImageUrl('400x400'), array('class' => 'img-responsive center-block'));                                
-                            }
-                        ),
-                        array(
-                            'column' => 'order'
-                        )
+            <p>
+                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourGallery@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new image'); ?></a>
+            </p>
+
+            <?php echo Grid::render($gallery, array(
+                'pk' => 'id',
+                'columns' => array(
+                    array(
+                        'column' => 'id',
+                        'label' => '#'
                     ),
-                    'actions' => array(
-                        'edit' => function($entity){
-                            return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourGallery@editAction', $entity['id']));
-                        },
-                        'delete' => function($entity){
-                            // Generate URL
-                            $url = $this->url('Tour:Admin:TourGallery@deleteAction', $entity['id']);
-                            return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
+                    array(
+                        'column' => 'image',
+                        'value' => function($entity){
+                            return Element::image($entity->getImageUrl('400x400'), array('class' => 'img-responsive center-block'));                                
                         }
+                    ),
+                    array(
+                        'column' => 'order'
                     )
-                ), $this->translator); ?>
-            </div>
+                ),
+                'actions' => array(
+                    'edit' => function($entity){
+                        return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourGallery@editAction', $entity['id']));
+                    },
+                    'delete' => function($entity){
+                        // Generate URL
+                        $url = $this->url('Tour:Admin:TourGallery@deleteAction', $entity['id']);
+                        return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
+                    }
+                )
+            ), $this->translator); ?>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="reviews">
