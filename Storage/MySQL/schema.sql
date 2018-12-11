@@ -128,6 +128,7 @@ CREATE TABLE `bono_module_tour_reviews` (
     `datetime` DATETIME NOT NULL COMMENT 'Date and time',
     `name` varchar(255) NOT NULL COMMENT 'Author name',
     `message` TEXT NOT NULL COMMENT 'Review',
+    `published` BOOLEAN NOT NULL COMMENT 'Whether this one is enabled',
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
 );

@@ -45,6 +45,7 @@ final class TourReviewService extends AbstractManager
     {
         if (empty($input['id'])) {
             $input['datetime'] = TimeHelper::getNow();
+            $input['published'] = 0; // By default disabled
         }
 
         return $this->tourReviewMapper->persist($input);
