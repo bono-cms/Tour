@@ -58,7 +58,7 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
                        ->whereEquals(TourTranslationMapper::column('lang_id'), $this->getLangId());
 
         if ($tourId !== null) {
-            $db->whereEquals(self::column('tour_id'), $tourId);
+            $db->andWhereEquals(self::column('tour_id'), $tourId);
         }
 
         // Sort by latest
