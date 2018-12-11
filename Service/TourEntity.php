@@ -16,6 +16,47 @@ use Krystal\Stdlib\VirtualEntity;
 final class TourEntity extends VirtualEntity
 {
     /**
+     * Checks whether collection is filled
+     * 
+     * @param array $data
+     * @return boolean
+     */
+    private function isFilled(array $data)
+    {
+        return !empty($data);
+    }
+    
+    /**
+     * Checks whether there's at least one gallery image uploaded
+     * 
+     * @return boolean
+     */
+    public function hasGallery()
+    {
+        return $this->isFilled($this->getGallery());
+    }
+
+    /**
+     * Checks whether there's at least one attached date
+     * 
+     * @return boolean
+     */
+    public function hasDates()
+    {
+        return $this->isFilled($this->getDates());
+    }
+
+    /**
+     * Checks whether there's at least one attached day
+     * 
+     * @return array
+     */
+    public function hasDays()
+    {
+        return $this->isFilled($this->getDays());
+    }
+
+    /**
      * Returns a path to image URL
      * 
      * @param string $size
