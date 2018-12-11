@@ -24,6 +24,7 @@ defined('KRYSTAL') or die;
         <li role="presentation"><a href="#days" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-time"></i> <?php $this->show('Days'); ?></a></li>
         <li role="presentation"><a href="#dates" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-calendar"></i> <?php $this->show('Dates'); ?></a></li>
         <li role="presentation"><a href="#gallery" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-camera"></i> <?php $this->show('Gallery'); ?></a></li>
+        <li role="presentation"><a href="#reviews" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-comment"></i> <?php $this->show('Reviews'); ?> (<?= count($reviews); ?>)</a></li>
         <?php endif; ?>
         <li role="presentation"><a href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-check"></i> <?php $this->show('Configuration'); ?></a></li>
     </ul>
@@ -292,7 +293,6 @@ defined('KRYSTAL') or die;
             </div>
         </div>
         
-
         <div role="tabpanel" class="tab-pane" id="gallery">
             <div class="well">
                 <p>
@@ -328,6 +328,46 @@ defined('KRYSTAL') or die;
                     )
                 ), $this->translator); ?>
             </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="reviews">
+            <h2 class="page-header"><i class="glyphicon glyphicon-comment"></i> <?php $this->show('Reviews'); ?> <small>(<?= count($reviews); ?>)</small></h2>
+
+            <?php echo Grid::render($reviews, array(
+                'pk' => 'id',
+                'columns' => array(
+                    array(
+                        'column' => 'id',
+                        'label' => '#'
+                    ),
+
+                    array(
+                        'column' => 'datetime',
+                        'label' => 'Date and time'
+                    ),
+
+                    array(
+                        'column' => 'name'
+                    ),
+
+                    array(
+                        'column' => 'message'
+                    )
+                ),
+
+                'actions' => array(
+                    'delete' => function($entity){
+                        return Element::icon('glyphicon glyphicon-remove', '#', array(
+                            'data-toggle' => 'tooltip',
+                            'data-placement' => 'left',
+                            'data-original-title' => $this->translate('Remove this review'),
+                            'data-button' => 'delete',
+                            'data-url' => $this->url('Tour:Admin:TourReview@deleteAction', $entity['id'])
+                        ));
+                    }
+                )
+
+            ), $this->translator); ?>            
         </div>
 	</div>
 </form>
