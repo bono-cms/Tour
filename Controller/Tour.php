@@ -109,7 +109,7 @@ final class Tour extends AbstractController
             $tour->setGallery($this->getModuleService('tourGalleryService')->fetchImages($id, 'original'))
                  ->setDays($this->getModuleService('tourDayService')->fetchAll($id, true))
                  ->setDates($this->getModuleService('tourDateService')->fetchByTourId($id))
-                 ->setReviews($this->getModuleService('tourReviewService')->fetchAll($id));
+                 ->setReviews($this->getModuleService('tourReviewService')->fetchAll($id, true));
 
             // Load global view plugins
             $this->loadSitePlugins();

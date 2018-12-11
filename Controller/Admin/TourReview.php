@@ -34,7 +34,7 @@ final class TourReview extends AbstractController
         $service = $this->getModuleService('tourReviewService');
 
         // Fetch all reviews
-        $reviews = $service->fetchAll(null, $page, $this->getSharedPerPageCount());
+        $reviews = $service->fetchAll(null, false, $page, $this->getSharedPerPageCount());
 
         // Configure pagination instance
         $paginator = $service->getPaginator();

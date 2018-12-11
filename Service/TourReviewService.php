@@ -76,12 +76,13 @@ final class TourReviewService extends AbstractManager
      * Fetch all tour reviews by its ID
      * 
      * @param int $tourId
+     * @param boolean $published Whether fetch only published ones or not
      * @param int|null $page Current page number
      * @param int|null $itemsPerPage Per page count
      * @return array
      */
-    public function fetchAll($tourId = null, $page = null, $itemsPerPage = null)
+    public function fetchAll($tourId = null, $published, $page = null, $itemsPerPage = null)
     {
-        return $this->tourReviewMapper->fetchAll($tourId, $page, $itemsPerPage);
+        return $this->tourReviewMapper->fetchAll($tourId, $published, $page, $itemsPerPage);
     }
 }
