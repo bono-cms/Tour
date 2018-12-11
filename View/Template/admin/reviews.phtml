@@ -12,6 +12,13 @@ use Krystal\Form\Element;
     'pk' => 'id',
     'batch' => true,
     'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+    'rowAttributes' => array(
+        'class' => function($row){
+            if ($row['published'] == 0){
+                return 'danger';
+            }
+        }
+    ),
     'columns' => array(
         array(
             'column' => 'id',

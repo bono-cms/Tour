@@ -334,6 +334,13 @@ defined('KRYSTAL') or die;
 
             <?php echo Grid::render($reviews, array(
                 'pk' => 'id',
+                'rowAttributes' => array(
+                    'class' => function($row){
+                        if ($row['published'] == 0){
+                            return 'danger';
+                        }
+                    }
+                ),
                 'columns' => array(
                     array(
                         'column' => 'id',

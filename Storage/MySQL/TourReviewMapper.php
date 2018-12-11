@@ -42,6 +42,7 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
             self::column('datetime'),
             self::column('name'),
             self::column('message'),
+            self::column('published'),
             TourTranslationMapper::column('name') => 'tour'
         );
 
