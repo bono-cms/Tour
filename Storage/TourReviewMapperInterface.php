@@ -13,5 +13,22 @@ namespace Tour\Storage;
 
 interface TourReviewMapperInterface
 {
-    
+    /**
+     * Marks review as published by its ID
+     * 
+     * @param int $id Review ID
+     * @return boolean
+     */
+    public function approveById($id);
+
+    /**
+     * Fetch all tour reviews by its ID
+     * 
+     * @param int|null $tourId
+     * @param boolean $published Whether fetch only published ones or not
+     * @param int|null $page Current page number
+     * @param int|null $itemsPerPage Per page count
+     * @return array
+     */
+    public function fetchAll($tourId = null, $published, $page = null, $itemsPerPage = null);
 }
