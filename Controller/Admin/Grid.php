@@ -44,7 +44,8 @@ final class Grid extends AbstractController
         return $this->view->render('grid', array(
             'categories' => $this->getModuleService('categoryService')->fetchList(false),
             'tours' => $tours,
-            'paginator' => $paginator
+            'paginator' => $paginator,
+            'newReviews' => $this->getModuleService('tourReviewService')->countUnpublished()
         ));
     }
 }
