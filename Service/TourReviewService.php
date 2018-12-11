@@ -36,6 +36,16 @@ final class TourReviewService extends AbstractManager
     }
 
     /**
+     * Counts non-published reviews
+     * 
+     * @return int
+     */
+    public function countUnpublished()
+    {
+        return $this->tourReviewMapper->countUnpublished();
+    }
+
+    /**
      * Marks review as published by its ID
      * 
      * @param int $id Review ID

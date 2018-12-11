@@ -25,6 +25,16 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
     }
 
     /**
+     * Counts non-published reviews
+     * 
+     * @return int
+     */
+    public function countUnpublished()
+    {
+        return $this->countByColumn('published', 0);
+    }
+
+    /**
      * Marks review as published by its ID
      * 
      * @param int $id Review ID
