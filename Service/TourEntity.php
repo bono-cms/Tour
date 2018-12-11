@@ -43,6 +43,17 @@ final class TourEntity extends VirtualEntity
     }
 
     /**
+     * Returns review count
+     * 
+     * @return integer
+     */
+    public function getReviewCount()
+    {
+        $reviews = $this->getReviews();
+        return count($reviews);
+    }
+
+    /**
      * Checks whether collection is filled
      * 
      * @param array $data
@@ -51,6 +62,16 @@ final class TourEntity extends VirtualEntity
     private function isFilled(array $data)
     {
         return !empty($data);
+    }
+
+    /**
+     * Checks whether there's at least one review
+     * 
+     * @return boolean
+     */
+    public function hasReviews()
+    {
+        return $this->isFilled($this->getReviews());
     }
 
     /**
