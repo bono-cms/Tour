@@ -35,9 +35,13 @@ return array(
     '/module/tour/reviews/new' => array(
         'controller' => 'Tour@reviewAction'
     ),
-
+    
     '/%s/module/tour/reviews/(:var)' => array(
         'controller' => 'Admin:TourReview@indexAction'
+    ),
+
+    '/%s/module/tour/reviews/approve/(:var)' => array(
+        'controller' => 'Admin:TourReview@approveAction'
     ),
 
     '/%s/module/tour/reviews/delete/(:var)' => array(

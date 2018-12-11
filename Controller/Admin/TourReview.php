@@ -16,6 +16,23 @@ use Cms\Controller\Admin\AbstractController;
 final class TourReview extends AbstractController
 {
     /**
+     * Approves a review by its ID
+     * 
+     * @param int $reviewId
+     * @return void
+     */
+    public function approveAction($reviewId)
+    {
+        // Approve a review by its ID
+        $this->getModuleService('tourReviewService')->approveById($reviewId);
+
+        $this->flashBag->set('success', 'Selected review has been approved. Now its visible on site');
+
+        // And redirect back
+        $this->response->back();
+    }
+
+    /**
      * Render all reviews
      * 
      * @param int $page Current page number
