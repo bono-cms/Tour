@@ -16,6 +16,33 @@ use Krystal\Stdlib\VirtualEntity;
 final class TourEntity extends VirtualEntity
 {
     /**
+     * Returns count of available nights
+     * 
+     * @return integer
+     */
+    public function getNightsCount()
+    {
+        $daysCount = $this->getDaysCount();
+
+        if ($daysCount > 0) {
+            return $daysCount - 1;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Returns count of available days
+     * 
+     * @return integer
+     */
+    public function getDaysCount()
+    {
+        $days = $this->getDays();
+        return count($days);
+    }
+
+    /**
      * Checks whether collection is filled
      * 
      * @param array $data
@@ -25,7 +52,7 @@ final class TourEntity extends VirtualEntity
     {
         return !empty($data);
     }
-    
+
     /**
      * Checks whether there's at least one gallery image uploaded
      * 
