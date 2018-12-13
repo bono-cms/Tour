@@ -14,6 +14,14 @@ namespace Tour\Storage;
 interface TourDestinationMapperInterface
 {
     /**
+     * Fetch all tour destinations
+     * 
+     * @param boolean $sort Whether to sort by corresponding sorting order
+     * @return array
+     */
+    public function fetchAll($sort);
+
+    /**
      * Fetch tour destination by its ID
      * 
      * @param int $id Tour destination ID

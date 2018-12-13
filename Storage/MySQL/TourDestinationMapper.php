@@ -11,6 +11,7 @@
 
 namespace Tour\Storage\MySQL;
 
+use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\AbstractMapper;
 use Tour\Storage\TourDestinationMapperInterface;
 
@@ -45,6 +46,31 @@ final class TourDestinationMapper extends AbstractMapper implements TourDestinat
             TourDestinationTranslationMapper::column('lang_id'),
             TourDestinationTranslationMapper::column('name')
         );
+    }
+
+    /**
+     * Fetch all tour destinations
+     * 
+     * @param boolean $sort Whether to sort by corresponding sorting order
+     * @return array
+     */
+    public function fetchAll($sort)
+    {
+        $db = $this->createEntitySelect($this->getColumns())
+                   ->whereEquals(TourDestinationTranslationMapper::column('lang_id'), $this->getLangId());
+
+        if ($sort === false) {
+            // Sort by last IDs
+            $db->orderBy(self::column('id'))
+               ->desc();
+        } else {
+            $db->orderBy(array(
+                self::column('order'), 
+                new RawSqlFragment(sprintf('CASE WHEN %s = 0 THEN %s END DESC', self::column('order'), self::column('id')))
+            ));
+        }
+
+        return $db->queryAll();
     }
 
     /**
