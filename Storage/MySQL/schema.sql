@@ -155,7 +155,7 @@ DROP TABLE IF EXISTS `bono_module_tour_destinations_translations`;
 CREATE TABLE `bono_module_tour_destinations_translations` (
     `id` INT NOT NULL COMMENT 'Destination ID',
     `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
-    `name` INT NOT NULL COMMENT 'Destination name',
+    `name` varchar(255) NOT NULL COMMENT 'Destination name',
 
     FOREIGN KEY (id) REFERENCES bono_module_tour_destinations(id) ON DELETE CASCADE
 );
