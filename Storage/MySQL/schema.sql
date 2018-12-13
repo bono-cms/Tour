@@ -143,3 +143,19 @@ CREATE TABLE `bono_module_tour_dates` (
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
 );
+
+/* Tour destinations */
+DROP TABLE IF EXISTS `bono_module_tour_destinations`;
+CREATE TABLE `bono_module_tour_destinations` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `order` INT NOT NULL COMMENT 'Sortiing order'
+);
+
+DROP TABLE IF EXISTS `bono_module_tour_destinations_translations`;
+CREATE TABLE `bono_module_tour_destinations_translations` (
+    `id` INT NOT NULL COMMENT 'Destination ID',
+    `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
+    `name` INT NOT NULL COMMENT 'Destination name',
+
+    FOREIGN KEY (id) REFERENCES bono_module_tour_destinations(id) ON DELETE CASCADE
+);
