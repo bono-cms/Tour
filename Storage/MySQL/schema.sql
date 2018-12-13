@@ -26,6 +26,7 @@ CREATE TABLE `bono_module_tour_category_translation` (
 DROP TABLE IF EXISTS `bono_module_tour_tours`;
 CREATE TABLE `bono_module_tour_tours` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `destination_id` INT DEFAULT NULL COMMENT 'Optional tour ID',
     `order` INT NOT NULL COMMENT 'Sorting order',
     `seo` BOOLEAN NOT NULL COMMENT 'Whether SEO is enabled',
     `adults` INT NOT NULL COMMENT 'Number of adults',
@@ -142,4 +143,20 @@ CREATE TABLE `bono_module_tour_dates` (
     `end` DATE NOT NULL COMMENT 'End date',
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
+);
+
+/* Tour destinations */
+DROP TABLE IF EXISTS `bono_module_tour_destinations`;
+CREATE TABLE `bono_module_tour_destinations` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `order` INT NOT NULL COMMENT 'Sortiing order'
+);
+
+DROP TABLE IF EXISTS `bono_module_tour_destinations_translations`;
+CREATE TABLE `bono_module_tour_destinations_translations` (
+    `id` INT NOT NULL COMMENT 'Destination ID',
+    `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
+    `name` varchar(255) NOT NULL COMMENT 'Destination name',
+
+    FOREIGN KEY (id) REFERENCES bono_module_tour_destinations(id) ON DELETE CASCADE
 );

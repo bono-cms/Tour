@@ -1,0 +1,49 @@
+<?php
+
+use Krystal\Grid\Grid;
+use Krystal\Form\Element;
+
+?>
+
+<h2 class="page-header"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Tour destinations'); ?> <small>(<?= count($destinations); ?>)</small></h2>
+
+<p>
+    <a class="btn btn-primary btn-sm" href="<?= $this->url('Tour:Admin:TourDestination@addAction'); ?>"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Add new tour destination'); ?></a>
+</p>
+
+<?= Grid::render($destinations, array(
+    // A column to be considered as a primary key
+    'pk' => 'id',
+    'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+    'columns' => array(
+        array(
+            'column' => 'id',
+            'label' => '#'
+        ),
+
+        array(
+            'column' => 'name',
+        ),
+
+        array(
+            'column' => 'order',
+        )
+    ),
+
+    'actions' => array(
+        'edit' => function($row){
+            return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourDestination@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this destination'), 'data-button' => 'edit'));
+        },
+
+        'remove' => function($row){
+            return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Remove this destination'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:TourDestination@deleteAction', $row['id'])));
+        }
+    )
+
+), $this->translator); ?>
+
+<?php if (empty($destinations)): ?>
+<div class="center-block">
+    <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No tour destinations'); ?></h2>
+</div>
+<?php endif; ?>

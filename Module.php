@@ -20,6 +20,7 @@ use Tour\Service\TourGalleryService;
 use Tour\Service\BookingService;
 use Tour\Service\TourReviewService;
 use Tour\Service\TourDateService;
+use Tour\Service\TourDestinationService;
 
 final class Module extends AbstractCmsModule
 {
@@ -107,11 +108,13 @@ final class Module extends AbstractCmsModule
      */
     public function getServiceProviders()
     {
+        // Create mappers
         $categoryMapper = $this->getMapper('/Tour/Storage/MySQL/CategoryMapper');
         $tourMapper = $this->getMapper('/Tour/Storage/MySQL/TourMapper');
         $tourDayMapper = $this->getMapper('/Tour/Storage/MySQL/TourDayMapper');
         $tourGalleryMapper = $this->getMapper('/Tour/Storage/MySQL/TourGalleryMapper');
         $tourDateMapper = $this->getMapper('/Tour/Storage/MySQL/TourDateMapper');
+        $tourDestinationMapper = $this->getMapper('/Tour/Storage/MySQL/TourDestinationMapper');
         $bookingMapper = $this->getMapper('/Tour/Storage/MySQL/TourBookingMapper');
         $reviewMapper = $this->getMapper('/Tour/Storage/MySQL/TourReviewMapper');
 
@@ -124,7 +127,8 @@ final class Module extends AbstractCmsModule
             'tourDayService' => new TourDayService($tourDayMapper),
             'tourGalleryService' => new TourGalleryService($tourGalleryMapper, $this->createTourGalleryImageManager()),
             'tourReviewService' => new TourReviewService($reviewMapper),
-            'tourDateService' => new TourDateService($tourDateMapper)
+            'tourDateService' => new TourDateService($tourDateMapper),
+            'tourDestinationService' => new TourDestinationService($tourDestinationMapper)
         );
     }
 }

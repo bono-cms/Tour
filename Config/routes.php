@@ -141,6 +141,27 @@ return array(
         'controller' => 'Admin:TourDay@deleteAction'
     ),
 
+    // Tour destinations
+    '/%s/module/tour/destination' => array(
+        'controller' => 'Admin:TourDestination@indexAction'
+    ),
+
+    '/%s/module/tour/destination/add' => array(
+        'controller' => 'Admin:TourDestination@addAction'
+    ),
+
+    '/%s/module/tour/destination/edit/(:var)' => array(
+        'controller' => 'Admin:TourDestination@editAction'
+    ),
+
+    '/%s/module/tour/destination/save' => array(
+        'controller' => 'Admin:TourDestination@saveAction'
+    ),
+
+    '/%s/module/tour/destination/delete/(:var)' => array(
+        'controller' => 'Admin:TourDestination@deleteAction'
+    ),
+
     // Tour gallery
     '/%s/module/tour/gallery/add/(:var)' => array(
         'controller' => 'Admin:TourGallery@addAction'
