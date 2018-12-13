@@ -26,6 +26,7 @@ CREATE TABLE `bono_module_tour_category_translation` (
 DROP TABLE IF EXISTS `bono_module_tour_tours`;
 CREATE TABLE `bono_module_tour_tours` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `destination_id` INT DEFAULT NULL COMMENT 'Optional tour ID',
     `order` INT NOT NULL COMMENT 'Sorting order',
     `seo` BOOLEAN NOT NULL COMMENT 'Whether SEO is enabled',
     `adults` INT NOT NULL COMMENT 'Number of adults',

@@ -43,6 +43,7 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     {
         return array(
             self::column('id'),
+            self::column('destination_id'),
             self::column('order'),
             self::column('seo'),
             self::column('published'),
