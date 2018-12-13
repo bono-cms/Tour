@@ -17,6 +17,22 @@ use Cms\Controller\Admin\AbstractController;
 final class TourDestination extends AbstractController
 {
     /**
+     * Render destinations
+     * 
+     * @return string
+     */
+    public function indexAction()
+    {
+        // Append breadcrumbs
+        $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
+                                       ->addOne('Tour destinations');
+
+        return $this->view->render('tour.destination.grid', array(
+            'destinations' => $this->getModuleService('tourDestinationService')->fetchAll(false)
+        ));
+    }
+
+    /**
      * Create destination form
      * 
      * @param \Krystal\Stdlib\VirtualEntity|array $destination
@@ -29,7 +45,8 @@ final class TourDestination extends AbstractController
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne('Tour destinations');
+                                       ->addOne('Tour destinations', 'Tour:Admin:TourDestination@indexAction')
+                                       ->addOne($new ? 'Add new tour destination' : 'Update tour destination');
 
         return $this->view->render('tour.destination.form', array(
             'destination' => $destination,

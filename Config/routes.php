@@ -142,6 +142,10 @@ return array(
     ),
 
     // Tour destinations
+    '/%s/module/tour/destination' => array(
+        'controller' => 'Admin:TourDestination@indexAction'
+    ),
+
     '/%s/module/tour/destination/add' => array(
         'controller' => 'Admin:TourDestination@addAction'
     ),
