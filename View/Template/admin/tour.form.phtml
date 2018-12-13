@@ -184,6 +184,13 @@ defined('KRYSTAL') or die;
                 </div>
 
                 <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Tour destination'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::select('tour[destination_id]', $destinations, $entity->getDestinationId(), array('class' => 'form-control'), '') ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-lg-2 control-label"><?php $this->show('Price'); ?></label>
                     <div class="col-lg-10">
                         <?php echo Element::number('tour[price]', $entity->getPrice(), array('class' => 'form-control', 'min' => 1)) ?>
