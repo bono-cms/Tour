@@ -7,6 +7,10 @@ use Krystal\Form\Element;
 
 <h2 class="page-header"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Tour destinations'); ?> <small>(<?= count($destinations); ?>)</small></h2>
 
+<p>
+    <a class="btn btn-primary btn-sm" href="<?= $this->url('Tour:Admin:TourDestination@addAction'); ?>"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Add new tour destination'); ?></a>
+</p>
+
 <?= Grid::render($destinations, array(
     // A column to be considered as a primary key
     'pk' => 'id',
