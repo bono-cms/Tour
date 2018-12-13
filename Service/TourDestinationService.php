@@ -11,6 +11,7 @@
 
 namespace Tour\Service;
 
+use Krystal\Stdlib\ArrayUtils;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Service\AbstractManager;
 use Tour\Storage\TourDestinationMapperInterface;
@@ -79,6 +80,16 @@ final class TourDestinationService extends AbstractManager implements TourDestin
     public function getLastId()
     {
         return $this->tourDestinationMapper->getMaxId();
+    }
+
+    /**
+     * Fetch destinations as a list
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        return ArrayUtils::arrayList($this->tourDestinationMapper->fetchAll(false), 'id', 'name');
     }
 
     /**
