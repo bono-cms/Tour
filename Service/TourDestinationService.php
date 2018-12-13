@@ -50,6 +50,28 @@ final class TourDestinationService extends AbstractManager implements TourDestin
     }
 
     /**
+     * Saves tour destination
+     * 
+     * @param array $input
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        return $this->tourDestinationMapper->saveEntity($input['destination'], $input['translation']);
+    }
+
+    /**
+     * Deletes tour destination by its ID
+     * 
+     * @param int $id
+     * @return boolean
+     */
+    public function deleteById($id)
+    {
+        return $this->tourDestinationMapper->deleteByPk($id);
+    }
+
+    /**
      * Returns last tour destination ID
      * 
      * @return int
