@@ -11,6 +11,7 @@
 
 namespace Tour\Service;
 
+use Krystal\Stdlib\VirtualEntity;
 use Cms\Service\AbstractManager;
 use Tour\Storage\TourDestinationMapperInterface;
 
@@ -35,6 +36,20 @@ final class TourDestinationService extends AbstractManager implements TourDestin
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function toEntity(array $row)
+    {
+        $entity = new VirtualEntity();
+        $entity->setId($row['id'], VirtualEntity::FILTER_INT)
+               ->setLangId($row['lang_id'], VirtualEntity::FILTER_INT)
+               ->setOrder($row['order'], VirtualEntity::FILTER_INT)
+               ->setName($row['name'], VirtualEntity::FILTER_TAGS);
+
+        return $entity;
+    }
+
+    /**
      * Returns last tour destination ID
      * 
      * @return int
@@ -52,7 +67,7 @@ final class TourDestinationService extends AbstractManager implements TourDestin
      */
     public function fetchAll($sort)
     {
-        return $this->tourDestinationMapper->fetchAll($sort);
+        return $this->prepareResults($this->tourDestinationMapper->fetchAll($sort));
     }
 
     /**
@@ -64,6 +79,6 @@ final class TourDestinationService extends AbstractManager implements TourDestin
      */
     public function fetchById($id, $withTranslations)
     {
-        return $this->tourDestinationMapper->fetchById($id, $withTranslations);
+        return $this->prepareResult($this->tourDestinationMapper->fetchById($id, $withTranslations));
     }
 }
