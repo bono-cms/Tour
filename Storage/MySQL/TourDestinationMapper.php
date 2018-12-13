@@ -31,4 +31,31 @@ final class TourDestinationMapper extends AbstractMapper implements TourDestinat
     {
         return TourDestinationTranslationMapper::getTableName();
     }
+
+    /**
+     * Returns shared columns to be selected
+     * 
+     * @return array
+     */
+    private function getColumns()
+    {
+        return array(
+            self::column('id'),
+            self::column('order'),
+            TourDestinationTranslationMapper::column('lang_id'),
+            TourDestinationTranslationMapper::column('name')
+        );
+    }
+
+    /**
+     * Fetch tour destination by its ID
+     * 
+     * @param int $id Tour destination ID
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return mixed
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        return $this->findEntity($this->getColumns(), $id, $withTranslations);
+    }
 }

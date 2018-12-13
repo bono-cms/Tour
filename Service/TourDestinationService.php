@@ -43,4 +43,16 @@ final class TourDestinationService extends AbstractManager implements TourDestin
     {
         return $this->tourDestinationMapper->getMaxId();
     }
+
+    /**
+     * Fetch tour destination by its ID
+     * 
+     * @param int $id Tour destination ID
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return mixed
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        return $this->tourDestinationMapper->fetchById($id, $withTranslations);
+    }
 }
