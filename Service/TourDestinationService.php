@@ -79,6 +79,10 @@ final class TourDestinationService extends AbstractManager implements TourDestin
      */
     public function fetchById($id, $withTranslations)
     {
-        return $this->prepareResult($this->tourDestinationMapper->fetchById($id, $withTranslations));
+        if ($withTranslations == true) {
+            return $this->prepareResults($this->tourDestinationMapper->fetchById($id, $withTranslations));
+        } else {
+            return $this->prepareResult($this->tourDestinationMapper->fetchById($id, $withTranslations));
+        }
     }
 }
