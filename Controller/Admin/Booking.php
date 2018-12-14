@@ -150,8 +150,27 @@ final class Booking extends AbstractController
      */
     public function deleteAction($id)
     {
-        $this->getModuleService('bookingService')->deleteById($id);
-        $this->flashBag->set('success', 'Selected element has been removed successfully');
+        // Booking service
+        $service = $this->getModuleService('bookingService');
+
+        // Batch removal
+        if ($this->request->isPost()) {
+            if ($this->request->hasPost('batch')) {
+                $ids = $this->request->getPost('batch');
+                // Delete bookings by their IDs
+                $service->deleteByIds($ids);
+                $this->flashBag->set('success', 'Selected elements have been removed successfully');
+            } else {
+                $this->flashBag->set('warning', 'You should select at least one element to remove');
+            }
+        }
+
+        // Single removal
+        if (!empty($id)) {
+            $service->deleteById($id);
+            $this->flashBag->set('success', 'Selected element has been removed successfully');
+        }
+
         return 1;
     }
 }
