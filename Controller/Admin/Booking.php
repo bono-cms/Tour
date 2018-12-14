@@ -39,7 +39,7 @@ final class Booking extends AbstractController
             $this->getService('Cms', 'mailer')->sendTo($invoice['email'], $this->translator->translate('Please confirm payment'), $body);
 
             $this->flashBag->set('success', $this->translator->translate('Notification to %s has been successfully sent', $invoice['email']));
-            $this->response->redirectToPreviousPage();
+            $this->response->back();
 
         } else {
             // Invalid token
