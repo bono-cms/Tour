@@ -44,6 +44,7 @@ final class TourReviewService extends AbstractManager
         $entity = new VirtualEntity();
         $entity->setId($row['id'], VirtualEntity::FILTER_INT)
                ->setTourId($row['tour_id'], VirtualEntity::FILTER_INT)
+               ->setTour($row['tour'], VirtualEntity::FILTER_TAGS)
                ->setDatetime($row['datetime'])
                ->setName($row['name'], VirtualEntity::FILTER_TAGS)
                ->setMessage($row['message'], VirtualEntity::FILTER_TAGS)
