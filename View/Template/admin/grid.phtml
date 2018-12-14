@@ -36,7 +36,7 @@ use Krystal\Form\Element;
 </div>
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-7">
         <?php $this->loadPartial('items-per-page', array('caption' => 'Tours')); ?>
 
         <form>
@@ -96,8 +96,8 @@ use Krystal\Form\Element;
         </form>
     </div>
 
-    <div class="col-lg-6">
-        <h2><?php $this->show('Categories'); ?> <small>(<?php echo count($categories); ?>)</small></h2>
+    <div class="col-lg-5">
+        <h2><i class="glyphicon glyphicon-folder-open"></i> <?php $this->show('Categories'); ?> <small>(<?php echo count($categories); ?>)</small></h2>
 
         <?= Grid::render($categories, array(
             // A column to be considered as a primary key
