@@ -33,6 +33,13 @@ use Krystal\Form\Element;
         'pk' => 'id',
         'batch' => true,
         'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+        'rowAttributes' => array(
+            'class' => function($row){
+                if ($row['status'] == -1) {
+                    return 'danger';
+                }
+            }
+        ),
         'columns' => array(
             array(
                 'column' => 'id',
@@ -65,7 +72,7 @@ use Krystal\Form\Element;
                 'label' => 'Price'
             )
         ),
-        
+
         'actions' => array(
             'notify' => function($row){
                 // Don't let
