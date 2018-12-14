@@ -133,6 +133,21 @@ final class BookingService extends AbstractManager
     }
 
     /**
+     * Delete many bookings by their associated IDs
+     * 
+     * @param array $ids
+     * @return boolean
+     */
+    public function deleteByIds(array $ids)
+    {
+        foreach ($ids as $id) {
+            $this->deleteById($id);
+        }
+
+        return true;
+    }
+
+    /**
      * Save booking
      * 
      * @param array $input
