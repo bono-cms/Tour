@@ -34,15 +34,12 @@ defined('KRYSTAL') or die;
 		</div>
 	</div>
 
-    <?php if ($image->getId()):?>
+    <?php $this->loadPartial('actions', array(
+        'new' => !$image->getId(),
+        'add' => 'Tour:Admin:TourGallery@addAction',
+        'edit' => 'Tour:Admin:TourGallery@editAction',
+        'save' => 'Tour:Admin:TourGallery@saveAction',
+        'cancel' => array('Tour:Admin:TourGallery@indexAction', null)
+    )); ?>
 
-    <button data-button="save" data-url="<?php echo $this->url('Tour:Admin:TourGallery@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
-    <button data-button="save-create" data-back-url="<?php echo $this->url('Tour:Admin:TourGallery@addAction'); ?>" data-url="<?php echo $this->url('Tour:Admin:TourGallery@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Create new'); ?></button>
-    <?php else: ?>
-
-    <button data-button="add" data-back-url="<?php echo $this->url('Tour:Admin:TourGallery@editAction', null); ?>" data-url="<?php echo $this->url('Tour:Admin:TourGallery@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php echo $this->translate('Add'); ?></button>
-    <button data-button="add-create" data-url="<?php echo $this->url('Tour:Admin:TourGallery@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php echo $this->translate('Add & Create new'); ?></button>
-    <?php endif; ?>
-
-    <button data-button="cancel" data-url="<?php echo $this->url('Tour:Admin:TourGallery@indexAction', null); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
 </form>
