@@ -2,6 +2,7 @@
 
 use Krystal\Grid\Grid;
 use Krystal\Form\Element;
+use Cms\View\Icon;
 
 defined('KRYSTAL') or die;
 
@@ -74,20 +75,27 @@ defined('KRYSTAL') or die;
                         }
                     )
                 ),
-                
+
                 'actions' => array(
                     'view' => function($row){
-                        return Element::icon('glyphicon glyphicon-search', $row->getUrl(), array('target' => '_blank', 'data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('View this tour on site')));
+                        return Icon::view($row->getUrl(), $this->translate('View this tour on site'));
                     },
 
                     'edit' => function($row){
-                        return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:Tour@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this tour'), 'data-button' => 'edit'));
+                        return Icon::edit(
+                            $this->url('Tour:Admin:Tour@editAction', $row['id']),
+                            $this->translate('Edit this tour')
+                        );
                     },
 
                     'remove' => function($row){
-                        return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Remove this tour'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:Tour@deleteAction', $row['id'])));
+                        return Icon::remove(
+                            $this->url('Tour:Admin:Tour@deleteAction', $row['id']),
+                            $this->translate('Remove this tour')
+                        );
                     }
                 )
+
             ), $this->translator); ?>
 
             <?php if (empty($tours)): ?>
@@ -119,15 +127,15 @@ defined('KRYSTAL') or die;
 
             'actions' => array(
                 'view' => function($row){
-                    return Element::icon('glyphicon glyphicon-search', $row->getUrl(), array('target' => '_blank', 'data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('View this category on site')));
+                    return Icon::view($row->getUrl(), $this->translate('View this category on site'));
                 },
 
                 'edit' => function($row){
-                    return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:Category@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this category'), 'data-button' => 'edit'));
+                    return Icon::edit($this->url('Tour:Admin:Category@editAction', $row['id']), $this->translate('Edit this category'));
                 },
 
                 'remove' => function($row){
-                    return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Remove this category'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:Category@deleteAction', $row['id'])));
+                    return Icon::remove($this->url('Tour:Admin:Category@deleteAction', $row['id']), $this->translate('Remove this category'));
                 }
             )
 

@@ -3,6 +3,7 @@
 use Krystal\Form\Element;
 use Krystal\Grid\Grid;
 use Cms\Service\LanguageManager;
+use Cms\View\Icon;
 
 defined('KRYSTAL') or die;
 
@@ -285,12 +286,11 @@ defined('KRYSTAL') or die;
 
                 'actions' => array(
                     'edit' => function($entity){
-                        return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourDate@editAction', $entity['id']));
+                        return Icon::edit($this->url('Tour:Admin:TourDate@editAction', $entity['id']), $this->translate('Edit this date'));
                     },
+
                     'delete' => function($entity){
-                        // Generate URL
-                        $url = $this->url('Tour:Admin:TourDate@deleteAction', $entity['id']);
-                        return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
+                        return Icon::remove($this->url('Tour:Admin:TourDate@deleteAction', $entity['id']), $this->translate('Remove this date'));
                     }
                 )
 
@@ -321,16 +321,16 @@ defined('KRYSTAL') or die;
                         'column' => 'order'
                     )
                 ),
+
                 'actions' => array(
                     'edit' => function($entity){
-                        return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourGallery@editAction', $entity['id']));
+                        return Icon::edit($this->url('Tour:Admin:TourGallery@editAction', $entity['id']), $this->translate('Edit this image'));
                     },
-                    'delete' => function($entity){
-                        // Generate URL
-                        $url = $this->url('Tour:Admin:TourGallery@deleteAction', $entity['id']);
-                        return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
+                    'remove' => function($entity){
+                        return Icon::remove($this->url('Tour:Admin:TourGallery@deleteAction', $entity['id']), $this->translate('Remove this image'));
                     }
                 )
+
             ), $this->translator); ?>
         </div>
 
@@ -370,23 +370,12 @@ defined('KRYSTAL') or die;
                     'approve' => function($entity){
                         if ($entity['published'] == 0){
                             $url = $this->url('Tour:Admin:TourReview@approveAction', $entity['id']);
-
-                            return Element::icon('glyphicon glyphicon-check', $url, array(
-                                'data-toggle' => 'tooltip',
-                                'data-placement' => 'left',
-                                'data-original-title' => $this->translate('Approve this review')
-                            ));
+                            return Icon::button('glyphicon glyphicon-check', $url, $this->translate('Approve this review'));
                         }
                     },
 
-                    'delete' => function($entity){
-                        return Element::icon('glyphicon glyphicon-remove', '#', array(
-                            'data-toggle' => 'tooltip',
-                            'data-placement' => 'left',
-                            'data-original-title' => $this->translate('Remove this review'),
-                            'data-button' => 'delete',
-                            'data-url' => $this->url('Tour:Admin:TourReview@deleteAction', $entity['id'])
-                        ));
+                    'remove' => function($entity){
+                        return Icon::remove($this->url('Tour:Admin:TourReview@deleteAction', $entity['id']), $this->url('Tour:Admin:TourReview@deleteAction', $entity['id']));
                     }
                 )
 

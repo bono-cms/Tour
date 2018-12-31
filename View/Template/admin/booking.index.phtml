@@ -2,6 +2,7 @@
 
 use Krystal\Grid\Grid;
 use Krystal\Form\Element;
+use Cms\View\Icon;
 
 defined('KRYSTAL') or die;
 
@@ -82,17 +83,24 @@ defined('KRYSTAL') or die;
                     return null;
                 }
 
-                return Element::icon('glyphicon glyphicon-envelope', $this->url('Tour:Admin:Booking@notifyAction', $row['token']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Send invoice to their email')));
+                return Icon::button('glyphicon glyphicon-envelope', $this->url('Tour:Admin:Booking@notifyAction', $row['token']), $this->translate('Send invoice to their email'));
             },
 
             'edit' => function($row){
-                return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:Booking@editAction', $row['id']), array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Edit this booking')));
+                return Icon::edit(
+                    $this->url('Tour:Admin:Booking@editAction', $row['id'],
+                    $this->translate('Edit this booking')
+                );
             },
 
             'remove' => function($row){
-                return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Delete this booking'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:Booking@deleteAction', $row['id'])));
+                return Icon::remove(
+                    $this->url('Tour:Admin:Booking@deleteAction', $row['id']),
+                    $this->translate('Delete this booking')
+                );
             }
         )
+
     ), $this->translator); ?>
 </form>
 

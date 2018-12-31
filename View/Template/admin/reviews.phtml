@@ -2,6 +2,7 @@
 
 use Krystal\Grid\Grid;
 use Krystal\Form\Element;
+use Cms\View\Icon;
 
 defined('KRYSTAL') or die;
 
@@ -50,16 +51,15 @@ defined('KRYSTAL') or die;
             if ($entity['published'] == 0){
                 $url = $this->url('Tour:Admin:TourReview@approveAction', $entity['id']);
 
-                return Element::icon('glyphicon glyphicon-check', $url, array(
-                    'data-toggle' => 'tooltip',
-                    'data-placement' => 'left',
-                    'data-original-title' => $this->translate('Approve this review')
-                ));
+                return Icon::button('glyphicon glyphicon-check', $url, $this->translate('Approve this review'));
             }
         },
 
         'remove' => function($row){
-            return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Remove this review'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:TourReview@deleteAction', $row['id'])));
+            return Icon::remove(
+                $this->url('Tour:Admin:TourReview@deleteAction', $row['id']),
+                $this->translate('Remove this review')
+            );
         }
     )
 
