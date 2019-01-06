@@ -28,9 +28,9 @@ final class Booking extends AbstractController
         $invoice = $this->getModuleService('bookingService')->findByToken($token);
 
         if ($invoice) {
-            $params = array_merge($invoice->getProperties(), [
+            $params = array_merge($invoice->getProperties(), array(
                 'link' => $this->request->getBaseUrl() . $this->createUrl('Tour:Payment@gatewayAction', array($invoice['token']))
-            ]);
+            ));
 
             // Create email body
             $body = $this->view->renderRaw('Tour', 'mail', 'notify', $params);
