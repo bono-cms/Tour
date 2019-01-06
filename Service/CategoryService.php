@@ -93,6 +93,10 @@ final class CategoryService extends AbstractManager
 
         $entity->setImageBag($imageBag);
 
+        if (isset($category['tour_count'])) {
+            $entity->setTourCount($category['tour_count']);
+        }
+
         return $entity;
     }
 
