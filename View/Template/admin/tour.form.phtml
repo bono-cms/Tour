@@ -375,7 +375,10 @@ defined('KRYSTAL') or die;
                     },
 
                     'remove' => function($entity){
-                        return Icon::remove($this->url('Tour:Admin:TourReview@deleteAction', $entity['id']), $this->url('Tour:Admin:TourReview@deleteAction', $entity['id']));
+                        return Icon::remove(
+                            $this->url('Tour:Admin:TourReview@deleteAction', $entity['id']),
+                            $this->translate('Remove this review')
+                        );
                     }
                 )
 
