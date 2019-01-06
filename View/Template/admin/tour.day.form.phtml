@@ -54,7 +54,7 @@ defined('KRYSTAL') or die;
                 'add' => 'Tour:Admin:TourDay@addAction',
                 'edit' => 'Tour:Admin:TourDay@editAction',
                 'save' => 'Tour:Admin:TourDay@saveAction',
-                'cancel' => 'Tour:Admin:Grid@indexAction'
+                'cancel' => array('Tour:Admin:Tour@editAction', $entity->getTourId())
             )); ?>
 
 		</div>

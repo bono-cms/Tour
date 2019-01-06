@@ -39,7 +39,7 @@ defined('KRYSTAL') or die;
         'add' => 'Tour:Admin:TourGallery@addAction',
         'edit' => 'Tour:Admin:TourGallery@editAction',
         'save' => 'Tour:Admin:TourGallery@saveAction',
-        'cancel' => array('Tour:Admin:TourGallery@indexAction', null)
+        'cancel' => array('Tour:Admin:Tour@editAction', $image->getTourId())
     )); ?>
 
 </form>

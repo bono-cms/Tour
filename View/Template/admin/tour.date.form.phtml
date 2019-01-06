@@ -36,7 +36,7 @@ defined('KRYSTAL') or die;
         'add' => 'Tour:Admin:TourDate@addAction',
         'edit' => 'Tour:Admin:TourDate@editAction',
         'save' => 'Tour:Admin:TourDate@saveAction',
-        'cancel' => 'Tour:Admin:Tour@editAction'
+        'cancel' => array('Tour:Admin:Tour@editAction', $date->getTourId())
     )); ?>
 
 </form>
