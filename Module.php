@@ -21,6 +21,7 @@ use Tour\Service\BookingService;
 use Tour\Service\TourReviewService;
 use Tour\Service\TourDateService;
 use Tour\Service\TourDestinationService;
+use Tour\Service\SiteService;
 
 final class Module extends AbstractCmsModule
 {
@@ -120,15 +121,19 @@ final class Module extends AbstractCmsModule
 
         $webPageManager = $this->getWebPageManager();
 
+        // Category service
+        $categoryService = new CategoryService($categoryMapper, $webPageManager, $this->createCategoryImageManager());
+
         return array(
             'bookingService' => new BookingService($bookingMapper),
-            'categoryService' => new CategoryService($categoryMapper, $webPageManager, $this->createCategoryImageManager()),
+            'categoryService' => $categoryService,
             'tourService' => new TourService($tourMapper, $webPageManager, $this->createTourCoverImageManager()),
             'tourDayService' => new TourDayService($tourDayMapper),
             'tourGalleryService' => new TourGalleryService($tourGalleryMapper, $this->createTourGalleryImageManager()),
             'tourReviewService' => new TourReviewService($reviewMapper),
             'tourDateService' => new TourDateService($tourDateMapper),
-            'tourDestinationService' => new TourDestinationService($tourDestinationMapper)
+            'tourDestinationService' => new TourDestinationService($tourDestinationMapper),
+            'siteService' => new SiteService($categoryService)
         );
     }
 }
