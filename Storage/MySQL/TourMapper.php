@@ -158,7 +158,8 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
         }
 
         // Whether category ID filter provided
-        $hasCategory = isset($input['category_id']);
+        $hasCategory = !empty($input['category_id']);
+        $hasDate = !empty($input['begin']);
 
         // Columns to be selected
         $columns = $this->getColumns();
@@ -177,6 +178,13 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             ));
         }
 
+        // Optional date constraint
+        if ($hasDate) {
+            $db->innerJoin(TourDateMapper::getTableName(), array(
+                TourDateMapper::column('tour_id') => self::getRawColumn('id')
+            ));
+        }
+
         // Filtering condition
         $db->whereEquals(TourTranslationMapper::column('lang_id'), $this->getLangId());
 
@@ -184,13 +192,18 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             $db->andWhereEquals(TourCategoryRelation::column('slave_id'), $input['category_id']);
         }
 
+        // If date provided, then apply it
+        if ($hasDate) {
+            $db->andWhereEquals(TourDateMapper::column('start'), $input['begin']);
+        }
+
         // Optional adults constraint
-        if (isset($input['adults'])) {
+        if ($input['adults']) {
             $db->andWhereEquals(self::column('adults'), (int) $input['adults']);
         }
 
         // Optional children constraint
-        if (isset($input['children'])) {
+        if ($input['children']) {
             $db->andWhereEquals(self::column('children'), (int) $input['children']);
         }
 
