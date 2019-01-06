@@ -136,6 +136,36 @@ final class Tour extends AbstractController
     }
 
     /**
+     * Performs a search
+     * 
+     * @return string
+     */
+    public function searchAction()
+    {
+        // Load global view plugins
+        $this->loadSitePlugins();
+
+        // Append breadcrumb
+        $this->view->getBreadcrumbBag()->addOne($this->translator->translate('Search'));
+
+        // Find tours
+        $tours = $this->getModuleService('tourService')->filter($this->request->getQuery(), null, null, false, true);
+
+        // Configure page entity
+        $page = new VirtualEntity();
+        $page->setSeo(false)
+             ->setTitle($this->translator->translate('Search results'))
+             ->setName($this->translator->translate('Search results') . sprintf(' (%s) ', count($tours)));
+
+        return $this->view->render('tour-category', array(
+            'page' => $page,
+            'tours' => $tours,
+            'category' => $page,
+            'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true)
+        ));
+    }
+
+    /**
      * Renders category template
      * 
      * @param int $id Category ID

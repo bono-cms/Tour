@@ -10,6 +10,10 @@
  */
 
 return array(
+    '/module/tour/search/(:var)' => array(
+        'controller' => 'Tour@searchAction'
+    ),
+
     // Payment
     '/module/tour/payment/gateway/(:var)' => array(
         'controller' => 'Payment@gatewayAction'
