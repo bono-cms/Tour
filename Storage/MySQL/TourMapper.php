@@ -184,8 +184,12 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             $db->andWhereEquals(TourCategoryRelation::column('slave_id'), $input['category_id']);
         }
 
-        $db->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'))
-           ->paginate($page, $itemsPerPage);
+        $db->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'));
+
+        // Apply pagination on demand
+        if ($page !== null && $itemsPerPage !== null) {
+            $db->paginate($page, $itemsPerPage);
+        }
 
         return $db->queryAll();
     }
