@@ -21,14 +21,33 @@ final class SiteService
     private $categoryService;
 
     /**
+     * Tour destination service
+     * 
+     * @var \Tour\Service\TourDestinationService
+     */
+    private $tourDestinationService;
+
+    /**
      * State initialization
      * 
      * @param \Tour\Service\CategoryService $categoryService
+     * @param \Tour\Service\TourDestinationService $tourDestinationService
      * @return void
      */
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, TourDestinationService $tourDestinationService)
     {
         $this->categoryService = $categoryService;
+        $this->tourDestinationService = $tourDestinationService;
+    }
+
+    /**
+     * Returns an array of destinations
+     * 
+     * @return array
+     */
+    public function getDestinations()
+    {
+        return $this->tourDestinationService->fetchList();
     }
 
     /**

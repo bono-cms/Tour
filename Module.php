@@ -123,6 +123,7 @@ final class Module extends AbstractCmsModule
 
         // Category service
         $categoryService = new CategoryService($categoryMapper, $webPageManager, $this->createCategoryImageManager());
+        $tourDestinationService = new TourDestinationService($tourDestinationMapper);
 
         return array(
             'bookingService' => new BookingService($bookingMapper),
@@ -132,8 +133,8 @@ final class Module extends AbstractCmsModule
             'tourGalleryService' => new TourGalleryService($tourGalleryMapper, $this->createTourGalleryImageManager()),
             'tourReviewService' => new TourReviewService($reviewMapper),
             'tourDateService' => new TourDateService($tourDateMapper),
-            'tourDestinationService' => new TourDestinationService($tourDestinationMapper),
-            'siteService' => new SiteService($categoryService)
+            'tourDestinationService' => $tourDestinationService,
+            'siteService' => new SiteService($categoryService, $tourDestinationService)
         );
     }
 }
