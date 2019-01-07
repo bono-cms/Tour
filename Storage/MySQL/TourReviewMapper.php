@@ -90,7 +90,8 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
         }
 
         // Sort by latest
-        $db->orderBy(self::column('id'));
+        $db->orderBy(self::column('id'))
+           ->desc();
 
         // Apply pagination if required
         if ($page !== null && $itemsPerPage !== null) {
