@@ -13,6 +13,7 @@ Tour module is the best thing for a Travel Agency/Tour Operator/Destination Mana
 - Tour booking. Ability to sell both type of tour - the ones with price and priceless
 - Recommended tours. Pick the ones that you recommended to your customers and showcase them
 - Reviews. Let your users to leave feedback regarding tours
+- Search on site. Let your visitors to search tours by their preferences
 
 # Installation
 
