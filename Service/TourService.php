@@ -178,11 +178,23 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     /**
      * Fetch all tours as a hash map
      * 
+     * @param array $excludedIds A collection excluded tour IDs
      * @return array
      */
-    public function fetchList()
+    public function fetchList(array $excludedIds = array())
     {
-        return ArrayUtils::arrayList($this->tourMapper->fetchList(), 'id', 'name');
+        $rows = ArrayUtils::arrayList($this->tourMapper->fetchList(), 'id', 'name');
+
+        // Process excluded IDs if required
+        if (!empty($excludedIds)) {
+            foreach ($excludedIds as $excludedId) {
+                if (isset($rows[$excludedId])) {
+                    unset($rows[$excludedId]);
+                }
+            }
+        }
+
+        return $rows;
     }
 
     /**
