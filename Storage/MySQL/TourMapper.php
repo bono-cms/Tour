@@ -164,19 +164,24 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
         // Columns to be selected
         $columns = $this->getColumns();
 
-        // Append attached category ID column
-        if ($hasCategory) {
-            $columns[TourCategoryRelation::column('slave_id')] = 'category_id';
-        }
+        // Append extra columns
+        $columns[TourCategoryRelation::column('slave_id')] = 'category_id';
+        $columns[CategoryTranslationMapper::column('name')] = 'category';
 
-        $db = $this->createWebPageSelect($columns);
-
-        // If explicit category ID provided, then first append related to be able to filter by it
-        if ($hasCategory) {
-            $db->leftJoin(TourCategoryRelation::getTableName(), array(
-                TourCategoryRelation::column('master_id') => self::getRawColumn('id')
-            ));
-        }
+        $db = $this->createWebPageSelect($columns)
+                   // Tour category junction relation
+                   ->leftJoin(TourCategoryRelation::getTableName(), array(
+                        TourCategoryRelation::column('master_id') => self::getRawColumn('id')
+                   ))
+                   // Category relation
+                   ->leftJoin(CategoryMapper::getTableName(), array(
+                        CategoryMapper::column('id') => TourCategoryRelation::getRawColumn('slave_id')
+                   ))
+                   // Category translation relation
+                   ->leftJoin(CategoryTranslationMapper::getTableName(), array(
+                        CategoryTranslationMapper::column('id') => CategoryMapper::getRawColumn('id'),
+                        CategoryTranslationMapper::column('lang_id') => TourTranslationMapper::getRawColumn('lang_id')
+                   ));
 
         // Optional date constraint
         if ($hasDate) {
