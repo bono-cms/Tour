@@ -29,7 +29,7 @@ final class Category extends AbstractController
                                        ->addOne(!is_array($entity) ? 'Add a category' : 'Edit the category');
         // Load plugins
         $this->view->getPluginBag()
-                   ->load($this->getWysiwygPluginName());
+                   ->load(array($this->getWysiwygPluginName(), 'preview'));
 
         return $this->view->render('category.form', array(
             'category' => $entity
