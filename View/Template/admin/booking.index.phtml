@@ -88,7 +88,7 @@ defined('KRYSTAL') or die;
 
             'edit' => function($row){
                 return Icon::edit(
-                    $this->url('Tour:Admin:Booking@editAction', $row['id'],
+                    $this->url('Tour:Admin:Booking@editAction', $row['id']),
                     $this->translate('Edit this booking')
                 );
             },
