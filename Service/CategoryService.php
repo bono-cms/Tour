@@ -117,20 +117,23 @@ final class CategoryService extends AbstractManager
     }
 
     /**
-     * Fetches as a list
+     * Fetch all category entities
      * 
-     * @param boolean $list Whether to fetch as a list or not
      * @return array
      */
-    public function fetchList($list)
+    public function fetchAll()
     {
-        $rows = $this->categoryMapper->fetchAll();
+        return $this->prepareResults($this->categoryMapper->fetchAll());
+    }
 
-        if ($list === true) {
-            return ArrayUtils::arrayList($rows, 'id', 'name');
-        }
-
-        return $this->prepareResults($rows);
+    /**
+     * Fetches as a list
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        return ArrayUtils::arrayList($this->categoryMapper->fetchAll(), 'id', 'name');
     }
 
     /**
