@@ -217,6 +217,16 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             $db->andWhereEquals(self::column('destination_id'), (int) $input['destination_id']);
         }
 
+        // Name
+        if ($input['name']) {
+            $db->andWhereLike(TourTranslationMapper::column('name'), '%' . $input['name'] . '%');
+        }
+
+        // Published
+        if ($input['published']) {
+            $db->andWhereEquals(self::column('published'), (int) $input['published']);
+        }
+
         $db->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'));
 
         // Apply pagination on demand
