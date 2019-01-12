@@ -13,6 +13,7 @@ namespace Tour\Controller\Admin;
 
 use Cms\Controller\Admin\AbstractController;
 use Krystal\Stdlib\VirtualEntity;
+use Tour\Service\CategoryService;
 
 final class Grid extends AbstractController
 {
@@ -43,6 +44,7 @@ final class Grid extends AbstractController
 
         return $this->view->render('grid', array(
             'categories' => $this->getModuleService('categoryService')->fetchAll(),
+            'categoryList' => $this->getModuleService('categoryService')->fetchList(),
             'tours' => $tours,
             'paginator' => $paginator,
             'newReviews' => $this->getModuleService('tourReviewService')->countUnpublished()

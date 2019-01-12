@@ -39,10 +39,10 @@ defined('KRYSTAL') or die;
 </div>
 
 <div class="row">
-    <div class="col-lg-7">
+    <div class="col-lg-8">
         <?php $this->loadPartial('items-per-page', array('caption' => 'Tours')); ?>
 
-        <form>
+        <form autocomplete="off">
             <?= Grid::render($tours, array(
                 // A column to be considered as a primary key
                 'pk' => 'id',
@@ -56,23 +56,31 @@ defined('KRYSTAL') or die;
 
                     array(
                         'column' => 'name',
+                        'filter' => true
                     ),
 
                     array(
-                        'column' => 'category'
+                        'column' => 'category',
+                        'name' => 'category_id',
+                        'type' => 'select',
+                        'filter' => $categoryList
                     ),
 
                     array(
                         'column' => 'adults',
+                        'filter' => true,
                         'label' => 'Number of adults'
                     ),
 
                     array(
                         'column' => 'order',
+                        'filter' => true
                     ),
 
                     array(
                         'column' => 'published',
+                        'type' => 'select',
+                        'filter' => 'boolean',
                         'translateable' => true,
                         'value' => function($row){
                             return $row['published'] ? 'Yes' : 'No';
@@ -110,7 +118,7 @@ defined('KRYSTAL') or die;
         </form>
     </div>
 
-    <div class="col-lg-5">
+    <div class="col-lg-4">
         <h2><i class="glyphicon glyphicon-folder-open"></i> <?php $this->show('Categories'); ?> <small>(<?php echo count($categories); ?>)</small></h2>
 
         <?= Grid::render($categories, array(
