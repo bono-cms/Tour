@@ -34,7 +34,7 @@ final class Grid extends AbstractController
         // Current URL params
         $params = array_merge($this->request->getQuery(), array('page' => '(:var)'));
 
-        $url = $this->urlBuilder->createQueryUrl('Tour:Admin:Grid@indexAction', $params, 0);
+        $url = $this->urlBuilder->createQueryUrl('Tour:Admin:Grid@indexAction', $params, 1);
 
         // Configure pagination
         $paginator = $tourService->getPaginator();
@@ -43,6 +43,8 @@ final class Grid extends AbstractController
         $tours = $this->getFilter($tourService, $url);
 
         return $this->view->render('grid', array(
+            'route' => $url,
+            'query' => $this->request->getQuery(),
             'categories' => $this->getModuleService('categoryService')->fetchAll(),
             'categoryList' => $this->getModuleService('categoryService')->fetchList(),
             'tours' => $tours,

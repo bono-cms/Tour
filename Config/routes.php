@@ -35,6 +35,10 @@ return array(
         'controller' => 'Admin:Grid@indexAction'
     ),
 
+    '/%s/module/tour/filter/(:var)' => array(
+        'controller' => 'Admin:Grid@indexAction'
+    ),
+
     // Reviews
     '/module/tour/reviews/new' => array(
         'controller' => 'Tour@reviewAction'
