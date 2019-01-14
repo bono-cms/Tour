@@ -31,10 +31,7 @@ final class Grid extends AbstractController
         // Grab tour service
         $tourService = $this->getModuleService('tourService');
 
-        // Current URL params
-        $params = array_merge($this->request->getQuery(), array('page' => '(:var)'));
-
-        $url = $this->urlBuilder->createQueryUrl('Tour:Admin:Grid@indexAction', $params, 1);
+        $url = $this->urlBuilder->createQueryUrl('Tour:Admin:Grid@indexAction', $this->request->getQuery(), 1);
 
         // Configure pagination
         $paginator = $tourService->getPaginator();

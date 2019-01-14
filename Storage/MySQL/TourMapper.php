@@ -153,9 +153,16 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             $input = new InputDecorator($input);
         }
 
-        if (!$sortingColumn) {
-            $sortingColumn = self::column('id');
-        }
+        // Available sorting methods
+        $sortingMethods = array(
+            'name' => TourTranslationMapper::column('name'),
+            'category_id' => CategoryMapper::column('id'),
+            'adults' => self::column('adults'),
+            'published' => self::column('published')
+        );
+
+        // Column to be sorted
+        $sortingColumn = isset($sortingMethods[$sortingColumn]) ? $sortingMethods[$sortingColumn] : self::column('id');
 
         // Whether category ID filter provided
         $hasCategory = !empty($input['category_id']);
