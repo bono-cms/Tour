@@ -124,11 +124,16 @@ final class Tour extends AbstractController
                                                ->addOne($tour->getName());
             }
 
-            return $this->view->render('tour-single', array(
+            $response = $this->view->render('tour-single', array(
                 'tour' => $tour,
                 'page' => $tour,
                 'languages' => $service->getSwitchUrls($id)
             ));
+
+            // Increment view counter
+            $service->incrementViewCount($id);
+
+            return $response;
 
         } else {
             return false;
