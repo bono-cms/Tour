@@ -68,6 +68,17 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     }
 
     /**
+     * Increments view count by tour id
+     * 
+     * @param string $id Tour ID
+     * @return boolean
+     */
+    public function incrementViewCount($id)
+    {
+        return $this->incrementColumnByPk($id, 'views');
+    }
+
+    /**
      * Attach related tours
      * 
      * @param int $id Main tour ID

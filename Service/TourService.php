@@ -57,6 +57,17 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     }
 
     /**
+     * Increments view count by tour id
+     * 
+     * @param string $id Tour ID
+     * @return boolean
+     */
+    public function incrementViewCount($id)
+    {
+        return $this->tourMapper->incrementViewCount($id);
+    }
+
+    /**
      * Returns a collection of switching URLs
      * 
      * @param string $id Tour ID

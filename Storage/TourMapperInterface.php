@@ -14,6 +14,14 @@ namespace Tour\Storage;
 interface TourMapperInterface
 {
     /**
+     * Increments view count by tour id
+     * 
+     * @param string $id Tour ID
+     * @return boolean
+     */
+    public function incrementViewCount($id);
+
+    /**
      * Attach related tours
      * 
      * @param int $id Main tour ID
