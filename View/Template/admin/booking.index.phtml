@@ -1,6 +1,6 @@
 <?php
 
-use Krystal\Grid\Grid;
+use Krystal\Widget\GridWidget;
 use Krystal\Form\Element;
 use Cms\View\Icon;
 
@@ -31,7 +31,7 @@ defined('KRYSTAL') or die;
 <?php $this->loadPartial('items-per-page', array('caption' => 'Bookings')); ?>
 
 <form autocomplete="off">
-    <?= Grid::render($bookings, array(
+    <?= $this->widget(new GridWidget($bookings, array(
         // A column to be considered as a primary key
         'pk' => 'id',
         'batch' => true,
@@ -100,8 +100,8 @@ defined('KRYSTAL') or die;
                 );
             }
         )
+    ))); ?>
 
-    ), $this->translator); ?>
 </form>
 
 <?php $this->loadPartial('paginator'); ?>

@@ -1,6 +1,6 @@
 <?php
 
-use Krystal\Grid\Grid;
+use Krystal\Widget\GridWidget;
 use Krystal\Form\Element;
 
 defined('KRYSTAL') or die;
@@ -13,7 +13,7 @@ defined('KRYSTAL') or die;
     <a class="btn btn-primary btn-sm" href="<?= $this->url('Tour:Admin:TourDestination@addAction'); ?>"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Add new tour destination'); ?></a>
 </p>
 
-<?= Grid::render($destinations, array(
+<?= $this->widget(new GridWidget($destinations, array(
     // A column to be considered as a primary key
     'pk' => 'id',
     'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
@@ -41,8 +41,7 @@ defined('KRYSTAL') or die;
             return Element::icon('glyphicon glyphicon-remove', '#', array('data-toggle' => 'tooltip', 'data-placement' => 'left', 'data-original-title' => $this->translate('Remove this destination'), 'data-button' => 'delete', 'data-url' => $this->url('Tour:Admin:TourDestination@deleteAction', $row['id'])));
         }
     )
-
-), $this->translator); ?>
+))); ?>
 
 <?php if (empty($destinations)): ?>
 <div class="center-block">

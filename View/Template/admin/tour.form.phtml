@@ -1,7 +1,7 @@
 <?php
 
 use Krystal\Form\Element;
-use Krystal\Grid\Grid;
+use Krystal\Widget\GridWidget;
 use Cms\Service\LanguageManager;
 use Cms\View\Icon;
 
@@ -233,7 +233,7 @@ defined('KRYSTAL') or die;
                 <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDay@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new day'); ?></a>
             </p>
 
-            <?php echo Grid::render($days, array(
+            <?= $this->widget(new GridWidget($days, array(
                 'pk' => 'id',
                 'columns' => array(
                     array(
@@ -257,7 +257,8 @@ defined('KRYSTAL') or die;
                         return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
                     }
                 )
-            ), $this->translator); ?>
+
+            ))); ?>
         </div>
         
         <div role="tabpanel" class="tab-pane" id="dates">
@@ -267,7 +268,7 @@ defined('KRYSTAL') or die;
                 <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDate@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new date'); ?></a>
             </p>
 
-            <?php echo Grid::render($dates, array(
+            <?= $this->widget(new GridWidget($dates, array(
                 'pk' => 'id',
                 'columns' => array(
                     array(
@@ -294,7 +295,7 @@ defined('KRYSTAL') or die;
                     }
                 )
 
-            ), $this->translator); ?>
+            ))); ?>
         </div>
         
         <div role="tabpanel" class="tab-pane" id="gallery">
@@ -304,7 +305,7 @@ defined('KRYSTAL') or die;
                 <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourGallery@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new image'); ?></a>
             </p>
 
-            <?php echo Grid::render($gallery, array(
+            <?= $this->widget(new GridWidget($gallery, array(
                 'pk' => 'id',
                 'columns' => array(
                     array(
@@ -331,13 +332,14 @@ defined('KRYSTAL') or die;
                     }
                 )
 
-            ), $this->translator); ?>
+            ))); ?>
+
         </div>
 
         <div role="tabpanel" class="tab-pane" id="reviews">
             <h2 class="page-header"><i class="glyphicon glyphicon-comment"></i> <?php $this->show('Reviews'); ?> <small>(<?= count($reviews); ?>)</small></h2>
 
-            <?php echo Grid::render($reviews, array(
+            <?= $this->widget(new GridWidget($reviews, array(
                 'pk' => 'id',
                 'rowAttributes' => array(
                     'class' => function($row){
@@ -382,7 +384,7 @@ defined('KRYSTAL') or die;
                     }
                 )
 
-            ), $this->translator); ?>            
+            ))); ?>
         </div>
 	</div>
 </form>
