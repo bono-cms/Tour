@@ -8,100 +8,103 @@ defined('KRYSTAL') or die;
 
 ?>
 
-<div class="btn-toolbar">
-	<div class="btn-group">
-	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		<i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?> <span class="caret"></span>
-	  </button>
+<div class="card">
+    <div class="btn-toolbar">
+        <div class="dropdown">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?>
+          </button>
 
-	  <ul class="dropdown-menu">
-		 <li><a href="<?php echo $this->url('Tour:Admin:Booking@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('New booking'); ?></a></li>
-         <li class="divider"></li>
-         <li class="dropdown-header"><?php $this->show('Actions'); ?></li>
+          <div class="dropdown-menu">
+             <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:Booking@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('New booking'); ?></a>
+             <div class="dropdown-divider"></div>
+             <div class="dropdown-header"><?php $this->show('Actions'); ?></div>
 
-         <?php if (!empty($bookings)): ?>
-         <li><a href="#" data-button="remove-selected" data-url="<?php echo $this->url('Tour:Admin:Booking@deleteAction', null); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>
-         <?php else: ?>
-         <li class="disabled"><a><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>         
-         <?php endif; ?>
-	  </ul>
-	</div>
-</div>
+             <?php if (!empty($bookings)): ?>
+             <a class="dropdown-item" href="#" data-button="remove-selected" data-url="<?php echo $this->url('Tour:Admin:Booking@deleteAction', null); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>
+             <?php else: ?>
+             <a class="dropdown-item"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>         
+             <?php endif; ?>
+          </div>
+        </div>
+    </div>
 
-<?php $this->loadPartial('items-per-page', array('caption' => 'Bookings')); ?>
+    <?php $this->loadPartial('items-per-page', array('caption' => 'Bookings')); ?>
 
-<form autocomplete="off">
-    <?= $this->widget(new GridViewWidget($bookings, array(
-        // A column to be considered as a primary key
-        'pk' => 'id',
-        'batch' => true,
-        'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
-        'rowAttributes' => array(
-            'class' => function($row){
-                if ($row['status'] == -1) {
-                    return 'danger';
+    <form autocomplete="off">
+        <?= $this->widget(new GridViewWidget($bookings, array(
+            // A column to be considered as a primary key
+            'pk' => 'id',
+            'batch' => true,
+            'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+            'rowAttributes' => array(
+                'class' => function($row){
+                    if ($row['status'] == -1) {
+                        return 'danger';
+                    }
                 }
-            }
-        ),
-        'columns' => array(
-            array(
-                'column' => 'id',
-                'label' => '#'
+            ),
+            'columns' => array(
+                array(
+                    'column' => 'id',
+                    'label' => '#'
+                ),
+
+                array(
+                    'column' => 'tour',
+                ),
+
+                array(
+                    'column' => 'client',
+                ),
+
+                array(
+                    'column' => 'email',
+                ),
+
+                array(
+                    'column' => 'phone',
+                ),
+                
+                array(
+                    'column' => 'datetime',
+                    'label' => 'Date and time'
+                ),
+
+                array(
+                    'column' => 'amount',
+                    'label' => 'Price'
+                )
             ),
 
-            array(
-                'column' => 'tour',
-            ),
+            'actions' => array(
+                'notify' => function($row){
+                    // Don't let
+                    if ($row['amount'] == 0) {
+                        return null;
+                    }
 
-            array(
-                'column' => 'client',
-            ),
+                    return Icon::button('glyphicon glyphicon-envelope', $this->url('Tour:Admin:Booking@notifyAction', $row['token']), $this->translate('Send invoice to their email'));
+                },
 
-            array(
-                'column' => 'email',
-            ),
+                'edit' => function($row){
+                    return Icon::edit(
+                        $this->url('Tour:Admin:Booking@editAction', $row['id']),
+                        $this->translate('Edit this booking')
+                    );
+                },
 
-            array(
-                'column' => 'phone',
-            ),
-            
-            array(
-                'column' => 'datetime',
-                'label' => 'Date and time'
-            ),
-
-            array(
-                'column' => 'amount',
-                'label' => 'Price'
+                'remove' => function($row){
+                    return Icon::remove(
+                        $this->url('Tour:Admin:Booking@deleteAction', $row['id']),
+                        $this->translate('Delete this booking')
+                    );
+                }
             )
-        ),
+        ))); ?>
 
-        'actions' => array(
-            'notify' => function($row){
-                // Don't let
-                if ($row['amount'] == 0) {
-                    return null;
-                }
+    </form>
 
-                return Icon::button('glyphicon glyphicon-envelope', $this->url('Tour:Admin:Booking@notifyAction', $row['token']), $this->translate('Send invoice to their email'));
-            },
+    <?php $this->loadPartial('paginator'); ?>
 
-            'edit' => function($row){
-                return Icon::edit(
-                    $this->url('Tour:Admin:Booking@editAction', $row['id']),
-                    $this->translate('Edit this booking')
-                );
-            },
-
-            'remove' => function($row){
-                return Icon::remove(
-                    $this->url('Tour:Admin:Booking@deleteAction', $row['id']),
-                    $this->translate('Delete this booking')
-                );
-            }
-        )
-    ))); ?>
-
-</form>
-
-<?php $this->loadPartial('paginator'); ?>
+</div>

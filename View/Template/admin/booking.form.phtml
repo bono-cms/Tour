@@ -5,58 +5,56 @@ defined('KRYSTAL') or die;
 
 ?>
 
-<form data-group="booking" autocomplete="off">
-    <div class="well">
-        <?php echo Element::hidden('booking[id]', $booking->getId()); ?>
-        <?php echo Element::hidden('booking[token]', $booking->getToken()); ?>
+<form class="card" data-group="booking" autocomplete="off">
+    <?php echo Element::hidden('booking[id]', $booking->getId()); ?>
+    <?php echo Element::hidden('booking[token]', $booking->getToken()); ?>
 
-        <div class="form-group">
-            <label class="col-lg-2 control-label"><?php $this->show('Tour'); ?></label>
-            <div class="col-lg-10">
-                <div class="input-group">
-                    <?php echo Element::text('booking[tour]', $booking->getTour(), array('class' => 'form-control', 'placeholder' => $this->translate('Tour name'))); ?>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                </div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Tour'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?php echo Element::text('booking[tour]', $booking->getTour(), array('class' => 'form-control', 'placeholder' => $this->translate('Tour name'))); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="col-lg-2 control-label"><?php $this->show('Client'); ?></label>
-            <div class="col-lg-10">
-                <div class="input-group">
-                    <?php echo Element::text('booking[client]', $booking->getClient(), array('class' => 'form-control', 'placeholder' => $this->translate('Client name'))); ?>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                </div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Client'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?php echo Element::text('booking[client]', $booking->getClient(), array('class' => 'form-control', 'placeholder' => $this->translate('Client name'))); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
             </div>
         </div>
-        
-        <div class="form-group">
-            <label class="col-lg-2 control-label"><?php $this->show('Email'); ?></label>
-            <div class="col-lg-10">
-                <div class="input-group">
-                    <?php echo Element::text('booking[email]', $booking->getEmail(), array('class' => 'form-control', 'placeholder' => $this->translate('Client email'))); ?>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Email'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?php echo Element::text('booking[email]', $booking->getEmail(), array('class' => 'form-control', 'placeholder' => $this->translate('Client email'))); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
             </div>
         </div>
-        
-        <div class="form-group">
-            <label class="col-lg-2 control-label"><?php $this->show('Phone'); ?></label>
-            <div class="col-lg-10">
-                <div class="input-group">
-                    <?php echo Element::text('booking[phone]', $booking->getPhone(), array('class' => 'form-control', 'placeholder' => $this->translate('Client phone'))); ?>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Phone'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?php echo Element::text('booking[phone]', $booking->getPhone(), array('class' => 'form-control', 'placeholder' => $this->translate('Client phone'))); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="col-lg-2 control-label"><?php $this->show('Amount'); ?></label>
-            <div class="col-lg-10">
-                <div class="input-group">
-                    <?php echo Element::text('booking[amount]', $booking->getAmount(), array('class' => 'form-control', 'placeholder' => $this->translate('Amount to be charged'))); ?>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                </div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Amount'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?php echo Element::text('booking[amount]', $booking->getAmount(), array('class' => 'form-control', 'placeholder' => $this->translate('Amount to be charged'))); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
             </div>
         </div>
     </div>
