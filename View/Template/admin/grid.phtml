@@ -9,34 +9,40 @@ defined('KRYSTAL') or die;
 ?>
 
 <form autocomplete="off" action="<?= $route; ?>">
-    <div class="dropdown">
-      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-        <i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?> <?php if ($newReviews > 0): ?>(<?= $newReviews; ?>)<?php endif; ?>
-      </button>
+    <div class="btn-toolbar">
+        <div class="btn-group mr-2">
+            <div class="dropdown">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?> <?php if ($newReviews > 0): ?>(<?= $newReviews; ?>)<?php endif; ?>
+              </button>
 
-      <div class="dropdown-menu">
-         <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:Tour@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Add a tour'); ?></a>
-         <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:Category@addAction'); ?>"><i class="glyphicon glyphicon-folder-open"></i> <?php $this->show('Add category'); ?></a>
-         <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:Booking@indexAction', null); ?>"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Bookings'); ?></a>
-         <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:TourDestination@indexAction'); ?>"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Tour destinations'); ?></a>
-         <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:TourReview@indexAction', null); ?>">
-            <?php if ($newReviews == 0): ?>
-            <?php $this->show('Reviews'); ?></a>
-            <?php else: ?>
-            <span class="text-danger"><i class="glyphicon glyphicon-comment"></i> <?php $this->show('Reviews'); ?> (<?= $newReviews; ?>)</span>
-            <?php endif; ?>
-         </a>
-         <div class="dropdown-divider"></div>
-         <div class="dropdown-header"><?php $this->show('Actions'); ?></div>
-         <?php if (!empty($tours)): ?>
-         <a class="dropdown-item" href="#" data-button="remove-selected" data-url="<?php echo $this->url('Tour:Admin:Tour@deleteAction', null); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>
-         <?php else: ?>
-         <a class="class="dropdown-item""><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>         
-         <?php endif; ?>
-      </div>
+              <div class="dropdown-menu">
+                 <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:Tour@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Add a tour'); ?></a>
+                 <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:Category@addAction'); ?>"><i class="glyphicon glyphicon-folder-open"></i> <?php $this->show('Add category'); ?></a>
+                 <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:Booking@indexAction', null); ?>"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Bookings'); ?></a>
+                 <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:TourDestination@indexAction'); ?>"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Tour destinations'); ?></a>
+                 <a class="dropdown-item" href="<?php echo $this->url('Tour:Admin:TourReview@indexAction', null); ?>">
+                    <?php if ($newReviews == 0): ?>
+                    <?php $this->show('Reviews'); ?></a>
+                    <?php else: ?>
+                    <span class="text-danger"><i class="glyphicon glyphicon-comment"></i> <?php $this->show('Reviews'); ?> (<?= $newReviews; ?>)</span>
+                    <?php endif; ?>
+                 </a>
+                 <div class="dropdown-divider"></div>
+                 <div class="dropdown-header"><?php $this->show('Actions'); ?></div>
+                 <?php if (!empty($tours)): ?>
+                 <a class="dropdown-item" href="#" data-button="remove-selected" data-url="<?php echo $this->url('Tour:Admin:Tour@deleteAction', null); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>
+                 <?php else: ?>
+                 <a class="class="dropdown-item""><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>         
+                 <?php endif; ?>
+              </div>
+            </div>
+        </div>
+
+        <div class="btn-group mr-2">
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> <?php $this->show('Filter'); ?></button>
+        </div>
     </div>
-
-    <button class="btn btn-primary" type="submit"><?php $this->show('Filter'); ?></button>
 
     <div class="card">
         <?php $this->loadPartial('items-per-page', array('caption' => 'Tours')); ?>
