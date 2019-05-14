@@ -8,12 +8,12 @@ defined('KRYSTAL') or die;
 
 ?>
 
+<div class="btn-toolbar">
+    <a class="btn btn-primary btn-sm" href="<?= $this->url('Tour:Admin:TourDestination@addAction'); ?>"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Add new tour destination'); ?></a>
+</div>
+
 <div class="card">
     <h2 class="page-header"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Tour destinations'); ?> <small>(<?= count($destinations); ?>)</small></h2>
-
-    <p>
-        <a class="btn btn-primary btn-sm" href="<?= $this->url('Tour:Admin:TourDestination@addAction'); ?>"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Add new tour destination'); ?></a>
-    </p>
 
     <?= $this->widget(new GridViewWidget($destinations, array(
         'pk' => 'id',
