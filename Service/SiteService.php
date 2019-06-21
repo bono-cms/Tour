@@ -53,10 +53,11 @@ final class SiteService
     /**
      * Returns a hashmap of categories
      * 
+     * @param boolean $all Whether to fetch all records or a hashmap only
      * @return array
      */
-    public function getCategories()
+    public function getCategories($all = true)
     {
-        return $this->categoryService->fetchList(true);
+        return $all ? $this->categoryService->fetchAll() : $this->$this->categoryService->fetchAll();
     }
 }
