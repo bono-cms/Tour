@@ -78,11 +78,16 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
     {
         $columns = $this->getColumns();
         $columns[] = new RawSqlFragment(sprintf('COUNT(%s) AS tour_count', TourCategoryRelation::column('master_id')));
+        $columns[] = new RawSqlFragment(sprintf('MIN(%s) AS start_price', TourMapper::column('price')));
 
         $db = $this->createWebPageSelect($columns)
                     // Tour -> category relation
                     ->leftJoin(TourCategoryRelation::getTableName(), array(
                         TourCategoryRelation::column('slave_id') => self::getRawColumn($this->getPk())
+                    ))
+                    // Tour relation
+                    ->leftJoin(TourMapper::getTableName(), array(
+                        TourMapper::column('id') => TourCategoryRelation::getRawColumn('master_id')
                     ))
                     ->whereEquals(CategoryTranslationMapper::column('lang_id'), $this->getLangId())
                     ->groupBy($this->getColumns())

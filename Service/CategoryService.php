@@ -97,6 +97,10 @@ final class CategoryService extends AbstractManager
             $entity->setTourCount($category['tour_count']);
         }
 
+        if (isset($category['start_price'])) {
+            $entity->setStartPrice($category['start_price']);
+        }
+
         return $entity;
     }
 
