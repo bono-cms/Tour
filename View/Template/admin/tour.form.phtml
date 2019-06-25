@@ -245,12 +245,10 @@ defined('KRYSTAL') or die;
                 ),
                 'actions' => array(
                     'edit' => function($entity){
-                        return Element::icon('glyphicon glyphicon-pencil', $this->url('Tour:Admin:TourDay@editAction', $entity['id']));
+                        return Icon::edit($this->url('Tour:Admin:TourDay@editAction', $entity['id']), $this->translate('Edit this day'));
                     },
                     'delete' => function($entity){
-                        // Generate URL
-                        $url = $this->url('Tour:Admin:TourDay@deleteAction', $entity['id']);
-                        return Element::icon('glyphicon glyphicon-remove', '#', array('data-button' => 'delete', 'data-url' => $url));
+                        return Icon::remove($this->url('Tour:Admin:TourDay@deleteAction', $entity['id']), $this->translate('Remove this day'));
                     }
                 )
 
