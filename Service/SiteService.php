@@ -58,6 +58,6 @@ final class SiteService
      */
     public function getCategories($all = true)
     {
-        return $all ? $this->categoryService->fetchAll() : $this->$this->categoryService->fetchAll();
+        return $all ? $this->categoryService->fetchAll() : $this->categoryService->fetchList();
     }
 }
