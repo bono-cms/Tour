@@ -66,6 +66,7 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
         // Columns to be selected
         $columns = array(
             self::column('id'),
+            HotelTranslationMapper::column('lang_id'),
             HotelTranslationMapper::column('name'),
             WebPageMapper::column('slug')
         );
