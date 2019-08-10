@@ -76,6 +76,17 @@ final class HotelService extends AbstractManager
     }
 
     /**
+     * Find attached hotels by tour id
+     * 
+     * @param int $id Tour id
+     * @return array
+     */
+    public function findHotelsByTourId($id)
+    {
+        return $this->hotelMapper->findHotelsByTourId($id);
+    }
+
+    /**
      * Fetch hotels as a hash collection
      * 
      * @return array
