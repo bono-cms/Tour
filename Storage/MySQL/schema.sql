@@ -177,5 +177,10 @@ CREATE TABLE `bono_module_tour_hotels_translations` (
     `name` varchar(255) NOT NULL COMMENT 'Hotel name',
     `description` TEXT NOT NULL COMMENT 'Hotel description',
 
+    /* SEO attributes */
+    `title` varchar(255) NOT NULL COMMENT 'Page title',
+    `meta_keywords` TEXT NOT NULL COMMENT 'Keywords for search engines',
+    `meta_description` TEXT NOT NULL COMMENT 'Meta description for search engines',
+    
     FOREIGN KEY (id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
 );
