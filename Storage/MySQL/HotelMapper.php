@@ -87,7 +87,7 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
                        ))
                        ->whereEquals(TourHotelRelationMapper::column('master_id'), $id)
                        ->andWhereEquals(HotelTranslationMapper::column('lang_id'), $this->getLangId());
-        
+
         return $db->queryAll();
     }
 

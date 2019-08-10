@@ -65,6 +65,16 @@ final class TourEntity extends VirtualEntity
     }
 
     /**
+     * Checks whether current tour has attached hotels
+     * 
+     * @return boolean
+     */
+    public function hasHotels()
+    {
+        return $this->isFilled($this->getHotels());
+    }
+
+    /**
      * Checks whether there's at least one review
      * 
      * @return boolean
