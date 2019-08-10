@@ -1,0 +1,60 @@
+<?php
+
+use Krystal\Widget\GridView\GridViewWidget;
+use Krystal\Form\Element;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
+
+?>
+
+<div class="btn-toolbar">
+    <?php $this->loadPartial('menu', array(
+        'items' => array(
+            'Tour:Admin:Hotel@addAction' => 'Add hotel'
+        ),
+
+        'actions' => array(
+            'data' => $hotels,
+            'delete' => 'Tour:Admin:Hotel@deleteAction'
+        )
+    )); ?>
+</div>
+
+<div class="card">
+    <form autocomplete="off">
+        <?= $this->widget(new GridViewWidget($hotels, array(
+            'tableClass' => 'table table-hover table-bordered table-striped table-sm',
+            'columns' => array(
+                array(
+                    'column' => 'id',
+                    'label' => '#'
+                ),
+
+                array(
+                    'column' => 'name',
+                ),
+
+                array(
+                    'column' => 'description',
+                )
+            ),
+
+            'actions' => array(
+                'edit' => function($row){
+                    return Icon::edit(
+                        $this->url('Tour:Admin:Hotel@editAction', $row['id']),
+                        $this->translate('Edit this hotel')
+                    );
+                },
+
+                'remove' => function($row){
+                    return Icon::remove(
+                        $this->url('Tour:Admin:Hotel@deleteAction', $row['id']),
+                        $this->translate('Delete this hotel')
+                    );
+                }
+            )
+        ))); ?>
+    </form>
+</div>
