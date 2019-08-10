@@ -76,6 +76,16 @@ final class HotelService extends AbstractManager
     }
 
     /**
+     * Fetch hotels as a hash collection
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        return ArrayUtils::arrayList($this->hotelMapper->fetchAll(false), 'id', 'name');
+    }
+
+    /**
      * Fetch all hotels
      * 
      * @param boolean $sort Whether to sort by corresponding sorting order
