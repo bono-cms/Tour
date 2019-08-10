@@ -94,6 +94,35 @@ final class Tour extends AbstractController
     }
 
     /**
+     * Renders a hotel by its id
+     * 
+     * @param int $id Hotel id
+     * @return string
+     */
+    public function hotelAction($id)
+    {
+        $hotelService = $this->getModuleService('hotelService');
+        $hotel = $hotelService->fetchById($id, false);
+
+        if ($hotel !== false) {
+            // Load global view plugins
+            $this->loadSitePlugins();
+
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne($hotel->getName());
+
+            return $this->view->render('tour-hotel', array(
+                'hotel' => $hotel,
+                'page' => $hotel,
+                'languages' => $hotelService->getSwitchUrls($id)
+            ));
+
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Renders tour template
      * 
      * @param int $id Tour ID
