@@ -161,3 +161,20 @@ CREATE TABLE `bono_module_tour_destinations_translations` (
 
     FOREIGN KEY (id) REFERENCES bono_module_tour_destinations(id) ON DELETE CASCADE
 );
+
+/* Hotels */
+DROP TABLE IF EXISTS `bono_module_tour_hotels`;
+CREATE TABLE `bono_module_tour_hotels` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `order` INT NOT NULL COMMENT 'Sortiing order'
+);
+
+DROP TABLE IF EXISTS `bono_module_tour_hotels_translations`;
+CREATE TABLE `bono_module_tour_hotels_translations` (
+    `id` INT NOT NULL COMMENT 'Hotel ID',
+    `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
+    `name` varchar(255) NOT NULL COMMENT 'Hotel name',
+    `description` TEXT NOT NULL COMMENT 'Hotel description',
+
+    FOREIGN KEY (id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
+);
