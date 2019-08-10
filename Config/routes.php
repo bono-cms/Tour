@@ -185,5 +185,26 @@ return array(
 
     '/%s/module/tour/gallery/delete/(:var)' => array(
         'controller' => 'Admin:TourGallery@deleteAction'
+    ),
+    
+    // Hotels
+    '/%s/module/tour/hotels' => array(
+        'controller' => 'Admin:Hotel@indexAction'
+    ),
+
+    '/%s/module/tour/hotels/save' => array(
+        'controller' => 'Admin:Hotel@saveAction'
+    ),
+
+    '/%s/module/tour/hotels/add' => array(
+        'controller' => 'Admin:Hotel@addAction'
+    ),
+
+    '/%s/module/tour/hotels/edit/(:var)' => array(
+        'controller' => 'Admin:Hotel@editAction'
+    ),
+
+    '/%s/module/tour/hotels/delete/(:var)' => array(
+        'controller' => 'Admin:Hotel@deleteAction'
     )
 );
