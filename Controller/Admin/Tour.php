@@ -49,7 +49,8 @@ final class Tour extends AbstractController
             'reviews' => !$new ? $this->getModuleService('tourReviewService')->fetchAll($id, false) : array(),
             'categories' => $this->getModuleService('categoryService')->fetchList(true),
             'tours' => $this->getModuleService('tourService')->fetchList(array($id)),
-            'destinations' => $this->getModuleService('tourDestinationService')->fetchList()
+            'destinations' => $this->getModuleService('tourDestinationService')->fetchList(),
+            'hotels' => $this->getModuleService('hotelService')->fetchList()
         ));
     }
 
