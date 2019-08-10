@@ -184,3 +184,12 @@ CREATE TABLE `bono_module_tour_hotels_translations` (
     
     FOREIGN KEY (id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
 );
+
+DROP TABLE IF EXISTS `bono_module_tour_hotels_relation`;
+CREATE TABLE `bono_module_tour_hotels_relation` (
+    `master_id` INT NOT NULL COMMENT 'Tour ID',
+    `slave_id` INT NOT NULL COMMENT 'Hotel ID',
+
+    FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
+    FOREIGN KEY (slave_id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
+);
