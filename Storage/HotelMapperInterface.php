@@ -11,6 +11,6 @@
 
 namespace Tour\Storage;
 
-interface HotelInterfaceMapper
+interface HotelMapperInterface
 {
 }
