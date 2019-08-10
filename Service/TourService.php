@@ -112,6 +112,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         if ($entity->getId()) {
             $entity->setCategoryIds($this->tourMapper->findCategoryIds($entity->getId()));
             $entity->setRelatedIds($this->tourMapper->findRelatedIds($entity->getId()));
+            $entity->setHotelIds($this->tourMapper->findHotelIds($entity->getId()));
         }
 
         if (isset($tour['category'])) {
@@ -272,6 +273,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         // Attach related ones
         $this->tourMapper->attachCategories($id, isset($input['data']['categories']) ? $input['data']['categories'] : array());
         $this->tourMapper->attachRelatedTours($id, isset($input['data']['related']) ? $input['data']['related'] : array());
+        $this->tourMapper->attachHotels($id, isset($input['data']['hotels']) ? $input['data']['hotels'] : array());
 
         return true;
     }
