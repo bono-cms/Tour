@@ -128,7 +128,7 @@ final class Module extends AbstractCmsModule
         $tourDestinationService = new TourDestinationService($tourDestinationMapper);
 
         return array(
-            'hotelService' => new HotelService($hotelMapper),
+            'hotelService' => new HotelService($hotelMapper, $webPageManager),
             'bookingService' => new BookingService($bookingMapper),
             'categoryService' => $categoryService,
             'tourService' => new TourService($tourMapper, $webPageManager, $this->createTourCoverImageManager()),

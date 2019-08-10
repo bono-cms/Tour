@@ -13,6 +13,7 @@ namespace Tour\Storage\MySQL;
 
 use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\AbstractMapper;
+use Cms\Storage\MySQL\WebPageMapper;
 use Tour\Storage\HotelMapperInterface;
 
 final class HotelMapper extends AbstractMapper implements HotelMapperInterface
@@ -50,6 +51,7 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
             HotelTranslationMapper::column('title'),
             HotelTranslationMapper::column('meta_keywords'),
             HotelTranslationMapper::column('meta_description'),
+            WebPageMapper::column('slug')
         );
     }
 
