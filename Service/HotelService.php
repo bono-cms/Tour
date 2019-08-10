@@ -83,7 +83,18 @@ final class HotelService extends AbstractManager
      */
     public function findHotelsByTourId($id)
     {
-        return $this->hotelMapper->findHotelsByTourId($id);
+        // Get raw rows and convert them to entities
+        $rows = ArrayUtils::filterArray($this->hotelMapper->findHotelsByTourId($id), function($row){
+            $entity = new VirtualEntity();
+            $entity->setId($row['id'])
+                   ->setLangId($row['lang_id'])
+                   ->setSlug($row['slug'])
+                   ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
+
+            return $entity;
+        });
+
+        return $rows;
     }
 
     /**
