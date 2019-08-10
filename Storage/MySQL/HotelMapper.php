@@ -56,6 +56,42 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
     }
 
     /**
+     * Find attached hotels by tour id
+     * 
+     * @param int $id Tour id
+     * @return array
+     */
+    public function findHotelsByTourId($id)
+    {
+        // Columns to be selected
+        $columns = array(
+            self::column('id'),
+            HotelTranslationMapper::column('name'),
+            WebPageMapper::column('slug')
+        );
+
+        $db = $this->db->select($columns)
+                       ->from(TourHotelRelationMapper::getTableName())
+                       // Hotel relation
+                       ->leftJoin(self::getTableName(), array(
+                            self::column('id') => TourHotelRelationMapper::getRawColumn('slave_id')
+                       ))
+                       // Hotel translation relation
+                       ->leftJoin(HotelTranslationMapper::getTableName(), array(
+                            HotelTranslationMapper::column('id') => self::getRawColumn('id')
+                       ))
+                       // Web page relation
+                       ->leftJoin(WebPageMapper::getTableName(), array(
+                            WebPageMapper::column('id') => HotelTranslationMapper::getRawColumn('web_page_id'),
+                            WebPageMapper::column('lang_id') => HotelTranslationMapper::getRawColumn('lang_id')
+                       ))
+                       ->whereEquals(TourHotelRelationMapper::column('master_id'), $id)
+                       ->andWhereEquals(HotelTranslationMapper::column('lang_id'), $this->getLangId());
+        
+        return $db->queryAll();
+    }
+
+    /**
      * Fetch all hotels
      * 
      * @param boolean $sort Whether to sort by corresponding sorting order

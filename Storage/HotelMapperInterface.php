@@ -14,6 +14,14 @@ namespace Tour\Storage;
 interface HotelMapperInterface
 {
     /**
+     * Find attached hotels by tour id
+     * 
+     * @param int $id Tour id
+     * @return array
+     */
+    public function findHotelsByTourId($id);
+
+    /**
      * Fetch all hotels
      * 
      * @param boolean $sort Whether to sort by corresponding sorting order
