@@ -41,6 +41,10 @@ defined('KRYSTAL') or die;
             ),
 
             'actions' => array(
+                'view' => function($row){
+                    return Icon::view($row['url'],$this->translate('View this hotel on site'));
+                },
+
                 'edit' => function($row){
                     return Icon::edit(
                         $this->url('Tour:Admin:Hotel@editAction', $row['id']),
