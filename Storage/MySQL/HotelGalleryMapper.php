@@ -23,4 +23,21 @@ final class HotelGalleryMapper extends AbstractMapper implements HotelGalleryMap
     {
         return self::getWithPrefix('bono_module_tour_hotels_gallery');
     }
+
+    /**
+     * Fetch all images
+     * 
+     * @param int $tourId
+     * @return array
+     */
+    public function fetchAll($tourId)
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->whereEquals('tour_id', $tourId)
+                       ->orderBy('id')
+                       ->desc();
+
+        return $db->queryAll();
+    }
 }

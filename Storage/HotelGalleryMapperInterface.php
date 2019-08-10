@@ -13,5 +13,11 @@ namespace Tour\Storage;
 
 interface HotelGalleryMapperInterface
 {
-    
+    /**
+     * Fetch all images
+     * 
+     * @param int $tourId
+     * @return array
+     */
+    public function fetchAll($tourId);
 }
