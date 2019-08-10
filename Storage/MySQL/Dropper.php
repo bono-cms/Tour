@@ -36,7 +36,8 @@ final class Dropper extends AbstractStorageDropper
             CategoryMapper::getTableName(),
             CategoryTranslationMapper::getTableName(),
             HotelMapper::getTableName(),
-            HotelTranslationMapper::getTableName()
+            HotelTranslationMapper::getTableName(),
+            TourHotelRelationMapper::getTableName()
         );
     }
 }
