@@ -125,6 +125,29 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     }
 
     /**
+     * Attach hotel ids
+     * 
+     * @param int $id Tour id
+     * @param array $hotelIds
+     * @return boolean
+     */
+    public function attachHotels($id, array $hotelIds)
+    {
+        return $this->syncWithJunction(TourHotelRelationMapper::getTableName(), $id, $hotelIds);
+    }
+
+    /**
+     * Find attached hotel ids
+     * 
+     * @param int $id Tour id
+     * @return array
+     */
+    public function findHotelIds($id)
+    {
+        return $this->getSlaveIdsFromJunction(TourHotelRelationMapper::getTableName(), $id);
+    }
+
+    /**
      * Fetch all available tours
      * 
      * @return array
