@@ -47,6 +47,17 @@ final class HotelService extends AbstractManager
     }
 
     /**
+     * Returns a collection of switching URLs
+     * 
+     * @param string $id Hotel ID
+     * @return array
+     */
+    public function getSwitchUrls($id)
+    {
+        return $this->hotelMapper->createSwitchUrls($id, 'Tour (Hotels)', 'Tour:Tour@hotelAction');
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function toEntity(array $row)
