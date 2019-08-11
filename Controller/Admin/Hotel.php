@@ -26,6 +26,8 @@ final class Hotel extends AbstractController
     {
         $new = is_object($hotel);
 
+        $id = $new ? false : $hotel[0]->getId();
+        
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                        ->addOne('Hotels', 'Tour:Admin:Hotel@indexAction')
@@ -35,7 +37,9 @@ final class Hotel extends AbstractController
                    ->load($this->getWysiwygPluginName());
 
         return $this->view->render('hotel/form', array(
-            'hotel' => $hotel
+            'new' => $new,
+            'hotel' => $hotel,
+            'gallery' => !$new ? $this->getModuleService('hotelGalleryService')->fetchAll($id, false) : array(),
         ));
     }
 

@@ -13,6 +13,9 @@ defined('KRYSTAL') or die;
 	<ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a class="nav-link" href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Hotel'); ?></a></li>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-check"></i> <?php $this->show('Configuration'); ?></a></li>
+        <?php if (!$new): ?>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#gallery" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-camera"></i> <?php $this->show('Gallery'); ?></a></li>
+        <?php endif; ?>
     </ul>
 
     <div class="tab-content">
@@ -109,5 +112,45 @@ defined('KRYSTAL') or die;
                 </div>
             </div>
         </div>
+
+        <?php if (!$new): ?>
+        <div role="tabpanel" class="tab-pane" id="gallery">
+            <h2 class="page-header"><i class="glyphicon glyphicon-camera"></i> <?php $this->show('Gallery'); ?> <small>(<?= count($gallery); ?>)</small></h2>
+
+            <p>
+                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:HotelGallery@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new image'); ?></a>
+            </p>
+
+            <?= $this->widget(new GridViewWidget($gallery, array(
+                'pk' => 'id',
+                'columns' => array(
+                    array(
+                        'column' => 'id',
+                        'label' => '#'
+                    ),
+                    array(
+                        'column' => 'image',
+                        'value' => function($entity){
+                            return Element::image($entity->getImageUrl('400x400'), array('class' => 'img-fluid'));                                
+                        }
+                    ),
+                    array(
+                        'column' => 'order'
+                    )
+                ),
+
+                'actions' => array(
+                    'edit' => function($entity){
+                        return Icon::edit($this->url('Tour:Admin:HotelGallery@editAction', $entity['id']), $this->translate('Edit this image'));
+                    },
+                    'remove' => function($entity){
+                        return Icon::remove($this->url('Tour:Admin:HotelGallery@deleteAction', $entity['id']), $this->translate('Remove this image'));
+                    }
+                )
+
+            ))); ?>
+        </div>
+        <?php endif; ?>
+
 	</div>
 </form>
