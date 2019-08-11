@@ -197,9 +197,9 @@ CREATE TABLE `bono_module_tour_hotels_relation` (
 DROP TABLE IF EXISTS `bono_module_tour_hotels_gallery`;
 CREATE TABLE `bono_module_tour_hotels_gallery` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `tour_id` INT NOT NULL COMMENT 'Attached tour ID',
+    `hotel_id` INT NOT NULL COMMENT 'Attached tour ID',
     `order` INT NOT NULL COMMENT 'Sorting order',
-    `file` varchar(255) NOT NULL COMMENT 'Base file name',
+    `image` varchar(255) NOT NULL COMMENT 'Base file name',
 
-    FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
+    FOREIGN KEY (hotel_id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
 );

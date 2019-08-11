@@ -27,14 +27,14 @@ final class HotelGalleryMapper extends AbstractMapper implements HotelGalleryMap
     /**
      * Fetch all images
      * 
-     * @param int $tourId
+     * @param int $hotelId
      * @return array
      */
-    public function fetchAll($tourId)
+    public function fetchAll($hotelId)
     {
         $db = $this->db->select('*')
                        ->from(self::getTableName())
-                       ->whereEquals('tour_id', $tourId)
+                       ->whereEquals('hotel_id', $hotelId)
                        ->orderBy('id')
                        ->desc();
 
