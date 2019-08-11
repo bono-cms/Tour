@@ -23,9 +23,39 @@ use Tour\Service\TourDateService;
 use Tour\Service\TourDestinationService;
 use Tour\Service\SiteService;
 use Tour\Service\HotelService;
+use Tour\Service\HotelGalleryService;
 
 final class Module extends AbstractCmsModule
 {
+    /**
+     * Builds gallery image manager service
+     * 
+     * @return \Krystal\Image\Tool\ImageManager
+     */
+    private function createHotelGalleryImageManager()
+    {
+        $plugins = array(
+            'thumb' => array(
+                'quality' => 80,
+                'dimensions' => array(
+                    // For administration panel
+                    array(400, 400)
+                )
+            ),
+
+            'original' => array(
+                'prefix' => 'original'
+            )
+        );
+
+        return new ImageManager(
+            '/data/uploads/module/tour/hotels/',
+            $this->appConfig->getRootDir(),
+            $this->appConfig->getRootUrl(),
+            $plugins
+        );
+    }
+
     /**
      * Builds gallery image manager service
      * 
@@ -120,6 +150,7 @@ final class Module extends AbstractCmsModule
         $bookingMapper = $this->getMapper('/Tour/Storage/MySQL/TourBookingMapper');
         $reviewMapper = $this->getMapper('/Tour/Storage/MySQL/TourReviewMapper');
         $hotelMapper = $this->getMapper('/Tour/Storage/MySQL/HotelMapper');
+        $hotelGalleryMapper = $this->getMapper('/Tour/Storage/MySQL/HotelGalleryMapper');
 
         $webPageManager = $this->getWebPageManager();
 
@@ -129,6 +160,7 @@ final class Module extends AbstractCmsModule
 
         return array(
             'hotelService' => new HotelService($hotelMapper, $webPageManager),
+            'hotelGalleryService' => new HotelGalleryService($hotelGalleryMapper, $this->createHotelGalleryImageManager()),
             'bookingService' => new BookingService($bookingMapper),
             'categoryService' => $categoryService,
             'tourService' => new TourService($tourMapper, $webPageManager, $this->createTourCoverImageManager()),
