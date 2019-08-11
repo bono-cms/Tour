@@ -206,5 +206,22 @@ return array(
 
     '/%s/module/tour/hotels/delete/(:var)' => array(
         'controller' => 'Admin:Hotel@deleteAction'
+    ),
+
+    // Hotel gallery
+    '/%s/module/tour/gallery/add/(:var)' => array(
+        'controller' => 'Admin:HotelGallery@addAction'
+    ),
+
+    '/%s/module/tour/gallery/edit/(:var)' => array(
+        'controller' => 'Admin:HotelGallery@editAction'
+    ),
+
+    '/%s/module/tour/gallery/save' => array(
+        'controller' => 'Admin:HotelGallery@saveAction'
+    ),
+
+    '/%s/module/tour/gallery/delete/(:var)' => array(
+        'controller' => 'Admin:HotelGallery@deleteAction'
     )
 );
