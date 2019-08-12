@@ -17,21 +17,22 @@ use Krystal\Stdlib\VirtualEntity;
 final class Hotel extends AbstractController
 {
     /**
-     * Renders form
+     * Renders a form
      * 
      * @param mixed $hotel
+     * @param string $title Page title
      * @return string
      */
-    private function createForm($hotel)
+    private function createForm($hotel, $title)
     {
         $new = is_object($hotel);
 
         $id = $new ? false : $hotel[0]->getId();
-        
+
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                        ->addOne('Hotels', 'Tour:Admin:Hotel@indexAction')
-                                       ->addOne($new ? 'Add new hotel' : 'Edit the hotel');
+                                       ->addOne($title);
         // Load plugins
         $this->view->getPluginBag()
                    ->load($this->getWysiwygPluginName());
@@ -66,7 +67,7 @@ final class Hotel extends AbstractController
      */
     public function addAction()
     {
-        return $this->createForm(new VirtualEntity());
+        return $this->createForm(new VirtualEntity(), 'Add new hotel');
     }
 
     /**
@@ -80,7 +81,8 @@ final class Hotel extends AbstractController
         $hotel = $this->getModuleService('hotelService')->fetchById($id, true);
 
         if ($hotel !== false) {
-            return $this->createForm($hotel);
+            $name = $this->getCurrentProperty($hotel, 'name');
+            return $this->createForm($hotel, $this->translator->translate('Edit the hotel "%s"', $name));
         } else {
             return false;
         }

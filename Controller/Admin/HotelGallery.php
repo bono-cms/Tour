@@ -21,22 +21,30 @@ final class HotelGallery extends AbstractController
      * 
      * @param \Krystal\Stdlib\VirtualEntity $photo
      * @param string $title Page title
-     * @return string
+     * @return mixed
      */
     private function createForm(VirtualEntity $image, $title)
     {
         // Load view plugins
         $this->view->getPluginBag()->load('preview');
 
-        // Append breadcrumbs
-        $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne('Hotels', 'Tour:Admin:Hotel@indexAction')
-                                       ->addOne('Edit the hotel', $this->createUrl('Tour:Admin:Hotel@editAction', array($image->getHotelId())))
-                                       ->addOne($title);
+        // Grab current hotel
+        $hotel = $this->getModuleService('hotelService')->fetchById($image->getHotelId(), false);
 
-        return $this->view->render('hotel/gallery.form', array(
-            'image' => $image
-        ));
+        if ($hotel !== false) {
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
+                                           ->addOne('Hotels', 'Tour:Admin:Hotel@indexAction')
+                                           ->addOne(sprintf('Edit the hotel "%s"', $hotel->getName()), $this->createUrl('Tour:Admin:Hotel@editAction', array($image->getHotelId())))
+                                           ->addOne($title);
+
+            return $this->view->render('hotel/gallery.form', array(
+                'image' => $image
+            ));
+        } else {
+            // Wrong hotel id supplied
+            return false;
+        }
     }
 
     /**
