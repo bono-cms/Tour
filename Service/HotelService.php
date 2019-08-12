@@ -69,6 +69,10 @@ final class HotelService extends AbstractManager
                ->setOrder($row['order'])
                ->setName($row['name'])
                ->setDescription($row['description'])
+               ->setPhone($row['phone'])
+               ->setAddress($row['address'])
+               ->setDistances($row['distances'])
+               ->setRooms($row['rooms'])
                ->setSlug($row['slug'])
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
 

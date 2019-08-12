@@ -176,6 +176,10 @@ CREATE TABLE `bono_module_tour_hotels_translations` (
     `web_page_id` INT NOT NULL COMMENT 'Attached web-page ID',
     `name` varchar(255) NOT NULL COMMENT 'Hotel name',
     `description` TEXT NOT NULL COMMENT 'Hotel description',
+    `phone` varchar(255) NOT NULL COMMENT 'Hotel phone(s)',
+    `address` TEXT NOT NULL COMMENT 'Hotel address',
+    `distances` TEXT NOT NULL COMMENT 'Distances',
+    `rooms` TEXT NOT NULL COMMENT 'Rooms description',
 
     /* SEO attributes */
     `title` varchar(255) NOT NULL COMMENT 'Page title',
