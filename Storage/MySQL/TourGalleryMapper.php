@@ -11,11 +11,10 @@
 
 namespace Tour\Storage\MySQL;
 
-use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\AbstractMapper;
-use Tour\Storage\TourGalleryMapperInterface;
+use Tour\Storage\SharedGalleryMapperInterface;
 
-final class TourGalleryMapper extends AbstractMapper implements TourGalleryMapperInterface
+final class TourGalleryMapper extends AbstractGalleryMapper implements SharedGalleryMapperInterface
 {
     /**
      * {@inheritDoc}
@@ -34,21 +33,6 @@ final class TourGalleryMapper extends AbstractMapper implements TourGalleryMappe
      */
     public function fetchAll($tourId, $sort)
     {
-        $db = $this->db->select('*')
-                       ->from(self::getTableName())
-                       ->whereEquals(self::column('tour_id'), $tourId);
-
-        if ($sort === false) {
-            // Sort by last IDs
-            $db->orderBy(self::column('id'))
-               ->desc();
-        } else {
-            $db->orderBy(array(
-                self::column('order'), 
-                new RawSqlFragment(sprintf('CASE WHEN %s = 0 THEN %s END DESC', self::column('order'), self::column('id')))
-            ));
-        }
-
-        return $db->queryAll();
+        return $this->findAllImages('tour_id', $tourId, $sort);
     }
 }

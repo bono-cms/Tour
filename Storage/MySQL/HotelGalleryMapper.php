@@ -11,10 +11,9 @@
 
 namespace Tour\Storage\MySQL;
 
-use Cms\Storage\MySQL\AbstractMapper;
-use Tour\Storage\HotelGalleryMapperInterface;
+use Tour\Storage\SharedGalleryMapperInterface;
 
-final class HotelGalleryMapper extends AbstractMapper implements HotelGalleryMapperInterface
+final class HotelGalleryMapper extends AbstractGalleryMapper implements SharedGalleryMapperInterface
 {
     /**
      * {@inheritDoc}
@@ -28,16 +27,11 @@ final class HotelGalleryMapper extends AbstractMapper implements HotelGalleryMap
      * Fetch all images
      * 
      * @param int $hotelId
+     * @param boolean $sort Whether to sort by corresponding sorting order
      * @return array
      */
-    public function fetchAll($hotelId)
+    public function fetchAll($hotelId, $sort)
     {
-        $db = $this->db->select('*')
-                       ->from(self::getTableName())
-                       ->whereEquals('hotel_id', $hotelId)
-                       ->orderBy('id')
-                       ->desc();
-
-        return $db->queryAll();
+        return $this->findAllImages('hotel_id', $hotelId, $sort);
     }
 }

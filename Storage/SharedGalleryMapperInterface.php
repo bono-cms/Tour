@@ -11,13 +11,14 @@
 
 namespace Tour\Storage;
 
-interface HotelGalleryMapperInterface
+interface SharedGalleryMapperInterface
 {
     /**
-     * Fetch all images
+     * Fetch all tour images
      * 
-     * @param int $tourId
+     * @param int $tourId Attached tour ID
+     * @param boolean $sort Whether to sort by corresponding sorting order
      * @return array
      */
-    public function fetchAll($tourId);
+    public function fetchAll($tourId, $sort);
 }
