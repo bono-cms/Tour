@@ -108,6 +108,9 @@ final class Tour extends AbstractController
             // Load global view plugins
             $this->loadSitePlugins();
 
+            // Append image gallery
+            $hotel->setGallery($this->getModuleService('hotelGalleryService')->fetchImages($id, 'original'));
+
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne($hotel->getName());
 
