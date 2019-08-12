@@ -35,7 +35,7 @@ final class HotelGallery extends AbstractController
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                            ->addOne('Hotels', 'Tour:Admin:Hotel@indexAction')
-                                           ->addOne(sprintf('Edit the hotel "%s"', $hotel->getName()), $this->createUrl('Tour:Admin:Hotel@editAction', array($image->getHotelId())))
+                                           ->addOne($this->translator->translate('Edit the hotel "%s"', $hotel->getName()), $this->createUrl('Tour:Admin:Hotel@editAction', array($image->getHotelId())))
                                            ->addOne($title);
 
             return $this->view->render('hotel/gallery.form', array(
