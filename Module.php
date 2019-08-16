@@ -32,6 +32,35 @@ final class Module extends AbstractCmsModule
      * 
      * @return \Krystal\Image\Tool\ImageManager
      */
+    private function createHotelImageManager()
+    {
+        $plugins = array(
+            'thumb' => array(
+                'quality' => 80,
+                'dimensions' => array(
+                    // For administration panel
+                    array(400, 400)
+                )
+            ),
+
+            'original' => array(
+                'prefix' => 'original'
+            )
+        );
+
+        return new ImageManager(
+            '/data/uploads/module/tour/hotels/covers/',
+            $this->appConfig->getRootDir(),
+            $this->appConfig->getRootUrl(),
+            $plugins
+        );
+    }
+
+    /**
+     * Builds gallery image manager service
+     * 
+     * @return \Krystal\Image\Tool\ImageManager
+     */
     private function createHotelGalleryImageManager()
     {
         $plugins = array(
@@ -49,7 +78,7 @@ final class Module extends AbstractCmsModule
         );
 
         return new ImageManager(
-            '/data/uploads/module/tour/hotels/',
+            '/data/uploads/module/tour/hotels/gallery/',
             $this->appConfig->getRootDir(),
             $this->appConfig->getRootUrl(),
             $plugins
@@ -159,7 +188,7 @@ final class Module extends AbstractCmsModule
         $tourDestinationService = new TourDestinationService($tourDestinationMapper);
 
         return array(
-            'hotelService' => new HotelService($hotelMapper, $webPageManager),
+            'hotelService' => new HotelService($hotelMapper, $webPageManager, $this->createHotelImageManager()),
             'hotelGalleryService' => new HotelGalleryService($hotelGalleryMapper, $this->createHotelGalleryImageManager()),
             'bookingService' => new BookingService($bookingMapper),
             'categoryService' => $categoryService,

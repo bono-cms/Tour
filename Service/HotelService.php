@@ -11,8 +11,8 @@
 
 namespace Tour\Service;
 
-use Krystal\Stdlib\VirtualEntity;
 use Krystal\Stdlib\ArrayUtils;
+use Krystal\Image\Tool\ImageManagerInterface;
 use Cms\Service\AbstractManager;
 use Cms\Service\WebPageManagerInterface;
 use Tour\Storage\HotelMapperInterface;
@@ -34,16 +34,25 @@ final class HotelService extends AbstractManager
     private $webPageManager;
 
     /**
+     * Image manager service
+     * 
+     * @var \Krystal\Image\Tool\ImageManagerInterface
+     */
+    private $imageManager;
+
+    /**
      * State initialization
      * 
      * @param \Tour\Storage\HotelMapperInterface $hotelMapper
      * @param \Cms\Service\WebPageManagerInterface $webPageManager
+     * @param \Krystal\Image\Tool\ImageManagerInterface $imageManager
      * @return void
      */
-    public function __construct(HotelMapperInterface $hotelMapper, WebPageManagerInterface $webPageManager)
+    public function __construct(HotelMapperInterface $hotelMapper, WebPageManagerInterface $webPageManager, ImageManagerInterface $imageManager)
     {
         $this->hotelMapper = $hotelMapper;
         $this->webPageManager = $webPageManager;
+        $this->imageManager = $imageManager;
     }
 
     /**
@@ -62,7 +71,7 @@ final class HotelService extends AbstractManager
      */
     protected function toEntity(array $row)
     {
-        $entity = new VirtualEntity();
+        $entity = new HotelEntity();
         $entity->setId($row['id'])
                ->setLangId($row['lang_id'])
                ->setWebPageId($row['web_page_id'])
@@ -76,6 +85,13 @@ final class HotelService extends AbstractManager
                ->setRooms($row['rooms'])
                ->setSlug($row['slug'])
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
+
+        // Configure image bag
+        $imageBag = clone $this->imageManager->getImageBag();
+        $imageBag->setId((int) $row['id'])
+                 ->setCover($row['cover']);
+
+        $entity->setImageBag($imageBag);
 
         return $entity;
     }
@@ -161,6 +177,48 @@ final class HotelService extends AbstractManager
     }
 
     /**
+     * Saves a page
+     * 
+     * @param array $input
+     * @param int $id Hotel ID
+     * @return boolean
+     */
+    private function savePage(array $input, $id)
+    {
+        // Request variables
+        $hotel =& $input['data']['hotel'];
+        $file = isset($input['files']['file']) ? $input['files']['file'] : false;
+
+        $hotel = ArrayUtils::arrayWithout($hotel, array('slug'));
+
+        // Adding
+        if (!$hotel['id'] && $file) {
+            // Define image attribute
+            $hotel['cover'] = $file->getUniqueName();
+        }
+
+        // If file new provided, than start handling
+        if ($hotel['id'] && $file) {
+            // If we have a previous cover, then we gotta remove it
+            $this->imageManager->delete($hotel['id'], $hotel['cover']);
+            $this->imageManager->upload($hotel['id'], $file);
+
+            // Now override cover's value with file's base name we currently have from user's input
+            $hotel['cover'] = $file->getUniqueName();
+        }
+
+        // Save page
+        $this->hotelMapper->savePage('Tour (Hotels)', 'Tour:Tour@hotelAction', $hotel, $input['data']['translation']);
+
+        if (!$hotel['id'] && $file) {
+            // And now upload image
+            $this->imageManager->upload($id, $file);
+        }
+
+        return true;
+    }
+
+    /**
      * Save hotel data
      * 
      * @param array $input
@@ -168,9 +226,9 @@ final class HotelService extends AbstractManager
      */
     public function save(array $input)
     {
-        $input['hotel'] = ArrayUtils::arrayWithout($input['hotel'], array('slug'));
+        // Grab id
+        $id = !empty($input['data']['hotel']['id']) ? $input['data']['hotel']['id'] : $this->getLastId();
 
-        // Save page
-        return $this->hotelMapper->savePage('Tour (Hotels)', 'Tour:Tour@hotelAction', $input['hotel'], $input['translation']);
+        return $this->savePage($input, $id);
     }
 }

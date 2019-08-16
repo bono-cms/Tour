@@ -132,6 +132,19 @@ defined('KRYSTAL') or die;
 
         <div role="tabpanel" class="tab-pane" id="configuration">
             <?php echo Element::hidden('hotel[id]', $entity->getId()); ?>
+            <?php echo Element::hidden('hotel[cover]', $entity->getCover()); ?>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label"><?php $this->show('Image'); ?></label>
+                <div class="col-lg-10">
+                    <p>
+                        <img data-image="<?php echo $entity->getId() ? null : 'preview'; ?>" src="<?php echo $entity->getImageUrl('400x400'); ?>" />
+                    </p>
+
+                    <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
+                    <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>

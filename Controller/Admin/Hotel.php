@@ -29,6 +29,9 @@ final class Hotel extends AbstractController
 
         $id = $new ? false : $hotel[0]->getId();
 
+        // Load preview plugin
+        $this->view->getPluginBag()->load('preview');
+
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                        ->addOne('Hotels', 'Tour:Admin:Hotel@indexAction')
@@ -109,12 +112,12 @@ final class Hotel extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost();
+        $input = $this->request->getAll();
 
         $service = $this->getModuleService('hotelService');
         $service->save($input);
 
-        if ($input['hotel']['id']) {
+        if ($input['data']['hotel']['id']) {
             $this->flashBag->set('success', 'The element has been updated successfully');
             return '1';
         } else {
