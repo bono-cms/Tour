@@ -34,7 +34,7 @@ defined('KRYSTAL') or die;
 
     <?php $this->loadPartial('actions', array(
         'new' => !$image->getId(),
-        'add' => 'Tour:Admin:HotelGallery@addAction',
+        'add' => array('Tour:Admin:HotelGallery@addAction', $image->getHotelId()),
         'edit' => 'Tour:Admin:HotelGallery@editAction',
         'save' => 'Tour:Admin:HotelGallery@saveAction',
         'cancel' => array('Tour:Admin:Hotel@editAction', $image->getHotelId())
