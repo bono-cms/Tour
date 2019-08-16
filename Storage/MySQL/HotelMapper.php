@@ -44,6 +44,7 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
         return array(
             self::column('id'),
             self::column('order'),
+            self::column('cover'),
             HotelTranslationMapper::column('web_page_id'),
             HotelTranslationMapper::column('lang_id'),
             HotelTranslationMapper::column('name'),

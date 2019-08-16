@@ -166,7 +166,8 @@ CREATE TABLE `bono_module_tour_destinations_translations` (
 DROP TABLE IF EXISTS `bono_module_tour_hotels`;
 CREATE TABLE `bono_module_tour_hotels` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `order` INT NOT NULL COMMENT 'Sortiing order'
+    `order` INT NOT NULL COMMENT 'Sortiing order',
+    `cover` varchar(255) NOT NULL COMMENT 'Cover file'
 );
 
 DROP TABLE IF EXISTS `bono_module_tour_hotels_translations`;

@@ -67,6 +67,7 @@ final class HotelService extends AbstractManager
                ->setLangId($row['lang_id'])
                ->setWebPageId($row['web_page_id'])
                ->setOrder($row['order'])
+               ->setCover($row['cover'])
                ->setName($row['name'])
                ->setDescription($row['description'])
                ->setPhone($row['phone'])
