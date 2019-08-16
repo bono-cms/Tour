@@ -11,7 +11,7 @@
 
 namespace Tour\Storage;
 
-interface TourGalleryMapperInterface
+interface SharedGalleryMapperInterface
 {
     /**
      * Fetch all tour images

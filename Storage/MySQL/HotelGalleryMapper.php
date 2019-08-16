@@ -11,28 +11,27 @@
 
 namespace Tour\Storage\MySQL;
 
-use Cms\Storage\MySQL\AbstractMapper;
 use Tour\Storage\SharedGalleryMapperInterface;
 
-final class TourGalleryMapper extends AbstractGalleryMapper implements SharedGalleryMapperInterface
+final class HotelGalleryMapper extends AbstractGalleryMapper implements SharedGalleryMapperInterface
 {
     /**
      * {@inheritDoc}
      */
     public static function getTableName()
     {
-        return self::getWithPrefix('bono_module_tour_gallery');
+        return self::getWithPrefix('bono_module_tour_hotels_gallery');
     }
 
     /**
-     * Fetch all tour images
+     * Fetch all images
      * 
-     * @param int $tourId Attached tour ID
+     * @param int $hotelId
      * @param boolean $sort Whether to sort by corresponding sorting order
      * @return array
      */
-    public function fetchAll($tourId, $sort)
+    public function fetchAll($hotelId, $sort)
     {
-        return $this->findAllImages('tour_id', $tourId, $sort);
+        return $this->findAllImages('hotel_id', $hotelId, $sort);
     }
 }

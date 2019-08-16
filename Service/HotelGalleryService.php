@@ -11,7 +11,7 @@
 
 namespace Tour\Service;
 
-final class TourGalleryService extends AbstractGalleryService
+final class HotelGalleryService extends AbstractGalleryService
 {
     /**
      * {@inheritDoc}
@@ -20,7 +20,7 @@ final class TourGalleryService extends AbstractGalleryService
     {
         $image = new ImageEntity();
         $image->setId($row['id'])
-              ->setTourId($row['tour_id'])
+              ->setHotelId($row['hotel_id'])
               ->setOrder($row['order'])
               ->setImage($row['image']);
 

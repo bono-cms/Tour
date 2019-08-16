@@ -56,6 +56,23 @@ interface TourMapperInterface
     public function findCategoryIds($id);
 
     /**
+     * Attach hotel ids
+     * 
+     * @param int $id Tour id
+     * @param array $hotelIds
+     * @return boolean
+     */
+    public function attachHotels($id, array $hotelIds);
+
+    /**
+     * Find attached hotel ids
+     * 
+     * @param int $id Tour id
+     * @return array
+     */
+    public function findHotelIds($id);
+
+    /**
      * Fetches tour data by its associated id
      * 
      * @param string $id Tour id

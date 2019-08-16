@@ -1,0 +1,68 @@
+<?php
+
+use Krystal\Widget\GridView\GridViewWidget;
+use Krystal\Form\Element;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
+
+?>
+
+<div class="btn-toolbar">
+    <div class="btn-group mr-2">
+        <a class="btn btn-primary" href="<?= $this->url('Tour:Admin:Hotel@addAction'); ?>"><?php $this->show('Add new hotel'); ?></a>
+    </div>
+</div>
+
+<div class="card">
+    <form autocomplete="off">
+        <?= $this->widget(new GridViewWidget($hotels, array(
+            'tableClass' => 'table table-hover table-bordered table-striped table-sm',
+            'columns' => array(
+                array(
+                    'column' => 'id',
+                    'label' => '#'
+                ),
+
+                array(
+                    'column' => 'cover',
+                    'value' => function($entity){
+                        return Element::image($entity->getImageUrl('400x400'), array('class' => 'img-fluid'));
+                    }
+                ),
+
+                array(
+                    'column' => 'name',
+                ),
+
+                array(
+                    'column' => 'address',
+                ),
+                
+                array(
+                    'column' => 'phone'
+                )
+            ),
+
+            'actions' => array(
+                'view' => function($row){
+                    return Icon::view($row['url'],$this->translate('View this hotel on site'));
+                },
+
+                'edit' => function($row){
+                    return Icon::edit(
+                        $this->url('Tour:Admin:Hotel@editAction', $row['id']),
+                        $this->translate('Edit this hotel')
+                    );
+                },
+
+                'remove' => function($row){
+                    return Icon::remove(
+                        $this->url('Tour:Admin:Hotel@deleteAction', $row['id']),
+                        $this->translate('Delete this hotel')
+                    );
+                }
+            )
+        ))); ?>
+    </form>
+</div>

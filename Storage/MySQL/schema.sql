@@ -161,3 +161,50 @@ CREATE TABLE `bono_module_tour_destinations_translations` (
 
     FOREIGN KEY (id) REFERENCES bono_module_tour_destinations(id) ON DELETE CASCADE
 );
+
+/* Hotels */
+DROP TABLE IF EXISTS `bono_module_tour_hotels`;
+CREATE TABLE `bono_module_tour_hotels` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `order` INT NOT NULL COMMENT 'Sortiing order',
+    `cover` varchar(255) NOT NULL COMMENT 'Cover file'
+);
+
+DROP TABLE IF EXISTS `bono_module_tour_hotels_translations`;
+CREATE TABLE `bono_module_tour_hotels_translations` (
+    `id` INT NOT NULL COMMENT 'Hotel ID',
+    `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
+    `web_page_id` INT NOT NULL COMMENT 'Attached web-page ID',
+    `name` varchar(255) NOT NULL COMMENT 'Hotel name',
+    `description` TEXT NOT NULL COMMENT 'Hotel description',
+    `phone` varchar(255) NOT NULL COMMENT 'Hotel phone(s)',
+    `address` TEXT NOT NULL COMMENT 'Hotel address',
+    `distances` TEXT NOT NULL COMMENT 'Distances',
+    `rooms` TEXT NOT NULL COMMENT 'Rooms description',
+
+    /* SEO attributes */
+    `title` varchar(255) NOT NULL COMMENT 'Page title',
+    `meta_keywords` TEXT NOT NULL COMMENT 'Keywords for search engines',
+    `meta_description` TEXT NOT NULL COMMENT 'Meta description for search engines',
+    
+    FOREIGN KEY (id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS `bono_module_tour_hotels_relation`;
+CREATE TABLE `bono_module_tour_hotels_relation` (
+    `master_id` INT NOT NULL COMMENT 'Tour ID',
+    `slave_id` INT NOT NULL COMMENT 'Hotel ID',
+
+    FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
+    FOREIGN KEY (slave_id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS `bono_module_tour_hotels_gallery`;
+CREATE TABLE `bono_module_tour_hotels_gallery` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `hotel_id` INT NOT NULL COMMENT 'Attached tour ID',
+    `order` INT NOT NULL COMMENT 'Sorting order',
+    `image` varchar(255) NOT NULL COMMENT 'Base file name',
+
+    FOREIGN KEY (hotel_id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
+);
