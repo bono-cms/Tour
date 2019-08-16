@@ -106,11 +106,18 @@ final class HotelService extends AbstractManager
     {
         // Get raw rows and convert them to entities
         $rows = ArrayUtils::filterArray($this->hotelMapper->findHotelsByTourId($id), function($row){
-            $entity = new VirtualEntity();
+            $entity = new HotelEntity();
             $entity->setId($row['id'])
                    ->setLangId($row['lang_id'])
                    ->setSlug($row['slug'])
                    ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
+
+            // Configure image bag
+            $imageBag = clone $this->imageManager->getImageBag();
+            $imageBag->setId((int) $row['id'])
+                     ->setCover($row['cover']);
+
+            $entity->setImageBag($imageBag);
 
             return $entity;
         });
