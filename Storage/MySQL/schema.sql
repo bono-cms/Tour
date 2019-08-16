@@ -8,7 +8,6 @@ CREATE TABLE `bono_module_tour_category` (
     `cover` varchar(255) NOT NULL COMMENT 'Cover file'
 );
 
-
 DROP TABLE IF EXISTS `bono_module_tour_category_translation`;
 CREATE TABLE `bono_module_tour_category_translation` (
     `id` INT NOT NULL,
@@ -19,7 +18,9 @@ CREATE TABLE `bono_module_tour_category_translation` (
     
     `title` varchar(255) NOT NULL COMMENT 'Page title',
     `meta_keywords` TEXT NOT NULL COMMENT 'Keywords for search engines',
-    `meta_description` TEXT NOT NULL COMMENT 'Meta description for search engines'
+    `meta_description` TEXT NOT NULL COMMENT 'Meta description for search engines',
+
+    FOREIGN KEY (id) REFERENCES bono_module_tour_category(id) ON DELETE CASCADE
 );
 
 /* Tours */
@@ -50,7 +51,9 @@ CREATE TABLE `bono_module_tour_tours_translation` (
     `excluded` TEXT NOT NULL COMMENT 'What\'s not included',
     `title` varchar(255) NOT NULL COMMENT 'Page title',
     `meta_keywords` TEXT NOT NULL COMMENT 'Keywords for search engines',
-    `meta_description` TEXT NOT NULL COMMENT 'Meta description for search engines'
+    `meta_description` TEXT NOT NULL COMMENT 'Meta description for search engines',
+
+    FOREIGN KEY (id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
 );
 
 
