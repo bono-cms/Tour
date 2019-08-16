@@ -9,16 +9,9 @@ defined('KRYSTAL') or die;
 ?>
 
 <div class="btn-toolbar">
-    <?php $this->loadPartial('menu', array(
-        'items' => array(
-            'Tour:Admin:Hotel@addAction' => 'Add new hotel'
-        ),
-
-        'actions' => array(
-            'data' => $hotels,
-            'delete' => 'Tour:Admin:Hotel@deleteAction'
-        )
-    )); ?>
+    <div class="btn-group mr-2">
+        <a class="btn btn-primary" href="<?= $this->url('Tour:Admin:Hotel@addAction'); ?>"><?php $this->show('Add new hotel'); ?></a>
+    </div>
 </div>
 
 <div class="card">
@@ -32,11 +25,22 @@ defined('KRYSTAL') or die;
                 ),
 
                 array(
+                    'column' => 'cover',
+                    'value' => function($entity){
+                        return Element::image($entity->getImageUrl('400x400'), array('class' => 'img-fluid'));
+                    }
+                ),
+
+                array(
                     'column' => 'name',
                 ),
 
                 array(
-                    'column' => 'description',
+                    'column' => 'address',
+                ),
+                
+                array(
+                    'column' => 'phone'
                 )
             ),
 
