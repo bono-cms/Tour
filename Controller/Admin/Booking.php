@@ -69,7 +69,7 @@ final class Booking extends AbstractController
         $paginator = $bookingService->getPaginator();
         $paginator->setUrl($this->createUrl('Tour:Admin:Booking@indexAction'));
 
-        return $this->view->render('booking.index', array(
+        return $this->view->render('booking/index', array(
             'bookings' => $bookingService->fetchAll($page, $this->getSharedPerPageCount()),
             'paginator' => $paginator
         ));
@@ -86,9 +86,9 @@ final class Booking extends AbstractController
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                        ->addOne('Bookings', $this->createUrl('Tour:Admin:Booking@indexAction', array(null)))
-                                       ->addOne(!$booking->getId() ? 'Add new booking' : 'Edit the booking');
+                                       ->addOne(!$booking->getId() ? 'Add new booking' : $this->translator->translate('Edit the booking of "%s"', $booking->getClient()));
                                        
-        return $this->view->render('booking.form', array(
+        return $this->view->render('booking/form', array(
             'booking' => $booking
         ));
     }
