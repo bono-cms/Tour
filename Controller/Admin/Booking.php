@@ -78,7 +78,7 @@ final class Booking extends AbstractController
     /**
      * Creates shared form
      * 
-     * @param mixed $booking
+     * @param \Krystal\Stdlib\VirtualEntity $booking
      * @return string
      */
     private function createForm(VirtualEntity $booking)
@@ -87,7 +87,7 @@ final class Booking extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                        ->addOne('Bookings', $this->createUrl('Tour:Admin:Booking@indexAction', array(null)))
                                        ->addOne(!$booking->getId() ? 'Add new booking' : $this->translator->translate('Edit the booking of "%s"', $booking->getClient()));
-                                       
+
         return $this->view->render('booking/form', array(
             'booking' => $booking
         ));
