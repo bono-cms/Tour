@@ -109,6 +109,7 @@ final class HotelService extends AbstractManager
             $entity = new HotelEntity();
             $entity->setId($row['id'])
                    ->setLangId($row['lang_id'])
+                   ->setName($row['name'])
                    ->setSlug($row['slug'])
                    ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
 
