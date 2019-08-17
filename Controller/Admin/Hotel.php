@@ -113,16 +113,18 @@ final class Hotel extends AbstractController
     public function saveAction()
     {
         $input = $this->request->getAll();
-
         $service = $this->getModuleService('hotelService');
-        $service->save($input);
 
         if ($input['data']['hotel']['id']) {
+            $service->update($input);
+            
             $this->flashBag->set('success', 'The element has been updated successfully');
             return '1';
         } else {
+            $id = $service->add($input);
+
             $this->flashBag->set('success', 'The element has been created successfully');
-            return $service->getLastId();
+            return $id;
         }
     }
 }

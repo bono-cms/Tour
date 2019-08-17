@@ -187,10 +187,10 @@ final class HotelService extends AbstractManager
      * Saves a page
      * 
      * @param array $input
-     * @param int $id Hotel ID
+     * @param boolean Whether to create a new record
      * @return boolean
      */
-    private function savePage(array $input, $id)
+    private function savePage(array $input, $create)
     {
         // Request variables
         $hotel =& $input['data']['hotel'];
@@ -217,25 +217,40 @@ final class HotelService extends AbstractManager
         // Save page
         $this->hotelMapper->savePage('Tour (Hotels)', 'Tour:Tour@hotelAction', $hotel, $input['data']['translation']);
 
+        // Get last id
+        if ($create === true) {
+            $id = $this->getLastId();
+        } else {
+            $id = $hotel['id'];
+        }
+
         if (!$hotel['id'] && $file) {
             // And now upload image
             $this->imageManager->upload($id, $file);
         }
 
-        return true;
+        return $id;
     }
 
     /**
-     * Save hotel data
+     * Adds a hotel
      * 
-     * @param array $input
-     * @return boolean
+     * @param array $input Raw input data
+     * @return int Hotel id
      */
-    public function save(array $input)
+    public function add(array $input)
     {
-        // Grab id
-        $id = !empty($input['data']['hotel']['id']) ? $input['data']['hotel']['id'] : $this->getLastId();
+        return $this->savePage($input, true);
+    }
 
-        return $this->savePage($input, $id);
+    /**
+     * Updates a hotel
+     * 
+     * @param array $input Raw input data
+     * @return int Hotel id
+     */
+    public function update(array $input)
+    {
+        return $this->savePage($input, false);
     }
 }

@@ -217,7 +217,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     public function getLastId()
     {
-        return $this->tourMapper->getLastId();
+        return $this->tourMapper->getMaxId();
     }
 
     /**
@@ -235,10 +235,10 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      * Saves a page
      * 
      * @param array $input
-     * @param int $id Tour ID
+     * @param boolean Whether to create a new record
      * @return boolean
      */
-    private function savePage(array $input, $id)
+    private function savePage(array $input, $create)
     {
         // Request variables
         $tour =& $input['data']['tour'];
@@ -265,6 +265,13 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         // Save page
         $this->tourMapper->savePage('Tour (Tours)', 'Tour:Tour@tourAction', $tour, $input['data']['translation']);
 
+        // Get last id
+        if ($create === true) {
+            $id = $this->getLastId();
+        } else {
+            $id = $tour['id'];
+        }
+
         if (!$tour['id'] && $file) {
             // And now upload image
             $this->imageManager->upload($id, $file);
@@ -275,31 +282,28 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         $this->tourMapper->attachRelatedTours($id, isset($input['data']['related']) ? $input['data']['related'] : array());
         $this->tourMapper->attachHotels($id, isset($input['data']['hotels']) ? $input['data']['hotels'] : array());
 
-        return true;
+        return $id;
     }
 
     /**
      * Adds a tour
      * 
      * @param array $input Raw input data
-     * @return boolean Depending on success
+     * @return int Tour id
      */
     public function add(array $input)
     {
-        $id = $this->getLastId();
-        $this->savePage($input, $id);
-
-        return $id;
+        return $this->savePage($input, true);
     }
 
     /**
      * Updates a tour
      * 
      * @param array $input Raw input data
-     * @return boolean Depending on success
+     * @return int Tour id
      */
     public function update(array $input)
     {
-        return $this->savePage($input, $input['data']['tour']['id']);
+        return $this->savePage($input, false);
     }
 }
