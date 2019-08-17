@@ -79,7 +79,8 @@ final class Tour extends AbstractController
     public function addAction()
     {
         $tour = new VirtualEntity();
-        $tour->setSeo(true);
+        $tour->setSeo(true)
+             ->setPublished(true);
 
         return $this->createForm($tour);
     }
