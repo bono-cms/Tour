@@ -241,34 +241,13 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
         }
 
         // If date provided, then apply it
-        if ($hasDate) {
-            $db->andWhereEquals(TourDateMapper::column('start'), $input['begin']);
-        }
-
-        // Optional adults constraint
-        if ($input['adults']) {
-            $db->andWhereEquals(self::column('adults'), (int) $input['adults']);
-        }
-
-        // Optional children constraint
-        if ($input['children']) {
-            $db->andWhereEquals(self::column('children'), (int) $input['children']);
-        }
-
-        // Destination ID
-        if ($input['destination_id']) {
-            $db->andWhereEquals(self::column('destination_id'), (int) $input['destination_id']);
-        }
-
-        // Name
-        if ($input['name']) {
-            $db->andWhereLike(TourTranslationMapper::column('name'), '%' . $input['name'] . '%');
-        }
-
-        // Published
-        if ($input['published']) {
-            $db->andWhereEquals(self::column('published'), (int) $input['published']);
-        }
+        $db->andWhereEquals(TourDateMapper::column('start'), $input['begin'], true)
+            ->andWhereEquals(self::column('adults'), $input['adults'], true)
+            ->andWhereEquals(self::column('children'), $input['children'], true)
+            ->andWhereEquals(self::column('destination_id'), $input['destination_id'], true)
+            ->andWhereLike(TourTranslationMapper::column('name'), '%' . $input['name'] . '%', true)
+            ->andWhereEquals(self::column('published'), $input['published'], true)
+            ->andWhereEquals(self::column('recommended'), $input['recommended'], true);
 
         $db->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'));
 
