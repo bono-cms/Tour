@@ -14,6 +14,13 @@ namespace Tour\Service;
 final class SiteService
 {
     /**
+     * Tour service instance
+     * 
+     * @var \Tour\Service\TourService
+     */
+    private $tourService;
+
+    /**
      * Any compliant category service
      * 
      * @var \Tour\Service\CategoryService
@@ -32,12 +39,24 @@ final class SiteService
      * 
      * @param \Tour\Service\CategoryService $categoryService
      * @param \Tour\Service\TourDestinationService $tourDestinationService
+     * @param \Tour\Service\TourService $tourService
      * @return void
      */
-    public function __construct(CategoryService $categoryService, TourDestinationService $tourDestinationService)
+    public function __construct(CategoryService $categoryService, TourDestinationService $tourDestinationService, TourService $tourService)
     {
         $this->categoryService = $categoryService;
         $this->tourDestinationService = $tourDestinationService;
+        $this->tourService = $tourService;
+    }
+
+    /**
+     * Returns recommended tour entities
+     * 
+     * @return array
+     */
+    public function getRecommended()
+    {
+        return $this->tourService->fetchRecommended();
     }
 
     /**

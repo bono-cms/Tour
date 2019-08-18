@@ -186,19 +186,20 @@ final class Module extends AbstractCmsModule
         // Category service
         $categoryService = new CategoryService($categoryMapper, $webPageManager, $this->createCategoryImageManager());
         $tourDestinationService = new TourDestinationService($tourDestinationMapper);
+        $tourService = new TourService($tourMapper, $webPageManager, $this->createTourCoverImageManager());
 
         return array(
             'hotelService' => new HotelService($hotelMapper, $webPageManager, $this->createHotelImageManager()),
             'hotelGalleryService' => new HotelGalleryService($hotelGalleryMapper, $this->createHotelGalleryImageManager()),
             'bookingService' => new BookingService($bookingMapper),
             'categoryService' => $categoryService,
-            'tourService' => new TourService($tourMapper, $webPageManager, $this->createTourCoverImageManager()),
+            'tourService' => $tourService,
             'tourDayService' => new TourDayService($tourDayMapper),
             'tourGalleryService' => new TourGalleryService($tourGalleryMapper, $this->createTourGalleryImageManager()),
             'tourReviewService' => new TourReviewService($reviewMapper),
             'tourDateService' => new TourDateService($tourDateMapper),
             'tourDestinationService' => $tourDestinationService,
-            'siteService' => new SiteService($categoryService, $tourDestinationService)
+            'siteService' => new SiteService($categoryService, $tourDestinationService, $tourService)
         );
     }
 }
