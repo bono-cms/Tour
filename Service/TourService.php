@@ -95,6 +95,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
                ->setPrice($tour['price'], TourEntity::FILTER_FLOAT)
                ->setStartPrice($tour['start_price'], TourEntity::FILTER_FLOAT)
                ->setCover($tour['cover'], TourEntity::FILTER_SAFE_TAGS)
+               ->setShort($tour['short'], TourEntity::FILTER_SAFE_TAGS)
                ->setDescription($tour['description'], TourEntity::FILTER_SAFE_TAGS)
                ->setIncluded($tour['included'], TourEntity::FILTER_SAFE_TAGS)
                ->setExcluded($tour['excluded'], TourEntity::FILTER_SAFE_TAGS)
