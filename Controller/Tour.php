@@ -153,7 +153,7 @@ final class Tour extends AbstractController
                 $category = $this->getModuleService('categoryService')->fetchById($keeper->getLastCategoryId(), false);
 
                 // Append breadcrumbs
-                $this->view->getBreadcrumbBag()->addOne($category->getName())
+                $this->view->getBreadcrumbBag()->addOne($category->getName(), $category->getUrl())
                                                ->addOne($tour->getName());
             }
 
