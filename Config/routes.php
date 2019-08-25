@@ -209,19 +209,19 @@ return array(
     ),
 
     // Hotel gallery
-    '/%s/module/tour/gallery/add/(:var)' => array(
+    '/%s/module/tour/hotel-gallery/add/(:var)' => array(
         'controller' => 'Admin:HotelGallery@addAction'
     ),
 
-    '/%s/module/tour/gallery/edit/(:var)' => array(
+    '/%s/module/tour/hotel-gallery/edit/(:var)' => array(
         'controller' => 'Admin:HotelGallery@editAction'
     ),
 
-    '/%s/module/tour/gallery/save' => array(
+    '/%s/module/tour/hotel-gallery/save' => array(
         'controller' => 'Admin:HotelGallery@saveAction'
     ),
 
-    '/%s/module/tour/gallery/delete/(:var)' => array(
+    '/%s/module/tour/hotel-gallery/delete/(:var)' => array(
         'controller' => 'Admin:HotelGallery@deleteAction'
     )
 );
