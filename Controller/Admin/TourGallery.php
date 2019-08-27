@@ -24,24 +24,31 @@ final class TourGallery extends AbstractController
      */
     private function createForm($image)
     {
-        // Grab ID
-        if (is_array($image)) {
-            $id = $image[0]['tour_id'];
+        $tour = $this->getModuleService('tourService')->fetchById($image->getTourId(), false);
+
+        if ($tour !== false) {
+            // Grab ID
+            if (is_array($image)) {
+                $id = $image[0]['tour_id'];
+            } else {
+                $id = $image->getTourId();
+            }
+
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
+                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
+                                           ->addOne(!is_array($image) ? 'Add new image' : 'Edit the image');
+            // Load plugins
+            $this->view->getPluginBag()
+                       ->load('preview');
+
+            return $this->view->render('tour.gallery.form', array(
+                'image' => $image
+            ));
+
         } else {
-            $id = $image->getTourId();
+            return false;
         }
-
-        // Append breadcrumbs
-        $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne('Edit the tour', $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
-                                       ->addOne(!is_array($image) ? 'Add new image' : 'Edit the image');
-        // Load plugins
-        $this->view->getPluginBag()
-                   ->load('preview');
-
-        return $this->view->render('tour.gallery.form', array(
-            'image' => $image
-        ));
     }
 
     /**

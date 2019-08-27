@@ -20,13 +20,14 @@ final class Category extends AbstractController
      * Renders category form
      * 
      * @param mixed $entity
+     * @param string $title Page title
      * @return string
      */
-    private function createForm($entity)
+    private function createForm($entity, $title)
     {
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne(!is_array($entity) ? 'Add a category' : 'Edit the category');
+                                       ->addOne($title);
         // Load plugins
         $this->view->getPluginBag()
                    ->load(array($this->getWysiwygPluginName(), 'preview'));
@@ -46,7 +47,7 @@ final class Category extends AbstractController
         $category = new VirtualEntity();
         $category->setSeo(true); // Make SEO checked by default
 
-        return $this->createForm($category);
+        return $this->createForm($category, 'Add a category');
     }
 
     /**
@@ -60,7 +61,8 @@ final class Category extends AbstractController
         $category = $this->getModuleService('categoryService')->fetchById($id, true);
 
         if ($category !== false) {
-            return $this->createForm($category);
+            $name = $this->getCurrentProperty($category, 'name');
+            return $this->createForm($category, $this->translator->translate('Edit the category "%s"', $name));
         } else {
             return false;
         }

@@ -24,24 +24,30 @@ final class TourDate extends AbstractController
      */
     private function createForm($date)
     {
-        // Grab ID
-        if (is_array($date)) {
-            $id = $date[0]['tour_id'];
+        $tour = $this->getModuleService('tourService')->fetchById($date->getTourId(), false);
+
+        if ($tour !== false) {
+            // Grab ID
+            if (is_array($date)) {
+                $id = $date[0]['tour_id'];
+            } else {
+                $id = $date->getTourId();
+            }
+
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
+                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
+                                           ->addOne(!is_array($date) ? 'Add new date' : 'Edit the date');
+            // Load plugins
+            $this->view->getPluginBag()
+                       ->load('datepicker');
+
+            return $this->view->render('tour.date.form', array(
+                'date' => $date
+            ));
         } else {
-            $id = $date->getTourId();
+            return false;
         }
-
-        // Append breadcrumbs
-        $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne('Edit the tour', $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
-                                       ->addOne(!is_array($date) ? 'Add new date' : 'Edit the date');
-        // Load plugins
-        $this->view->getPluginBag()
-                   ->load('datepicker');
-
-        return $this->view->render('tour.date.form', array(
-            'date' => $date
-        ));
     }
 
     /**

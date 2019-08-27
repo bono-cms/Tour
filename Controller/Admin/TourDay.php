@@ -24,24 +24,30 @@ final class TourDay extends AbstractController
      */
     private function createForm($day)
     {
-        // Grab ID
-        if (is_array($day)) {
-            $id = $day[0]['tour_id'];
+        $tour = $this->getModuleService('tourService')->fetchById($day->getTourId(), false);
+
+        if ($tour !== false) {
+            // Grab ID
+            if (is_array($day)) {
+                $id = $day[0]['tour_id'];
+            } else {
+                $id = $day->getTourId();
+            }
+
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
+                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
+                                           ->addOne(!is_array($day) ? 'Add new day' : 'Edit the day');
+            // Load plugins
+            $this->view->getPluginBag()
+                       ->load($this->getWysiwygPluginName());
+
+            return $this->view->render('tour.day.form', array(
+                'day' => $day
+            ));
         } else {
-            $id = $day->getTourId();
+            return false;
         }
-
-        // Append breadcrumbs
-        $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne('Edit the tour', $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
-                                       ->addOne(!is_array($day) ? 'Add new day' : 'Edit the day');
-        // Load plugins
-        $this->view->getPluginBag()
-                   ->load($this->getWysiwygPluginName());
-
-        return $this->view->render('tour.day.form', array(
-            'day' => $day
-        ));
     }
 
     /**

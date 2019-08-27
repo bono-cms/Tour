@@ -20,9 +20,10 @@ final class Tour extends AbstractController
      * Creates form
      * 
      * @param mixed $entity
+     * @param string $title Page title
      * @return string
      */
-    private function createForm($entity)
+    private function createForm($entity, $title)
     {
         $new = is_object($entity);
 
@@ -35,7 +36,7 @@ final class Tour extends AbstractController
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne($new ? 'Add a tour' : 'Edit the tour');
+                                       ->addOne($title);
         // Load plugins
         $this->view->getPluginBag()
                    ->load(array($this->getWysiwygPluginName(), 'chosen', 'preview'));
@@ -65,7 +66,8 @@ final class Tour extends AbstractController
         $tour = $this->getModuleService('tourService')->fetchById($id, true);
 
         if ($tour !== false) {
-            return $this->createForm($tour);
+            $name = $this->getCurrentProperty($tour, 'name');
+            return $this->createForm($tour, $this->translator->translate('Edit the tour "%s"', $name));
         } else {
             return false;
         }
@@ -82,7 +84,7 @@ final class Tour extends AbstractController
         $tour->setSeo(true)
              ->setPublished(true);
 
-        return $this->createForm($tour);
+        return $this->createForm($tour, 'Add a tour');
     }
 
     /**
