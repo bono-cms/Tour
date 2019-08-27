@@ -27,12 +27,7 @@ final class TourGallery extends AbstractController
         $tour = $this->getModuleService('tourService')->fetchById($image->getTourId(), false);
 
         if ($tour !== false) {
-            // Grab ID
-            if (is_array($image)) {
-                $id = $image[0]['tour_id'];
-            } else {
-                $id = $image->getTourId();
-            }
+            $id = is_array($image) ? $image[0]['tour_id'] : $image->getTourId();
 
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')

@@ -27,12 +27,7 @@ final class TourDay extends AbstractController
         $tour = $this->getModuleService('tourService')->fetchById($day->getTourId(), false);
 
         if ($tour !== false) {
-            // Grab ID
-            if (is_array($day)) {
-                $id = $day[0]['tour_id'];
-            } else {
-                $id = $day->getTourId();
-            }
+            $id = is_array($day) ? $day[0]['tour_id'] : $day->getTourId();
 
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')

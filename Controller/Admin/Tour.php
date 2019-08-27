@@ -26,13 +26,7 @@ final class Tour extends AbstractController
     private function createForm($entity, $title)
     {
         $new = is_object($entity);
-
-        // Grab ID
-        if (is_array($entity)) {
-            $id = $entity[0]['id'];
-        } else {
-            $id = null;
-        }
+        $id = $new ? null : $entity[0]['id'];
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
