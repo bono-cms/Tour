@@ -6,7 +6,7 @@ CREATE TABLE `bono_module_tour_category` (
     `order` INT NOT NULL COMMENT 'Sorting order',
     `seo` BOOLEAN NOT NULL COMMENT 'Whether SEO is enabled',
     `cover` varchar(255) NOT NULL COMMENT 'Cover file'
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `bono_module_tour_category_translation`;
 CREATE TABLE `bono_module_tour_category_translation` (
@@ -23,7 +23,7 @@ CREATE TABLE `bono_module_tour_category_translation` (
     FOREIGN KEY (id) REFERENCES bono_module_tour_category(id) ON DELETE CASCADE,
     FOREIGN KEY (lang_id) REFERENCES bono_module_cms_languages(id) ON DELETE CASCADE,
     FOREIGN KEY (web_page_id) REFERENCES bono_module_cms_webpages(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Tours */
 DROP TABLE IF EXISTS `bono_module_tour_tours`;
@@ -40,7 +40,7 @@ CREATE TABLE `bono_module_tour_tours` (
     `start_price` FLOAT NOT NULL COMMENT 'Starting price',
     `cover` varchar(255) NOT NULL COMMENT 'Cover file',
     `views` INT DEFAULT 0 COMMENT 'View counter'
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `bono_module_tour_tours_translation`;
 CREATE TABLE `bono_module_tour_tours_translation` (
@@ -59,7 +59,7 @@ CREATE TABLE `bono_module_tour_tours_translation` (
     FOREIGN KEY (id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
     FOREIGN KEY (lang_id) REFERENCES bono_module_cms_languages(id) ON DELETE CASCADE,
     FOREIGN KEY (web_page_id) REFERENCES bono_module_cms_webpages(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Tour days */
 DROP TABLE IF EXISTS `bono_module_tour_tours_days`;
@@ -70,7 +70,7 @@ CREATE TABLE `bono_module_tour_tours_days` (
     `time` TIME NOT NULL COMMENT 'Optional time when it starts',
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `bono_module_tour_tours_days_translations`;
 CREATE TABLE `bono_module_tour_tours_days_translations` (
@@ -81,7 +81,7 @@ CREATE TABLE `bono_module_tour_tours_days_translations` (
 
     FOREIGN KEY (id) REFERENCES bono_module_tour_tours_days(id) ON DELETE CASCADE,
     FOREIGN KEY (lang_id) REFERENCES bono_module_cms_languages(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Tour gallery */
 DROP TABLE IF EXISTS `bono_module_tour_gallery`;
@@ -92,7 +92,7 @@ CREATE TABLE `bono_module_tour_gallery` (
     `image` varchar(255) NOT NULL COMMENT 'Image file',
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Tour-category relation */
 DROP TABLE IF EXISTS `bono_module_tour_category_relation`;
@@ -102,7 +102,7 @@ CREATE TABLE `bono_module_tour_category_relation` (
 
     FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
     FOREIGN KEY (slave_id) REFERENCES bono_module_tour_category(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Related tours */
 DROP TABLE IF EXISTS `bono_module_tour_related_relation`;
@@ -113,7 +113,7 @@ CREATE TABLE `bono_module_tour_related_relation` (
 
     FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
     FOREIGN KEY (slave_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Tour bookings */
 DROP TABLE IF EXISTS `bono_module_tour_booking`;
@@ -128,7 +128,7 @@ CREATE TABLE `bono_module_tour_booking` (
     `datetime` DATETIME NOT NULL COMMENT 'Unqury datetime',
     `amount` FLOAT NOT NULL COMMENT 'Price',
     `token` varchar(32) NOT NULL COMMENT 'Unique order token'
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Tour reviews */
 DROP TABLE IF EXISTS `bono_module_tour_reviews`;
@@ -141,7 +141,7 @@ CREATE TABLE `bono_module_tour_reviews` (
     `published` BOOLEAN NOT NULL COMMENT 'Whether this one is enabled',
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Tour dates */
 DROP TABLE IF EXISTS `bono_module_tour_dates`;
@@ -152,14 +152,14 @@ CREATE TABLE `bono_module_tour_dates` (
     `end` DATE NOT NULL COMMENT 'End date',
 
     FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Tour destinations */
 DROP TABLE IF EXISTS `bono_module_tour_destinations`;
 CREATE TABLE `bono_module_tour_destinations` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `order` INT NOT NULL COMMENT 'Sortiing order'
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `bono_module_tour_destinations_translations`;
 CREATE TABLE `bono_module_tour_destinations_translations` (
@@ -168,7 +168,7 @@ CREATE TABLE `bono_module_tour_destinations_translations` (
     `name` varchar(255) NOT NULL COMMENT 'Destination name',
 
     FOREIGN KEY (id) REFERENCES bono_module_tour_destinations(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Hotels */
 DROP TABLE IF EXISTS `bono_module_tour_hotels`;
@@ -176,7 +176,7 @@ CREATE TABLE `bono_module_tour_hotels` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `order` INT NOT NULL COMMENT 'Sortiing order',
     `cover` varchar(255) NOT NULL COMMENT 'Cover file'
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `bono_module_tour_hotels_translations`;
 CREATE TABLE `bono_module_tour_hotels_translations` (
@@ -196,7 +196,7 @@ CREATE TABLE `bono_module_tour_hotels_translations` (
     `meta_description` TEXT NOT NULL COMMENT 'Meta description for search engines',
     
     FOREIGN KEY (id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `bono_module_tour_hotels_relation`;
 CREATE TABLE `bono_module_tour_hotels_relation` (
@@ -205,7 +205,7 @@ CREATE TABLE `bono_module_tour_hotels_relation` (
 
     FOREIGN KEY (master_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE,
     FOREIGN KEY (slave_id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `bono_module_tour_hotels_gallery`;
 CREATE TABLE `bono_module_tour_hotels_gallery` (
@@ -215,4 +215,4 @@ CREATE TABLE `bono_module_tour_hotels_gallery` (
     `image` varchar(255) NOT NULL COMMENT 'Base file name',
 
     FOREIGN KEY (hotel_id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
-);
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
