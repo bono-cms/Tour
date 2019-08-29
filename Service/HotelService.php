@@ -84,6 +84,8 @@ final class HotelService extends AbstractManager
                ->setDistances($row['distances'])
                ->setRooms($row['rooms'])
                ->setSlug($row['slug'])
+               ->setChangeFreq($row['changefreq'])
+               ->setPriority($row['priority'])
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
 
         // Configure image bag

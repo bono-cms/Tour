@@ -56,7 +56,9 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
             HotelTranslationMapper::column('title'),
             HotelTranslationMapper::column('meta_keywords'),
             HotelTranslationMapper::column('meta_description'),
-            WebPageMapper::column('slug')
+            WebPageMapper::column('slug'),
+            WebPageMapper::column('changefreq'),
+            WebPageMapper::column('priority'),
         );
     }
 

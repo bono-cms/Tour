@@ -74,9 +74,14 @@ final class Tour extends AbstractController
      */
     public function addAction()
     {
+        // CMS configuration object
+        $config = $this->getService('Cms', 'configManager')->getEntity();
+
         $tour = new VirtualEntity();
         $tour->setSeo(true)
-             ->setPublished(true);
+             ->setPublished(true)
+             ->setChangeFreq($config->getSitemapFrequency())
+             ->setPriority($config->getSitemapPriority());
 
         return $this->createForm($tour, 'Add a tour');
     }

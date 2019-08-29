@@ -101,6 +101,8 @@ final class TourService extends AbstractManager implements FilterableServiceInte
                ->setExcluded($tour['excluded'], TourEntity::FILTER_SAFE_TAGS)
                ->setName($tour['name'], TourEntity::FILTER_HTML)
                ->setSlug($tour['slug'], TourEntity::FILTER_HTML)
+               ->setChangeFreq($tour['changefreq'])
+               ->setPriority($tour['priority'])
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()))
                ->setTitle($tour['title'], TourEntity::FILTER_HTML)
                ->setSeo(isset($tour['seo']) ? $tour['seo'] : null, TourEntity::FILTER_BOOL)

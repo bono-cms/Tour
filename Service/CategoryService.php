@@ -80,6 +80,8 @@ final class CategoryService extends AbstractManager
                ->setDescription($category['description'], CategoryEntity::FILTER_SAFE_TAGS)
                ->setName($category['name'], CategoryEntity::FILTER_HTML)
                ->setSlug($category['slug'], CategoryEntity::FILTER_HTML)
+               ->setChangeFreq($category['changefreq'])
+               ->setPriority($category['priority'])
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()))
                ->setTitle($category['title'], CategoryEntity::FILTER_HTML)
                ->setSeo(isset($category['seo']) ? $category['seo'] : null, CategoryEntity::FILTER_BOOL)

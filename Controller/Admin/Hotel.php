@@ -70,7 +70,14 @@ final class Hotel extends AbstractController
      */
     public function addAction()
     {
-        return $this->createForm(new VirtualEntity(), 'Add new hotel');
+        // CMS configuration object
+        $config = $this->getService('Cms', 'configManager')->getEntity();
+
+        $hotel = new VirtualEntity();
+        $hotel->setChangeFreq($config->getSitemapFrequency())
+              ->setPriority($config->getSitemapPriority());
+
+        return $this->createForm($hotel, 'Add new hotel');
     }
 
     /**
