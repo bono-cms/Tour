@@ -20,14 +20,14 @@ defined('KRYSTAL') or die;
 
 <form class="card" data-group="tour" novalidate autocomplete="off">
 	<ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a class="nav-link" href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Tour'); ?></a></li>
+        <li role="presentation" class="active"><a class="nav-link" href="#page" role="tab" data-toggle="tab"><i class="fas fa-vector-square"></i> <?php $this->show('Tour'); ?></a></li>
         <?php if (!$new): ?>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#days" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-time"></i> <?php $this->show('Days'); ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#dates" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-calendar"></i> <?php $this->show('Dates'); ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#gallery" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-camera"></i> <?php $this->show('Gallery'); ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#reviews" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-comment"></i> <?php $this->show('Reviews'); ?> (<?= count($reviews); ?>)</a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#days" role="tab" data-toggle="tab"><i class="fas fa-calendar-day"></i> <?php $this->show('Days'); ?> <small class="text-muted">(<?= count($days); ?>)</small></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#dates" role="tab" data-toggle="tab"><i class="far fa-calendar"></i> <?php $this->show('Dates'); ?> <small class="text-muted">(<?= count($dates); ?>)</small></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#gallery" role="tab" data-toggle="tab"><i class="fas fa-camera-retro"></i> <?php $this->show('Gallery'); ?> <small class="text-muted">(<?= count($gallery); ?>)</small></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#reviews" role="tab" data-toggle="tab"><i class="fas fa-comment"></i> <?php $this->show('Reviews'); ?> <small class="text-muted">(<?= count($reviews); ?>)</small></a></li>
         <?php endif; ?>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-check"></i> <?php $this->show('Configuration'); ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="fas fa-tasks"></i> <?php $this->show('Configuration'); ?></a></li>
     </ul>
 
     <div class="tab-content">
