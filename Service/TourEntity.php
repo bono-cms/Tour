@@ -16,6 +16,33 @@ use Krystal\Stdlib\VirtualEntity;
 final class TourEntity extends VirtualEntity
 {
     /**
+     * Checks whether current tour entity has language constraint
+     * 
+     * @return boolean
+     */
+    public function hasConstraintLanguageId()
+    {
+        return (bool) $this->getLangConstraintId();
+    }
+
+    /**
+     * Checks whether target language id is a constraint one
+     * 
+     * @param int $langId
+     * @return boolean
+     */
+    public function isConstraintLanguageId($langId)
+    {
+        $constraintId = $this->getLangConstraintId();
+
+        if ($constraintId == 0) {
+            return false;
+        }
+
+        return $langId == $constraintId;
+    }
+
+    /**
      * Returns count of available nights
      * 
      * @return integer
