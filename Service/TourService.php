@@ -86,6 +86,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         $entity = new TourEntity();
         $entity->setId($tour['id'], TourEntity::FILTER_INT)
                ->setDestinationId($tour['destination_id'])
+               ->setLangConstraintId($tour['lang_constraint_id'])
                ->setWebPageId($tour['web_page_id'], TourEntity::FILTER_INT)
                ->setLangId($tour['lang_id'], TourEntity::FILTER_INT)
                ->setOrder($tour['order'], TourEntity::FILTER_INT)
