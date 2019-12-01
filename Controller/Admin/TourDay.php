@@ -24,14 +24,15 @@ final class TourDay extends AbstractController
      */
     private function createForm($day)
     {
-        $tour = $this->getModuleService('tourService')->fetchById($day->getTourId(), false);
+        // Grab tour ID
+        $tourId = is_array($day) ? $day[0]['tour_id'] : $day->getTourId();
+
+        $tour = $this->getModuleService('tourService')->fetchById($tourId, false);
 
         if ($tour !== false) {
-            $id = is_array($day) ? $day[0]['tour_id'] : $day->getTourId();
-
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
+                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($tourId)))
                                            ->addOne(!is_array($day) ? 'Add new day' : 'Edit the day');
             // Load plugins
             $this->view->getPluginBag()
