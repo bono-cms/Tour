@@ -105,6 +105,8 @@ defined('KRYSTAL') or die;
 
         ), $route)); ?>
 
+        <?php $this->loadPartial('paginator'); ?>
+
         <?php if (empty($tours)): ?>
         <div class="center-block">
             <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No tours'); ?></h2>
