@@ -122,6 +122,10 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         if (isset($tour['category'])) {
             $entity->setCategory($tour['category'], TourEntity::FILTER_SAFE_TAGS);
         }
+
+        if (isset($tour['categories'])) {
+            $entity->setCategories($tour['categories']);
+        }
         
         // Configure image bag
         $imageBag = clone $this->imageManager->getImageBag();

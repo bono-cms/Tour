@@ -12,6 +12,7 @@
 namespace Tour\Storage\MySQL;
 
 use Krystal\Db\Filter\InputDecorator;
+use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\WebPageMapper;
 use Cms\Storage\MySQL\AbstractMapper;
 use Tour\Storage\TourMapperInterface;
@@ -184,50 +185,49 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Dedicated method to count rows in filter (Since this can't be done when GROUP BY is used)
+     * 
+     * @param \Krystal\Db\Filter\InputDecorator $input
+     * @return int
      */
-    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = array())
+    private function countOnFilter(InputDecorator $input)
     {
-        if (!($input instanceof InputDecorator)) {
-            $input = new InputDecorator($input);
-        }
+        $db = $this->createWebPageSelect(array(
+            new RawSqlFragment(sprintf('COUNT(DISTINCT %s)', self::column('id')))
+        ));
 
-        // Available sorting methods
-        $sortingMethods = array(
-            'name' => TourTranslationMapper::column('name'),
-            'category_id' => CategoryMapper::column('id'),
-            'adults' => self::column('adults'),
-            'published' => self::column('published')
-        );
+        // Append shared constraints
+        $this->appendSharedFilterConstraints($db, $input);
 
-        // Column to be sorted
-        $sortingColumn = isset($sortingMethods[$sortingColumn]) ? $sortingMethods[$sortingColumn] : self::column('id');
+        return (int) $db->queryScalar();
+    }
 
+    /**
+     * Shared internal method to append constraints
+     * 
+     * @param \Krystal\Db\Sql\Db $db
+     * @param \Krystal\Db\Filter\InputDecorator $input
+     * @return void
+     */
+    private function appendSharedFilterConstraints($db, InputDecorator $input)
+    {
         // Whether category ID filter provided
         $hasCategory = !empty($input['category_id']);
         $hasDate = !empty($input['begin']);
 
-        // Columns to be selected
-        $columns = $this->getColumns();
-
-        // Append extra columns
-        $columns[TourCategoryRelation::column('slave_id')] = 'category_id';
-        $columns[CategoryTranslationMapper::column('name')] = 'category';
-
-        $db = $this->createWebPageSelect($columns)
-                   // Tour category junction relation
-                   ->leftJoin(TourCategoryRelation::getTableName(), array(
-                        TourCategoryRelation::column('master_id') => self::getRawColumn('id')
-                   ))
-                   // Category relation
-                   ->leftJoin(CategoryMapper::getTableName(), array(
-                        CategoryMapper::column('id') => TourCategoryRelation::getRawColumn('slave_id')
-                   ))
-                   // Category translation relation
-                   ->leftJoin(CategoryTranslationMapper::getTableName(), array(
-                        CategoryTranslationMapper::column('id') => CategoryMapper::getRawColumn('id'),
-                        CategoryTranslationMapper::column('lang_id') => TourTranslationMapper::getRawColumn('lang_id')
-                   ));
+        // Tour category junction relation
+        $db->leftJoin(TourCategoryRelation::getTableName(), array(
+            TourCategoryRelation::column('master_id') => self::getRawColumn('id')
+       ))
+        // Category relation
+        ->leftJoin(CategoryMapper::getTableName(), array(
+            CategoryMapper::column('id') => TourCategoryRelation::getRawColumn('slave_id')
+        ))
+        // Category translation relation
+        ->leftJoin(CategoryTranslationMapper::getTableName(), array(
+            CategoryTranslationMapper::column('id') => CategoryMapper::getRawColumn('id'),
+            CategoryTranslationMapper::column('lang_id') => TourTranslationMapper::getRawColumn('lang_id')
+        ));
 
         // Optional date constraint
         if ($hasDate) {
@@ -251,12 +251,46 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             ->andWhereLike(TourTranslationMapper::column('name'), '%' . $input['name'] . '%', true)
             ->andWhereEquals(self::column('published'), $input['published'], true)
             ->andWhereEquals(self::column('recommended'), $input['recommended'], true);
+    }
 
-        $db->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'));
+    /**
+     * {@inheritDoc}
+     */
+    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = array())
+    {
+        if (!($input instanceof InputDecorator)) {
+            $input = new InputDecorator($input);
+        }
+
+        // Count rows first
+        $rowCount = $this->countOnFilter($input);
+            
+        // Available sorting methods
+        $sortingMethods = array(
+            'name' => TourTranslationMapper::column('name'),
+            'category_id' => CategoryMapper::column('id'),
+            'adults' => self::column('adults'),
+            'published' => self::column('published')
+        );
+
+        // Column to be sorted
+        $sortingColumn = isset($sortingMethods[$sortingColumn]) ? $sortingMethods[$sortingColumn] : self::column('id');
+
+        // Columns to be selected
+        $columns = $this->getColumns();
+
+        //$columns[] = sprintf("GROUP_CONCAT(%s SEPARATOR ',') AS `category_ids`", TourCategoryRelation::column('slave_id'));
+        $columns[] = sprintf("GROUP_CONCAT(%s SEPARATOR ',') AS `categories`", CategoryTranslationMapper::column('name'));
+
+        $db = $this->createWebPageSelect($columns);
+        $this->appendSharedFilterConstraints($db, $input);
+
+        $db->groupBy($this->getColumns())
+           ->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'));
 
         // Apply pagination on demand
         if ($page !== null && $itemsPerPage !== null) {
-            $db->paginate($page, $itemsPerPage);
+            $db->paginateRaw($rowCount, $page, $itemsPerPage);
         }
 
         return $db->queryAll();
