@@ -176,7 +176,7 @@ final class CategoryService extends AbstractManager
         $category =& $input['data']['category'];
 
         // Adding
-        if (!$category['id']) {
+        if (!$category['id'] && $file) {
             // Define image attribute
             $category['cover'] = $file->getUniqueName();
         }
