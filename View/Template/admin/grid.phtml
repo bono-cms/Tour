@@ -59,7 +59,10 @@ defined('KRYSTAL') or die;
                     'column' => 'category',
                     'name' => 'category_id',
                     'type' => 'select',
-                    'filter' => $categoryList
+                    'filter' => $categoryList,
+                    'value' => function($row){
+                        return $row['categories'];
+                    }
                 ),
 
                 array(
