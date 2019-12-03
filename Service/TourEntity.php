@@ -92,6 +92,16 @@ final class TourEntity extends VirtualEntity
     }
 
     /**
+     * Checks whether current tour has related ones
+     * 
+     * @return boolean
+     */
+    public function hasRelatedTours()
+    {
+        return $this->isFilled($this->getRelatedIds());
+    }
+
+    /**
      * Checks whether current tour has attached hotels
      * 
      * @return boolean
