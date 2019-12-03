@@ -150,7 +150,8 @@ final class Tour extends AbstractController
                  ->setDays($this->getModuleService('tourDayService')->fetchAll($id, true))
                  ->setDates($this->getModuleService('tourDateService')->fetchByTourId($id))
                  ->setReviews($this->getModuleService('tourReviewService')->fetchAll($id, true))
-                 ->setHotels($this->getModuleService('hotelService')->findHotelsByTourId($id));
+                 ->setHotels($this->getModuleService('hotelService')->findHotelsByTourId($id))
+                 ->setRelatedTours($service->fetchByIds($tour->getRelatedIds()));
 
             // Load global view plugins
             $this->loadSitePlugins();
