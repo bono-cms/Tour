@@ -164,6 +164,34 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     }
 
     /**
+     * Fetches basic information about tours and their categories
+     * 
+     * @param mixed $excludedId Excluded category id
+     * @return array
+     */
+    public function fetchBasic($excludedId = null)
+    {
+        // Grab raw rows
+        $rows = $this->tourMapper->fetchBasic($excludedId);
+
+        $output = array();
+
+        // Turn rows into entities
+        foreach ($rows as $row) {
+            $entity = new VirtualEntity();
+            $entity->setCategory($row['category'])
+                   ->setTour($row['tour'])
+                   ->setSlug($row['slug'])
+                   ->setLangId($row['lang_id'])
+                   ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
+            
+            $output[] = $entity;
+        }
+
+        return ArrayUtils::categorize($output, 'category');
+    }
+
+    /**
      * Fetch recommended tour rows
      * 
      * @return array
