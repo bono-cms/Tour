@@ -223,6 +223,17 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     }
 
     /**
+     * Fetch many tours at once by their ids
+     * 
+     * @param array $ids Tour IDs
+     * @return array
+     */
+    public function fetchByIds(array $ids)
+    {
+        return $this->prepareResults($this->tourMapper->fetchByIds($ids));
+    }
+
+    /**
      * Fetches tour data by its associated id
      * 
      * @param string $id Tour id
