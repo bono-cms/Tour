@@ -50,6 +50,17 @@ final class SiteService
     }
 
     /**
+     * Returns basic information (can be used for sidebar)
+     * 
+     * @param mixed $excludedId
+     * @return array
+     */
+    public function getBasic($excludedId = null)
+    {
+        return $this->tourService->fetchBasic($excludedId);
+    }
+
+    /**
      * Returns recommended tour entities
      * 
      * @return array
