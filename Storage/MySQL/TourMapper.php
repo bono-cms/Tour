@@ -153,6 +153,59 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     }
 
     /**
+     * Fetches basic information about tours and their categories
+     * 
+     * @param mixed $excludedId Excluded category id
+     * @return array
+     */
+    public function fetchBasic($excludedId = null)
+    {
+        // Columns to be selected
+        $columns = array(
+            CategoryTranslationMapper::column('name') => 'category',
+            TourTranslationMapper::column('name') => 'tour',
+            WebPageMapper::column('slug'),
+            WebPageMapper::column('lang_id')
+        );
+
+        $db = $this->db->select($columns)
+                       ->from(TourCategoryRelation::getTableName())
+                       // Tour relation
+                       ->leftJoin(TourMapper::getTableName(), array(
+                            TourMapper::column('id') => TourCategoryRelation::getRawColumn('master_id')
+                       ))
+                       // Tour translation relation
+                       ->leftJoin(TourTranslationMapper::getTableName(), array(
+                            TourTranslationMapper::column('id') => TourMapper::getRawColumn('id')
+                       ))
+                       // Category relation
+                       ->leftJoin(CategoryMapper::getTableName(), array(
+                            CategoryMapper::column('id') => TourCategoryRelation::getRawColumn('slave_id')
+                       ))
+                       // Category translation relation
+                       ->leftJoin(CategoryTranslationMapper::getTableName(), array(
+                            CategoryTranslationMapper::column('id') => CategoryMapper::getRawColumn('id'),
+                            CategoryTranslationMapper::column('lang_id') => TourTranslationMapper::getRawColumn('lang_id')
+                       ))
+                       // Web page relation
+                       ->leftJoin(WebPageMapper::getTableName(), array(
+                            WebPageMapper::column('id') => TourTranslationMapper::getRawColumn('web_page_id'),
+                            WebPageMapper::column('lang_id') => TourTranslationMapper::getRawColumn('lang_id')
+                       ))
+                       // Language ID constraint
+                       ->whereEquals(CategoryTranslationMapper::column('lang_id'), $this->getLangId());
+
+        // Filter by excluded category ID, if available
+        if ($excludedId !== null) {
+            $db->andWhereNotEquals(CategoryMapper::column('id'), $excludedId);
+        }
+
+        $db->orderBy(CategoryTranslationMapper::column('name'));
+
+        return $db->queryAll();
+    }
+
+    /**
      * Fetch all available tours
      * 
      * @return array
