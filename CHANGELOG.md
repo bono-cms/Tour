@@ -1,6 +1,5 @@
-
-TODO:
- - Drop buil-in payment system. Use global Payment module
+CHANGELOG
+=========
 
 1.0
 ---
