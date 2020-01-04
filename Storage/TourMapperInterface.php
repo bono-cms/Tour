@@ -73,6 +73,22 @@ interface TourMapperInterface
     public function findHotelIds($id);
 
     /**
+     * Fetches basic information about tours and their categories
+     * 
+     * @param mixed $excludedId Excluded category id
+     * @return array
+     */
+    public function fetchBasic($excludedId = null);
+
+    /**
+     * Fetch many tours at once by their ids
+     * 
+     * @param array $ids Tour IDs
+     * @return array
+     */
+    public function fetchByIds(array $ids);
+
+    /**
      * Fetches tour data by its associated id
      * 
      * @param string $id Tour id

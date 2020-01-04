@@ -137,12 +137,21 @@ final class Tour extends AbstractController
         $tour = $service->fetchById($id, false);
 
         if ($tour !== false) {
+            // If a tour has constraint language ID
+            if ($tour->hasConstraintLanguageId()) {
+                if (!$tour->isConstraintLanguageId($this->getService('Cms', 'languageManager')->getCurrentId())) {
+                    // Go home
+                    $this->response->redirect('/');
+                }
+            }
+
             // Set extras
             $tour->setGallery($this->getModuleService('tourGalleryService')->fetchImages($id, 'original'))
                  ->setDays($this->getModuleService('tourDayService')->fetchAll($id, true))
                  ->setDates($this->getModuleService('tourDateService')->fetchByTourId($id))
                  ->setReviews($this->getModuleService('tourReviewService')->fetchAll($id, true))
-                 ->setHotels($this->getModuleService('hotelService')->findHotelsByTourId($id));
+                 ->setHotels($this->getModuleService('hotelService')->findHotelsByTourId($id))
+                 ->setRelatedTours($service->fetchByIds($tour->getRelatedIds()));
 
             // Load global view plugins
             $this->loadSitePlugins();

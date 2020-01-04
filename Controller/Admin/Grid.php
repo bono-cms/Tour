@@ -31,21 +31,11 @@ final class Grid extends AbstractController
         // Grab tour service
         $tourService = $this->getModuleService('tourService');
 
-        $url = $this->urlBuilder->createQueryUrl('Tour:Admin:Grid@indexAction', $this->request->getQuery(), 1);
-
-        // Configure pagination
-        $paginator = $tourService->getPaginator();
-        $paginator->setUrl($url);
-
-        $tours = $this->getFilter($tourService, $url);
-
         return $this->view->render('grid', array(
-            'route' => $url,
-            'query' => $this->request->getQuery(),
             'categories' => $this->getModuleService('categoryService')->fetchAll(),
             'categoryList' => $this->getModuleService('categoryService')->fetchList(),
-            'tours' => $tours,
-            'paginator' => $paginator,
+            'tours' => $this->getFilter($tourService),
+            'paginator' => $tourService->getPaginator(),
             'newReviews' => $this->getModuleService('tourReviewService')->countUnpublished()
         ));
     }

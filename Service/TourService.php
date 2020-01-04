@@ -86,6 +86,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         $entity = new TourEntity();
         $entity->setId($tour['id'], TourEntity::FILTER_INT)
                ->setDestinationId($tour['destination_id'])
+               ->setLangConstraintId($tour['lang_constraint_id'])
                ->setWebPageId($tour['web_page_id'], TourEntity::FILTER_INT)
                ->setLangId($tour['lang_id'], TourEntity::FILTER_INT)
                ->setOrder($tour['order'], TourEntity::FILTER_INT)
@@ -120,6 +121,10 @@ final class TourService extends AbstractManager implements FilterableServiceInte
 
         if (isset($tour['category'])) {
             $entity->setCategory($tour['category'], TourEntity::FILTER_SAFE_TAGS);
+        }
+
+        if (isset($tour['categories'])) {
+            $entity->setCategories($tour['categories']);
         }
         
         // Configure image bag
@@ -159,6 +164,34 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     }
 
     /**
+     * Fetches basic information about tours and their categories
+     * 
+     * @param mixed $excludedId Excluded category id
+     * @return array
+     */
+    public function fetchBasic($excludedId = null)
+    {
+        // Grab raw rows
+        $rows = $this->tourMapper->fetchBasic($excludedId);
+
+        $output = array();
+
+        // Turn rows into entities
+        foreach ($rows as $row) {
+            $entity = new VirtualEntity();
+            $entity->setCategory($row['category'])
+                   ->setTour($row['tour'])
+                   ->setSlug($row['slug'])
+                   ->setLangId($row['lang_id'])
+                   ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
+            
+            $output[] = $entity;
+        }
+
+        return ArrayUtils::categorize($output, 'category');
+    }
+
+    /**
      * Fetch recommended tour rows
      * 
      * @return array
@@ -187,6 +220,17 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         );
 
         return $this->filter($filter, $page, $itemsPerPage, false, true);
+    }
+
+    /**
+     * Fetch many tours at once by their ids
+     * 
+     * @param array $ids Tour IDs
+     * @return array
+     */
+    public function fetchByIds(array $ids)
+    {
+        return $this->prepareResults($this->tourMapper->fetchByIds($ids));
     }
 
     /**

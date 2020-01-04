@@ -49,7 +49,7 @@ defined('KRYSTAL') or die;
 
             <?php $this->loadPartial('actions', array(
                 'new' => !$entity->getId(),
-                'add' => 'Tour:Admin:TourDay@addAction',
+                'add' => array('Tour:Admin:TourDay@addAction', $entity->getTourId()),
                 'edit' => 'Tour:Admin:TourDay@editAction',
                 'save' => 'Tour:Admin:TourDay@saveAction',
                 'cancel' => array('Tour:Admin:Tour@editAction', $entity->getTourId())
