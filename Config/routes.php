@@ -14,6 +14,10 @@ return array(
         'controller' => 'Tour@searchAction'
     ),
 
+    '/module/tour/recommended' => array(
+        'controller' => 'Tour@recommendedAction'
+    ),
+
     // Payment
     '/module/tour/payment/gateway/(:var)' => array(
         'controller' => 'Payment@gatewayAction'

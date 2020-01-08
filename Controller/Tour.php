@@ -213,6 +213,46 @@ final class Tour extends AbstractController
     }
 
     /**
+     * Renders recommended tours
+     * 
+     * @param int $id Page ID
+     * @param integer $pageNumber current page number
+     * @param string $code Language code
+     * @param string $slug Category page's slug
+     * @return string
+     */
+    public function recommendedAction($id = false, $pageNumber = 1, $code = null, $slug = null)
+    {
+        $pageService = $this->getService('Pages', 'pageManager');
+
+        $page = $pageService->fetchById($id, false);
+
+        if ($page !== false) {
+            // Load global view plugins
+            $this->loadSitePlugins();
+
+            // Append breadcrumb
+            $this->view->getBreadcrumbBag()->addOne($page->getName());
+
+            $tourService = $this->getModuleService('tourService');
+            $tours = $tourService->fetchRecommended($pageNumber, 10);
+
+            $paginator = $tourService->getPaginator();
+            $this->preparePaginator($paginator, $code, $slug, $pageNumber);
+
+            return $this->view->render('tour-recommended', array(
+                'tours' => $tours,
+                'page' => $page,
+                'paginator' => $paginator,
+                'languages' => $pageService->getSwitchUrls($id)
+            ));
+
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Renders category template
      * 
      * @param int $id Category ID
