@@ -326,9 +326,13 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             $input = new InputDecorator($input);
         }
 
-        // Count rows first
-        $rowCount = $this->countOnFilter($input);
-            
+        $needsPagination = $page !== null && $itemsPerPage !== null;
+
+        // Count rows first, in case pagination is required
+        if ($needsPagination) {
+            $rowCount = $this->countOnFilter($input);
+        }
+
         // Available sorting methods
         $sortingMethods = array(
             'name' => TourTranslationMapper::column('name'),
@@ -353,8 +357,13 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
            ->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'));
 
         // Apply pagination on demand
-        if ($page !== null && $itemsPerPage !== null) {
+        if ($needsPagination) {
             $db->paginateRaw($rowCount, $page, $itemsPerPage);
+        }
+
+        // Apply just limit without pagination?
+        if ($page === null && $itemsPerPage !== null) {
+            $db->limit($itemsPerPage);
         }
 
         return $db->queryAll();
