@@ -192,17 +192,19 @@ final class TourService extends AbstractManager implements FilterableServiceInte
     }
 
     /**
-     * Fetch recommended tour rows
+     * Fetch recommended tour entities
      * 
+     * @param int $page
+     * @param int $itemsPerPage
      * @return array
      */
-    public function fetchRecommended()
+    public function fetchRecommended($page = null, $itemsPerPage = null)
     {
         $filter = array(
             'recommended' => '1'
         );
 
-        return $this->filter($filter, null, null, false, true);
+        return $this->filter($filter, $page, $itemsPerPage, false, true);
     }
 
     /**

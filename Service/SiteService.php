@@ -63,11 +63,12 @@ final class SiteService
     /**
      * Returns recommended tour entities
      * 
+     * @param int $limit Optional limit
      * @return array
      */
-    public function getRecommended()
+    public function getRecommended($limit = null)
     {
-        return $this->tourService->fetchRecommended();
+        return $this->tourService->fetchRecommended(null, $limit);
     }
 
     /**
