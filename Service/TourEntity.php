@@ -12,6 +12,7 @@
 namespace Tour\Service;
 
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Stdlib\ArrayUtils;
 
 final class TourEntity extends VirtualEntity
 {
@@ -140,6 +141,26 @@ final class TourEntity extends VirtualEntity
     {
         $images = $this->getGallery();
         return count($images) > 1;
+    }
+
+    /**
+     * Returns start dates
+     * 
+     * @return array
+     */
+    public function getStartDates()
+    {
+        $output = array();
+
+        if ($this->hasDates()) {
+            foreach ($this->getDates() as $date) {
+                $output[] = $date->getStart();
+            }
+
+            $output = ArrayUtils::valuefy($output);
+        }
+
+        return $output;
     }
 
     /**
