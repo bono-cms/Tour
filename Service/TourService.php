@@ -108,7 +108,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
                ->setTitle($tour['title'], TourEntity::FILTER_HTML)
                ->setSeo(isset($tour['seo']) ? $tour['seo'] : null, TourEntity::FILTER_BOOL)
                ->setPublished(isset($tour['published']) ? $tour['published'] : null, TourEntity::FILTER_BOOL)
-               ->setKeywords($tour['meta_keywords'], TourEntity::FILTER_HTML)
+               ->setMetaKeywords($tour['meta_keywords'], TourEntity::FILTER_HTML)
                ->setMetaDescription($tour['meta_description'], TourEntity::FILTER_HTML)
                ->setViews($tour['views'], TourEntity::FILTER_INT);
 
