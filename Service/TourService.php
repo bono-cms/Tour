@@ -110,7 +110,8 @@ final class TourService extends AbstractManager implements FilterableServiceInte
                ->setPublished(isset($tour['published']) ? $tour['published'] : null, TourEntity::FILTER_BOOL)
                ->setMetaKeywords($tour['meta_keywords'], TourEntity::FILTER_HTML)
                ->setMetaDescription($tour['meta_description'], TourEntity::FILTER_HTML)
-               ->setViews($tour['views'], TourEntity::FILTER_INT);
+               ->setViews($tour['views'], TourEntity::FILTER_INT)
+               ->setCancellation($tour['cancellation'], TourEntity::FILTER_INT);
 
         // If it's not new tour, then it must have attached categories
         if ($entity->getId()) {

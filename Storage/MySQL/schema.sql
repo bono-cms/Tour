@@ -40,7 +40,8 @@ CREATE TABLE `bono_module_tour_tours` (
     `price` FLOAT NOT NULL COMMENT 'Price of this tour',
     `start_price` FLOAT NOT NULL COMMENT 'Starting price',
     `cover` varchar(255) NOT NULL COMMENT 'Cover file',
-    `views` INT DEFAULT 0 COMMENT 'View counter'
+    `views` INT DEFAULT 0 COMMENT 'View counter',
+    `cancellation` INT NOT NULL COMMENT 'Number of days before cancellation'
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `bono_module_tour_tours_translation`;
