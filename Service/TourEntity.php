@@ -66,6 +66,10 @@ final class TourEntity extends VirtualEntity
      */
     public function getDaysCount()
     {
+        if ($this->has('days_count')) {
+            return $this->get('days_count');
+        }
+
         $days = $this->getDays();
         return count($days);
     }

@@ -127,7 +127,12 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         if (isset($tour['categories'])) {
             $entity->setCategories($tour['categories']);
         }
-        
+
+        // Set if explicitly defined
+        if (isset($tour['days_count'])) {
+            $entity->setDaysCount($tour['days_count'], TourEntity::FILTER_INT);
+        }
+
         // Configure image bag
         $imageBag = clone $this->imageManager->getImageBag();
         $imageBag->setId((int) $tour['id'])

@@ -283,7 +283,7 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
         // Tour category junction relation
         $db->leftJoin(TourCategoryRelation::getTableName(), array(
             TourCategoryRelation::column('master_id') => self::getRawColumn('id')
-       ))
+        ))
         // Category relation
         ->leftJoin(CategoryMapper::getTableName(), array(
             CategoryMapper::column('id') => TourCategoryRelation::getRawColumn('slave_id')
@@ -292,6 +292,10 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
         ->leftJoin(CategoryTranslationMapper::getTableName(), array(
             CategoryTranslationMapper::column('id') => CategoryMapper::getRawColumn('id'),
             CategoryTranslationMapper::column('lang_id') => TourTranslationMapper::getRawColumn('lang_id')
+        ))
+        // Tour day mapper
+        ->leftJoin(TourDayMapper::getTableName(), array(
+            TourDayMapper::column('tour_id') => self::getRawColumn('id')
         ));
 
         // Optional date constraint
@@ -310,12 +314,12 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
 
         // If date provided, then apply it
         $db->andWhereEquals(TourDateMapper::column('start'), $input['begin'], true)
-            ->andWhereEquals(self::column('adults'), $input['adults'], true)
-            ->andWhereEquals(self::column('children'), $input['children'], true)
-            ->andWhereEquals(self::column('destination_id'), $input['destination_id'], true)
-            ->andWhereLike(TourTranslationMapper::column('name'), '%' . $input['name'] . '%', true)
-            ->andWhereEquals(self::column('published'), $input['published'], true)
-            ->andWhereEquals(self::column('recommended'), $input['recommended'], true);
+           ->andWhereEquals(self::column('adults'), $input['adults'], true)
+           ->andWhereEquals(self::column('children'), $input['children'], true)
+           ->andWhereEquals(self::column('destination_id'), $input['destination_id'], true)
+           ->andWhereLike(TourTranslationMapper::column('name'), '%' . $input['name'] . '%', true)
+           ->andWhereEquals(self::column('published'), $input['published'], true)
+           ->andWhereEquals(self::column('recommended'), $input['recommended'], true);
     }
 
     /**
@@ -349,7 +353,8 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
         $columns = $this->getColumns();
 
         //$columns[] = sprintf("GROUP_CONCAT(%s SEPARATOR ',') AS `category_ids`", TourCategoryRelation::column('slave_id'));
-        $columns[] = sprintf("GROUP_CONCAT(%s SEPARATOR ',') AS `categories`", CategoryTranslationMapper::column('name'));
+        $columns[] = sprintf("GROUP_CONCAT(DISTINCT %s SEPARATOR ',') AS `categories`", CategoryTranslationMapper::column('name'));
+        $columns[] = sprintf('COUNT(DISTINCT %s) AS `days_count`', TourDayMapper::column('id'));
 
         $db = $this->createWebPageSelect($columns);
         $this->appendSharedFilterConstraints($db, $input);
