@@ -27,6 +27,7 @@ $single = LanguageManager::extractOptions($tour);
         <?php if (!$new): ?>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#days" role="tab" data-toggle="tab"><i class="fas fa-calendar-day"></i> <?php $this->show('Days'); ?> <small class="text-muted">(<?= count($days); ?>)</small></a></li>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#dates" role="tab" data-toggle="tab"><i class="far fa-calendar"></i> <?php $this->show('Dates'); ?> <small class="text-muted">(<?= count($dates); ?>)</small></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#prices" role="tab" data-toggle="tab"><i class="fas fa-money-bill-wave"></i> <?php $this->show('Price policies'); ?> <small class="text-muted">(<?= count($prices); ?>)</small></a></li>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#gallery" role="tab" data-toggle="tab"><i class="fas fa-camera-retro"></i> <?php $this->show('Gallery'); ?> <small class="text-muted">(<?= count($gallery); ?>)</small></a></li>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#reviews" role="tab" data-toggle="tab"><i class="fas fa-comment"></i> <?php $this->show('Reviews'); ?> <small class="text-muted">(<?= count($reviews); ?>)</small></a></li>
         <?php endif; ?>
@@ -303,7 +304,44 @@ $single = LanguageManager::extractOptions($tour);
 
             ))); ?>
         </div>
-        
+
+        <div role="tabpanel" class="tab-pane" id="prices">
+            <h2 class="mt-2 mb-4"><i class="fas fa-money-bill-wave"></i> <?php $this->show('Price policies'); ?> <small>(<?= count($prices); ?>)</small></h2>
+
+            <p>
+                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourPricePolicy@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new price policy'); ?></a>
+            </p>
+
+            <?= $this->widget(new GridViewWidget($prices, array(
+                'pk' => 'id',
+                'columns' => array(
+                    array(
+                        'column' => 'id',
+                        'label' => '#'
+                    ),
+
+                    array(
+                        'column' => 'qty',
+                        'label' => 'Number of people'
+                    ),
+
+                    array(
+                        'column' => 'price'
+                    )
+                ),
+
+                'actions' => array(
+                    'edit' => function($entity){
+                        return Icon::edit($this->url('Tour:Admin:TourPricePolicy@editAction', $entity['id']), $this->translate('Edit this price policy'));
+                    },
+                    'delete' => function($entity){
+                        return Icon::remove($this->url('Tour:Admin:TourPricePolicy@deleteAction', $entity['id']), $this->translate('Remove this price policy'));
+                    }
+                )
+
+            ))); ?>
+        </div>
+
         <div role="tabpanel" class="tab-pane" id="dates">
             <h2 class="page-header"><i class="glyphicon glyphicon-calendar"></i> <?php $this->show('Dates'); ?> <small>(<?= count($dates); ?>)</small></h2>
 
