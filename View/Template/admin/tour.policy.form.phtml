@@ -1,0 +1,34 @@
+<?php
+
+use Krystal\Form\Element;
+defined('KRYSTAL') or die;
+
+?>
+
+<form class="card" data-group="policy" autocomplete="off">
+    <?= Element::hidden('policy[id]', $policy->getId()); ?>
+    <?= Element::hidden('policy[tour_id]', $policy->getTourId()); ?>
+
+    <div class="form-group">
+        <label class="col-lg-2"><?php $this->show('Number of people'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('policy[qty]', $policy->getQty(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2"><?php $this->show('Price'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('policy[price]', $policy->getPrice(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <?php $this->loadPartial('actions', array(
+        'new' => !$policy->getId(),
+        'add' => array('Tour:Admin:TourPricePolicy@addAction', $policy->getTourId()),
+        'edit' => 'Tour:Admin:TourPricePolicy@editAction',
+        'save' => 'Tour:Admin:TourPricePolicy@saveAction',
+        'cancel' => array('Tour:Admin:Tour@editAction', $policy->getTourId())
+    )); ?>
+
+</form>
