@@ -34,4 +34,72 @@ final class TourPricePolicyService extends AbstractManager
     {
         $this->policyMapper = $policyMapper;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function toEntity(array $row)
+    {
+        $entity = new VirtualEntity();
+        $entity->setId($row['id'])
+               ->setTourId($row['tour_id'])
+               ->setQty($row['qty'])
+               ->setPrice($row['price']);
+
+        return $entity;
+    }
+
+    /**
+     * Returns last policy id
+     * 
+     * @return int
+     */
+    public function getLastId()
+    {
+        return $this->policyMapper->getMaxId();
+    }
+
+    /**
+     * Fetch policy by its id
+     * 
+     * @param int $id Policy id
+     * @return mixed
+     */
+    public function fetchById($id)
+    {
+        return $this->prepareResult($this->policyMapper->findByPk($id));
+    }
+
+    /**
+     * Fetch all policies
+     * 
+     * @param int $tourId
+     * @return array
+     */
+    public function fetchAll($tourId)
+    {
+        return $this->prepareResults($this->policyMapper->fetchAll($tourId));
+    }
+
+    /**
+     * Delete a policy by its id
+     * 
+     * @param int $id Policy id
+     * @return boolean
+     */
+    public function deleteById($id)
+    {
+        return $this->policyMapper->deleteByPk($id);
+    }
+
+    /**
+     * Save a policy
+     * 
+     * @param array $input Raw input data
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        return $this->policyMapper->persist($input);
+    }
 }
