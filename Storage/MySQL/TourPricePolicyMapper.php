@@ -23,4 +23,20 @@ final class TourPricePolicyMapper extends AbstractMapper implements TourPricePol
     {
         return self::getWithPrefix('bono_module_tour_price_policy');
     }
+
+    /**
+     * Fetch all policies
+     * 
+     * @param int $tourId
+     * @return array
+     */
+    public function fetchAll($tourId)
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->whereEquals('tour_id', $tourId)
+                       ->orderBy('qty');
+
+        return $db->queryAll();
+    }
 }

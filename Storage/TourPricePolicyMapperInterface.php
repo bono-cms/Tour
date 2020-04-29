@@ -13,4 +13,11 @@ namespace Tour\Storage;
 
 interface TourPricePolicyMapperInterface
 {
+    /**
+     * Fetch all policies
+     * 
+     * @param int $tourId
+     * @return array
+     */
+    public function fetchAll($tourId);
 }
