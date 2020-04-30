@@ -29,6 +29,24 @@ final class Tour extends AbstractController
     }
 
     /**
+     * Generate tour price based on factors
+     * 
+     * @return string
+     */
+    public function priceAction()
+    {
+        // Grab query parameters
+        $qty = $this->request->getQuery('qty', 1);
+        $tourId = $this->request->getQuery('tour_id');
+
+        $price = $this->getModuleService('tourPricePolicyService')->generatePrice($tourId, $qty);
+
+        return $this->json([
+            'price' => $price
+        ]);
+    }
+
+    /**
      * Leaves a review
      * 
      * @return mixed

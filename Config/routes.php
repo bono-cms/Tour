@@ -10,6 +10,10 @@
  */
 
 return array(
+    '/module/tour/generate-price' => array(
+        'controller' => 'Tour@priceAction'
+    ),
+
     '/module/tour/search/(:var)' => array(
         'controller' => 'Tour@searchAction'
     ),
