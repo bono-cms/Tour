@@ -276,7 +276,7 @@ $single = LanguageManager::extractOptions($tour);
             <h2 class="mt-2 mb-4"><i class="fas fa-calendar-day"></i> <?php $this->show('Days'); ?> <small>(<?= count($days); ?>)</small></h2>
 
             <p>
-                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDay@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new day'); ?></a>
+                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDay@addAction', $entity->getId()); ?>"><?php $this->show('Add new day'); ?></a>
             </p>
 
             <?= $this->widget(new GridViewWidget($days, array(
@@ -309,7 +309,7 @@ $single = LanguageManager::extractOptions($tour);
             <h2 class="mt-2 mb-4"><i class="fas fa-money-bill-wave"></i> <?php $this->show('Price policies'); ?> <small>(<?= count($prices); ?>)</small></h2>
 
             <p>
-                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourPricePolicy@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new price policy'); ?></a>
+                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourPricePolicy@addAction', $entity->getId()); ?>"><?php $this->show('Add new price policy'); ?></a>
             </p>
 
             <?= $this->widget(new GridViewWidget($prices, array(
@@ -346,7 +346,7 @@ $single = LanguageManager::extractOptions($tour);
             <h2 class="mt-2 mb-4"><i class="far fa-calendar"></i> <?php $this->show('Dates'); ?> <small>(<?= count($dates); ?>)</small></h2>
 
             <p>
-                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDate@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new date'); ?></a>
+                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDate@addAction', $entity->getId()); ?>"><?php $this->show('Add new date'); ?></a>
             </p>
 
             <?= $this->widget(new GridViewWidget($dates, array(
@@ -382,7 +382,7 @@ $single = LanguageManager::extractOptions($tour);
             <h2 class="mt-2 mb-4"><i class="fas fa-camera-retro"></i> <?php $this->show('Gallery'); ?> <small>(<?= count($gallery); ?>)</small></h2>
 
             <p>
-                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourGallery@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new image'); ?></a>
+                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourGallery@addAction', $entity->getId()); ?>"><?php $this->show('Add new image'); ?></a>
             </p>
 
             <?= $this->widget(new GridViewWidget($gallery, array(
