@@ -273,7 +273,7 @@ $single = LanguageManager::extractOptions($tour);
         </div>
         
         <div role="tabpanel" class="tab-pane" id="days">
-            <h2 class="page-header"><i class="glyphicon glyphicon-time"></i> <?php $this->show('Days'); ?> <small>(<?= count($days); ?>)</small></h2>
+            <h2 class="mt-2 mb-4"><i class="fas fa-calendar-day"></i> <?php $this->show('Days'); ?> <small>(<?= count($days); ?>)</small></h2>
 
             <p>
                 <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDay@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new day'); ?></a>
@@ -293,6 +293,7 @@ $single = LanguageManager::extractOptions($tour);
                         'column' => 'order'
                     )
                 ),
+
                 'actions' => array(
                     'edit' => function($entity){
                         return Icon::edit($this->url('Tour:Admin:TourDay@editAction', $entity['id']), $this->translate('Edit this day'));
@@ -301,7 +302,6 @@ $single = LanguageManager::extractOptions($tour);
                         return Icon::remove($this->url('Tour:Admin:TourDay@deleteAction', $entity['id']), $this->translate('Remove this day'));
                     }
                 )
-
             ))); ?>
         </div>
 
@@ -339,12 +339,11 @@ $single = LanguageManager::extractOptions($tour);
                         return Icon::remove($this->url('Tour:Admin:TourPricePolicy@deleteAction', $entity['id']), $this->translate('Remove this price policy'));
                     }
                 )
-
             ))); ?>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="dates">
-            <h2 class="page-header"><i class="glyphicon glyphicon-calendar"></i> <?php $this->show('Dates'); ?> <small>(<?= count($dates); ?>)</small></h2>
+            <h2 class="mt-2 mb-4"><i class="far fa-calendar"></i> <?php $this->show('Dates'); ?> <small>(<?= count($dates); ?>)</small></h2>
 
             <p>
                 <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourDate@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new date'); ?></a>
@@ -376,12 +375,11 @@ $single = LanguageManager::extractOptions($tour);
                         return Icon::remove($this->url('Tour:Admin:TourDate@deleteAction', $entity['id']), $this->translate('Remove this date'));
                     }
                 )
-
             ))); ?>
         </div>
-        
+
         <div role="tabpanel" class="tab-pane" id="gallery">
-            <h2 class="page-header"><i class="glyphicon glyphicon-camera"></i> <?php $this->show('Gallery'); ?> <small>(<?= count($gallery); ?>)</small></h2>
+            <h2 class="mt-2 mb-4"><i class="fas fa-camera-retro"></i> <?php $this->show('Gallery'); ?> <small>(<?= count($gallery); ?>)</small></h2>
 
             <p>
                 <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:TourGallery@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new image'); ?></a>
@@ -419,7 +417,7 @@ $single = LanguageManager::extractOptions($tour);
         </div>
 
         <div role="tabpanel" class="tab-pane" id="reviews">
-            <h2 class="page-header"><i class="glyphicon glyphicon-comment"></i> <?php $this->show('Reviews'); ?> <small>(<?= count($reviews); ?>)</small></h2>
+            <h2 class="mt-2 mb-4"><i class="fas fa-comment"></i> <?php $this->show('Reviews'); ?> <small>(<?= count($reviews); ?>)</small></h2>
 
             <?= $this->widget(new GridViewWidget($reviews, array(
                 'pk' => 'id',
