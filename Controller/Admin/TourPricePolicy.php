@@ -13,6 +13,7 @@ namespace Tour\Controller\Admin;
 
 use Cms\Controller\Admin\AbstractController;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Validate\Pattern;
 
 final class TourPricePolicy extends AbstractController
 {
@@ -28,7 +29,7 @@ final class TourPricePolicy extends AbstractController
         $tour = $this->getModuleService('tourService')->fetchById($policy->getTourId(), false);
 
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne($this->translator->translate('Edit the tour  "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($policy->getTourId())))
+                                       ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($policy->getTourId())))
                                        ->addOne($title);
         
         return $this->view->render('tour.policy.form', array(
@@ -61,6 +62,9 @@ final class TourPricePolicy extends AbstractController
         $policy = $this->getModuleService('tourPricePolicyService')->fetchById($id);
 
         if ($policy) {
+            // Save this old attribute
+            $this->formAttribute->setOldAttribute('qty', $policy->getQty());
+
             return $this->createForm($policy, 'Edit the price policy');
         } else {
             return false;
@@ -90,15 +94,41 @@ final class TourPricePolicy extends AbstractController
     {
         $input = $this->request->getPost('policy');
 
-        $policyService = $this->getModuleService('tourPricePolicyService');
-        $policyService->save($input);
+        $qtyChanged = $this->formAttribute->hasChanged('qty', $input['qty']) 
+            ? $this->getModuleService('tourPricePolicyService')->hasQty($input['tour_id'], $input['qty']) : false;
 
-        if ($input['id']) {
-            $this->flashBag->set('success', 'Price policy has been updated successfully');
-            return 1;
+        $formValidator = $this->createValidator([
+            'input' => [
+                'source' => $input,
+                'definition' => [
+                    'price' => new Pattern\Price,
+                    'qty' => [
+                        'required' => true,
+                        'rules' => [
+                            'Unique' => [
+                                'message' => 'A price for this number of people already defined',
+                                'value' => $qtyChanged
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        if ($formValidator->isValid()) {
+            $policyService = $this->getModuleService('tourPricePolicyService');
+            $policyService->save($input);
+
+            if ($input['id']) {
+                $this->flashBag->set('success', 'Price policy has been updated successfully');
+                return 1;
+            } else {
+                $this->flashBag->set('success', 'Price policy has been added successfully');
+                return $policyService->getLastId();
+            }
+
         } else {
-            $this->flashBag->set('success', 'Price policy has been added successfully');
-            return $policyService->getLastId();
+            return $formValidator->getErrors();
         }
     }
 }
