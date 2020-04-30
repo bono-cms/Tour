@@ -13,6 +13,7 @@ namespace Tour\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
 use Tour\Storage\TourPricePolicyMapperInterface;
+use Krystal\Db\Sql\RawBinding;
 
 final class TourPricePolicyMapper extends AbstractMapper implements TourPricePolicyMapperInterface
 {
@@ -33,12 +34,20 @@ final class TourPricePolicyMapper extends AbstractMapper implements TourPricePol
      */
     public function findPrice($tourId, $qty)
     {
-        $db = $this->db->select('price')
-                       ->from(self::getTableName())
-                       ->whereEquals('tour_id', $tourId)
-                       ->andWhereEquals('qty', $qty);
+        $db = $this->db->select([
+                            TourMapper::column('price'),
+                            TourMapper::column('start_price'),
+                            self::column('price') => 'qty_price'
+                       ])
+                       ->from(TourMapper::getTableName())
+                       // Tour price policy
+                       ->leftJoin(self::getTableName(), [
+                            self::column('tour_id') => TourMapper::getRawColumn('id'),
+                            self::column('qty') => new RawBinding((int) $qty)
+                       ])
+                       ->whereEquals(TourMapper::column('id'), $tourId);
 
-        return $db->queryScalar();
+        return $db->query();
     }
 
     /**
