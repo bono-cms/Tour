@@ -50,6 +50,38 @@ final class TourPricePolicyService extends AbstractManager
     }
 
     /**
+     * Generate tour price based on factors
+     * 
+     * @param int $tourId Tour id
+     * @param int $qty Number of people
+     * @return float|boolean False on failure
+     */
+    public function generatePrice($tourId, $qty)
+    {
+        $price = $this->policyMapper->findPrice($tourId, $qty);
+
+        // If found
+        if ($price) {
+            switch (true) {
+                case !empty($price['qty_price']):
+                    return (float) $price['qty_price'];
+
+                case !empty($price['price']):
+                    return $price['price'] * $qty;
+
+                case !empty($price['start_price']):
+                    return $price['start_price'] * $qty;
+
+                default:
+                    return false;
+            }
+
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Returns last policy id
      * 
      * @return int
