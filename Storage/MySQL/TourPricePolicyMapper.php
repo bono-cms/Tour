@@ -25,6 +25,23 @@ final class TourPricePolicyMapper extends AbstractMapper implements TourPricePol
     }
 
     /**
+     * Attempts to find a price
+     * 
+     * @param int $tourId Attached tour id
+     * @param int $qty Number of people
+     * @return string
+     */
+    public function findPrice($tourId, $qty)
+    {
+        $db = $this->db->select('price')
+                       ->from(self::getTableName())
+                       ->whereEquals('tour_id', $tourId)
+                       ->andWhereEquals('qty', $qty);
+
+        return $db->queryScalar();
+    }
+
+    /**
      * Fetch all policies
      * 
      * @param int $tourId

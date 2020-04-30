@@ -14,6 +14,15 @@ namespace Tour\Storage;
 interface TourPricePolicyMapperInterface
 {
     /**
+     * Attempts to find a price
+     * 
+     * @param int $tourId Attached tour id
+     * @param int $qty Number of people
+     * @return string
+     */
+    public function findPrice($tourId, $qty);
+
+    /**
      * Fetch all policies
      * 
      * @param int $tourId
