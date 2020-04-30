@@ -316,17 +316,18 @@ $single = LanguageManager::extractOptions($tour);
                 'pk' => 'id',
                 'columns' => array(
                     array(
-                        'column' => 'id',
-                        'label' => '#'
-                    ),
-
-                    array(
                         'column' => 'qty',
-                        'label' => 'Number of people'
+                        'label' => 'Number of people',
+                        'value' => function($price){
+                            return $price->getQty() . ' ' . $this->translate('People');
+                        }
                     ),
 
                     array(
-                        'column' => 'price'
+                        'column' => 'price',
+                        'value' => function($price){
+                            return number_format($price->getPrice());
+                        }
                     )
                 ),
 
