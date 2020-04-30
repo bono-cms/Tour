@@ -14,6 +14,15 @@ namespace Tour\Storage;
 interface TourPricePolicyMapperInterface
 {
     /**
+     * Checks tour id and qty combination for existence
+     * 
+     * @param int $tourId Attached tour id
+     * @param int $qty Number of people
+     * @return boolean
+     */
+    public function hasQty($tourId, $qty);
+
+    /**
      * Attempts to find a price
      * 
      * @param int $tourId Attached tour id

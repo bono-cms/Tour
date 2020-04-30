@@ -26,6 +26,24 @@ final class TourPricePolicyMapper extends AbstractMapper implements TourPricePol
     }
 
     /**
+     * Checks tour id and qty combination for existence
+     * 
+     * @param int $tourId Attached tour id
+     * @param int $qty Number of people
+     * @return boolean
+     */
+    public function hasQty($tourId, $qty)
+    {
+        $db = $this->db->select()
+                       ->count('id')
+                       ->from(self::getTableName())
+                       ->whereEquals('tour_id', $tourId)
+                       ->andWhereEquals('qty', $qty);
+
+        return (bool) $db->queryScalar();
+    }
+
+    /**
      * Attempts to find a price
      * 
      * @param int $tourId Attached tour id
