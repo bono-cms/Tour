@@ -10,6 +10,10 @@
  */
 
 return array(
+    '/module/tour/generate-price' => array(
+        'controller' => 'Tour@priceAction'
+    ),
+
     '/module/tour/search/(:var)' => array(
         'controller' => 'Tour@searchAction'
     ),
@@ -190,7 +194,24 @@ return array(
     '/%s/module/tour/gallery/delete/(:var)' => array(
         'controller' => 'Admin:TourGallery@deleteAction'
     ),
-    
+
+    // Tour price policy
+    '/%s/module/tour/price-policy/add/(:var)' => array(
+        'controller' => 'Admin:TourPricePolicy@addAction'
+    ),
+
+    '/%s/module/tour/price-policy/edit/(:var)' => array(
+        'controller' => 'Admin:TourPricePolicy@editAction'
+    ),
+
+    '/%s/module/tour/price-policy/delete/(:var)' => array(
+        'controller' => 'Admin:TourPricePolicy@deleteAction'
+    ),
+
+    '/%s/module/tour/price-policy/save' => array(
+        'controller' => 'Admin:TourPricePolicy@saveAction'
+    ),
+
     // Hotels
     '/%s/module/tour/hotels' => array(
         'controller' => 'Admin:Hotel@indexAction'

@@ -218,3 +218,14 @@ CREATE TABLE `bono_module_tour_hotels_gallery` (
 
     FOREIGN KEY (hotel_id) REFERENCES bono_module_tour_hotels(id) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+
+/* Tour price policy */
+DROP TABLE IF EXISTS `bono_module_tour_price_policy`;
+CREATE TABLE `bono_module_tour_price_policy` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `tour_id` INT NOT NULL COMMENT 'Attached tour ID',
+    `qty` INT NOT NULL COMMENT 'Number of people',
+    `price` FLOAT NOT NULL COMMENT 'Price matched against qty',
+
+    FOREIGN KEY (tour_id) REFERENCES bono_module_tour_tours(id) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
