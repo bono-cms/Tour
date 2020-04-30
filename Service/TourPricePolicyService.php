@@ -50,6 +50,18 @@ final class TourPricePolicyService extends AbstractManager
     }
 
     /**
+     * Checks tour id and qty combination for existence
+     * 
+     * @param int $tourId Attached tour id
+     * @param int $qty Number of people
+     * @return boolean
+     */
+    public function hasQty($tourId, $qty)
+    {
+        return $this->policyMapper->hasQty($tourId, $qty);
+    }
+
+    /**
      * Generate tour price based on factors
      * 
      * @param int $tourId Tour id
