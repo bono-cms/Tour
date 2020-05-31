@@ -85,7 +85,7 @@ final class CategoryService extends AbstractManager
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()))
                ->setTitle($category['title'], CategoryEntity::FILTER_HTML)
                ->setSeo(isset($category['seo']) ? $category['seo'] : null, CategoryEntity::FILTER_BOOL)
-               ->setKeywords($category['meta_keywords'], CategoryEntity::FILTER_HTML)
+               ->setMetaKeywords($category['meta_keywords'], CategoryEntity::FILTER_HTML)
                ->setMetaDescription($category['meta_description'], CategoryEntity::FILTER_HTML);
 
         // Configure image bag
