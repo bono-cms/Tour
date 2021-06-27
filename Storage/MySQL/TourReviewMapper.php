@@ -54,7 +54,7 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
      * @param int|null $itemsPerPage Per page count
      * @return array
      */
-    public function fetchAll($tourId = null, $published, $page = null, $itemsPerPage = null)
+    public function fetchAll($tourId = null, $published = false, $page = null, $itemsPerPage = null)
     {
         // To be selected
         $columns = array(

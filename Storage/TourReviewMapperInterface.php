@@ -37,5 +37,5 @@ interface TourReviewMapperInterface
      * @param int|null $itemsPerPage Per page count
      * @return array
      */
-    public function fetchAll($tourId = null, $published, $page = null, $itemsPerPage = null);
+    public function fetchAll($tourId = null, $published = false, $page = null, $itemsPerPage = null);
 }
