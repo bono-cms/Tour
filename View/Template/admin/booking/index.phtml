@@ -9,74 +9,75 @@ defined('KRYSTAL') or die;
 ?>
 
 <div class="btn-toolbar">
-    <?php $this->loadPartial('menu', array(
-        'items' => array(
+    <?php $this->loadPartial('menu', [
+        'items' => [
             'Tour:Admin:Booking@addAction' => 'New booking'
-        ),
-        'actions' => array(
+        ],
+        'actions' => [
             'data' => $bookings,
             'delete' => 'Tour:Admin:Booking@deleteAction'
-        )
-    )); ?>
+        ]
+    ]); ?>
 </div>
 
 <div class="card">
     <?php $this->loadPartial('items-per-page', array('caption' => 'Bookings')); ?>
 
     <form autocomplete="off">
-        <?= $this->widget(new GridViewWidget($bookings, array(
+        <?= $this->widget(new GridViewWidget($bookings, [
             // A column to be considered as a primary key
             'pk' => 'id',
             'batch' => true,
             'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
-            'rowAttributes' => array(
+            'rowAttributes' => [
                 'class' => function($row){
                     if ($row['status'] == -1) {
                         return 'danger';
                     }
                 }
-            ),
-            'columns' => array(
-                array(
+            ],
+
+            'columns' => [
+                [
                     'column' => 'id',
                     'label' => '#'
-                ),
+                ],
 
-                array(
+                [
                     'column' => 'tour',
-                ),
+                ],
 
-                array(
+                [
                     'column' => 'client',
-                ),
+                ],
 
-                array(
+                [
                     'column' => 'email',
-                ),
+                ],
 
-                array(
+                [
                     'column' => 'phone',
-                ),
+                ],
                 
-                array(
+                [
                     'column' => 'datetime',
                     'label' => 'Date and time'
-                ),
+                ],
 
-                array(
+                [
                     'column' => 'amount',
                     'label' => 'Price'
-                )
-            ),
+                ]
+            ],
 
-            'actions' => array(
+            'actions' => [
                 'notify' => function($row){
                     // Don't let
                     if ($row['amount'] == 0) {
                         return null;
                     }
 
-                    return Icon::button('glyphicon glyphicon-envelope', $this->url('Tour:Admin:Booking@notifyAction', $row['token']), $this->translate('Send invoice to their email'));
+                    return Icon::button('fas fa-envelope', $this->url('Tour:Admin:Booking@notifyAction', $row['token']), $this->translate('Send invoice to their email'));
                 },
 
                 'edit' => function($row){
@@ -92,8 +93,8 @@ defined('KRYSTAL') or die;
                         $this->translate('Delete this booking')
                     );
                 }
-            )
-        ))); ?>
+            ]
+        ])); ?>
     </form>
 
     <?php $this->loadPartial('paginator'); ?>
