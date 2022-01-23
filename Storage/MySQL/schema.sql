@@ -132,6 +132,26 @@ CREATE TABLE `bono_module_tour_booking` (
     `token` varchar(32) NOT NULL COMMENT 'Unique order token'
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
+DROP TABLE IF EXISTS `bono_module_tour_booking_guests`;
+CREATE TABLE `bono_module_tour_booking_guests` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `booking_id` INT NOT NULL COMMENT 'Attached booking ID',
+    `title` varchar(25) NOT NULL,
+    `first_name` varchar(255) NOT NULL,
+    `last_name` varchar(255) NOT NULL,
+    `birth` DATE NOT NULL,
+    `address_primary` TEXT NOT NULL COMMENT 'Address line 2',
+    `address_secondary` TEXT NOT NULL COMMENT 'Address line 2',
+    `email` varchar(255) NOT NULL COMMENT 'Email',
+    `city` varchar(255) NOT NULL COMMENT 'City',
+    `state` varchar(255) NOT NULL COMMENT 'State/Provice',
+    `country`varchar(1) NOT NULL COMMENT 'Country',
+    `phone` varchar(255) NOT NULL COMMENT 'Optional phone',
+    `postal` varchar(255) NOT NULL COMMENT 'Postal code',
+
+    FOREIGN KEY (booking_id) REFERENCES bono_module_tour_booking(id) ON DELETE CASCADE
+);
+
 /* Tour reviews */
 DROP TABLE IF EXISTS `bono_module_tour_reviews`;
 CREATE TABLE `bono_module_tour_reviews` (
