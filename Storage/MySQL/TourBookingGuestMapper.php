@@ -23,4 +23,38 @@ final class TourBookingGuestMapper extends AbstractMapper implements TourBooking
     {
         return self::getWithPrefix('bono_module_tour_booking_guests');
     }
+
+    /**
+     * Stores booking guest data
+     * 
+     * @param int $bookingId Booking id
+     * @param array $guests
+     * @return boolean
+     */
+    public function store($bookingId, array $guests)
+    {
+        $columns = [
+            'booking_id',
+            'title',
+            'first_name',
+            'last_name',
+            'birth',
+            'address_primary',
+            'address_secondary',
+            'email',
+            'city',
+            'state',
+            'country',
+            'phone',
+            'postal'
+        ];
+
+        // Set booking guest id
+        foreach ($guests as &$guest) {
+            array_unshift($guest, $bookingId);
+        }
+
+        return (bool) $this->db->insertMany(self::getTableName(), $columns, $guests)
+                               ->execute(true);
+    }
 }

@@ -11,7 +11,14 @@
 
 namespace Tour\Storage;
 
-interface TourBookingGuestMapper
+interface TourBookingGuestMapperInterface
 {
-    
+    /**
+     * Stores booking guest data
+     * 
+     * @param int $bookingId Booking id
+     * @param array $guests
+     * @return boolean
+     */
+    public function store($bookingId, array $guests);
 }
