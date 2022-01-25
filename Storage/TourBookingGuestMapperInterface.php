@@ -14,6 +14,14 @@ namespace Tour\Storage;
 interface TourBookingGuestMapperInterface
 {
     /**
+     * Fetch all booking records
+     * 
+     * @param int $bookingId Booking id
+     * @return array
+     */
+    public function fetchAll($bookingId);
+
+    /**
      * Stores booking guest data
      * 
      * @param int $bookingId Booking id

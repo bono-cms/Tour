@@ -25,6 +25,23 @@ final class TourBookingGuestMapper extends AbstractMapper implements TourBooking
     }
 
     /**
+     * Fetch all booking records
+     * 
+     * @param int $bookingId Booking id
+     * @return array
+     */
+    public function fetchAll($bookingId)
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->whereEquals('booking_id', $bookingId)
+                       ->orderBy('id')
+                       ->desc();
+
+        return $db->queryAll();
+    }
+
+    /**
      * Stores booking guest data
      * 
      * @param int $bookingId Booking id
