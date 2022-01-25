@@ -132,6 +132,17 @@ final class BookingService extends AbstractManager
     }
 
     /**
+     * Fetch all guests
+     * 
+     * @param int $id
+     * @return array
+     */
+    public function fetchGuests($id)
+    {
+        return $this->tourBookingGuestMapper->fetchAll($id);
+    }
+
+    /**
      * Deletes booking by its ID
      * 
      * @param int $id
