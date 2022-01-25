@@ -178,6 +178,7 @@ final class Module extends AbstractCmsModule
         $tourDateMapper = $this->getMapper('/Tour/Storage/MySQL/TourDateMapper');
         $tourDestinationMapper = $this->getMapper('/Tour/Storage/MySQL/TourDestinationMapper');
         $bookingMapper = $this->getMapper('/Tour/Storage/MySQL/TourBookingMapper');
+        $bookingGuestMapper = $this->getMapper('/Tour/Storage/MySQL/TourBookingGuestMapper');
         $reviewMapper = $this->getMapper('/Tour/Storage/MySQL/TourReviewMapper');
         $hotelMapper = $this->getMapper('/Tour/Storage/MySQL/HotelMapper');
         $hotelGalleryMapper = $this->getMapper('/Tour/Storage/MySQL/HotelGalleryMapper');
@@ -194,7 +195,7 @@ final class Module extends AbstractCmsModule
             'tourPricePolicyService' => new TourPricePolicyService($policyMapper),
             'hotelService' => new HotelService($hotelMapper, $webPageManager, $this->createHotelImageManager()),
             'hotelGalleryService' => new HotelGalleryService($hotelGalleryMapper, $this->createHotelGalleryImageManager()),
-            'bookingService' => new BookingService($bookingMapper),
+            'bookingService' => new BookingService($bookingMapper, $bookingGuestMapper),
             'categoryService' => $categoryService,
             'tourService' => $tourService,
             'tourDayService' => new TourDayService($tourDayMapper),

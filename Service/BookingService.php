@@ -16,6 +16,7 @@ use Krystal\Date\TimeHelper;
 use Krystal\Text\TextUtils;
 use Cms\Service\AbstractManager;
 use Tour\Storage\TourBookingMapperInterface;
+use Tour\Storage\TourBookingGuestMapperInterface;
 
 final class BookingService extends AbstractManager
 {
@@ -27,14 +28,23 @@ final class BookingService extends AbstractManager
     private $tourBookingMapper;
 
     /**
+     * Compliant mapper
+     * 
+     * @var Tour\Storage\MySQL\TourBookingGuestMapperInterface
+     */
+    private $tourBookingGuestMapper;
+
+    /**
      * State initialization
      * 
      * @param \Tour\Storage\TourBookingMapperInterface $tourBookingMapper
+     * @param \Tour\Storage\MySQL\TourBookingGuestMapperInterface $tourBookingGuestMapper
      * @return void
      */
-    public function __construct(TourBookingMapperInterface $tourBookingMapper)
+    public function __construct(TourBookingMapperInterface $tourBookingMapper, TourBookingGuestMapperInterface $tourBookingGuestMapper)
     {
         $this->tourBookingMapper = $tourBookingMapper;
+        $this->tourBookingGuestMapper = $tourBookingGuestMapper;
     }
 
     /**
@@ -142,6 +152,28 @@ final class BookingService extends AbstractManager
     {
         foreach ($ids as $id) {
             $this->deleteById($id);
+        }
+
+        return true;
+    }
+
+    /**
+     * Creates a new booking (purely used on a site)
+     * 
+     * @param array $input
+     * @param array $guests Optional guests
+     * @return boolean
+     */
+    public function book(array $input, array $guests = [])
+    {
+        $input['datetime'] = TimeHelper::getNow();
+        $input['status'] = -1; // Means temporary
+        $input['token'] = TextUtils::uniqueString();
+
+        $this->tourBookingMapper->persist($input);
+
+        if ($guests) {
+            $this->tourBookingGuestMapper->store($this->getLastId(), $guests);
         }
 
         return true;
