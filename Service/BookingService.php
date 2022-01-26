@@ -63,6 +63,11 @@ final class BookingService extends AbstractManager
                 ->setAmount($row['amount'])
                 ->setToken($row['token']);
 
+        if (isset($row['start'], $row['end'])) {
+            $booking->setStart($row['start'])
+                    ->setEnd($row['end']);
+        }
+
         return $booking;
     }
 
