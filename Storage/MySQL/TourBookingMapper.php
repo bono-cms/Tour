@@ -25,6 +25,40 @@ final class TourBookingMapper extends AbstractMapper implements TourBookingMappe
     }
 
     /**
+     * Creates shared select
+     * 
+     * @return \Krystal\Db\Sql\Db
+     */
+    private function createSharedSelect()
+    {
+        // Columns to be selected
+        $columns = [
+            self::column('id'),
+            self::column('tour_id'),
+            self::column('date_id'),
+            TourDateMapper::column('start'),
+            TourDateMapper::column('end'),
+            self::column('status'),
+            self::column('tour'),
+            self::column('client'),
+            self::column('email'),
+            self::column('phone'),
+            self::column('datetime'),
+            self::column('amount'),
+            self::column('token')
+        ];
+
+        $db = $this->db->select($columns)
+                       ->from(self::getTableName())
+                       // Tour date relation
+                       ->leftJoin(TourDateMapper::getTableName(), [
+                        TourDateMapper::column('tour_id') => self::getRawColumn('tour_id')
+                       ]);
+
+        return $db;
+    }
+
+    /**
      * Updates booking status by its token
      * 
      * @param string $token
@@ -46,7 +80,10 @@ final class TourBookingMapper extends AbstractMapper implements TourBookingMappe
      */
     public function findByToken($token)
     {
-        return $this->fetchByColumn('token', $token);
+        $db = $this->createSharedSelect()
+                   ->whereEquals(self::column('token'), $token);
+
+        return $db->query();
     }
 
     /**
@@ -58,10 +95,9 @@ final class TourBookingMapper extends AbstractMapper implements TourBookingMappe
      */
     public function fetchAll($page, $itemsPerPage)
     {
-        $db = $this->db->select('*')
-                       ->from(self::getTableName())
-                       ->orderBy('id')
-                       ->desc();
+        $db = $this->createSharedSelect()
+                   ->orderBy(self::column('id'))
+                   ->desc();
 
         // Apply pagination if required
         if ($page !== null && $itemsPerPage !== null){
