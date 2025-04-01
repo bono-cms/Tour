@@ -1,40 +1,65 @@
 
-# Tour module
+Tour Module
+==========
 
-Tour module is the best thing for a Travel Agency/Tour Operator/Destination Management Company to manage their tour packages easily and efficiently. Its powerful, easy to extend module for Bono CMS to manage and sell tour packages online.
+The Tour Module is an essential tool for Travel Agencies, Tour Operators, and Destination Management Companies, allowing them to manage their tour packages efficiently. This powerful and easily extendable module for Bono CMS enables seamless online tour package management and sales.
 
-# Features
+## Features
 
-- Tours themselves (basic info: description, what's included, what's not included, number of adults and children)
-- Multi-category support (one tour can appear in many categories at once)
-- Related tours (a tour can have attached ones)
-- Tour gallery (a tour can have image gallery)
-- Tour days with title and description (a tour can have as many days description as required)
-- Tour booking. Ability to sell both type of tour - the ones with price and priceless
-- Tour hotels that can be optionally attached
-- Price policy. Take a control of number of people and corresponding prices
-- Recommended tours. Pick the ones that you recommended to your customers and showcase them
-- Reviews. Let your users to leave feedback regarding tours
-- Search on site. Let your visitors to search tours by their preferences
+The module provides a comprehensive solution for managing and selling tours effortlessly while ensuring a seamless user experience.
 
-# Installation
+- **Tour Details**: Manage essential information, including descriptions, inclusions, exclusions, and guest capacity (adults and children).
+- **Multi-Category Support**: Assign a single tour to multiple categories simultaneously.
+- **Related Tours**: Attach similar or complementary tours to enhance customer options.
+- **Tour Gallery**: Upload and showcase multiple images for each tour.
+- **Itinerary Management**: Add and manage day-by-day tour details with titles and descriptions.
+- **Booking System**: Sell both priced and free tours.
+- **Hotel Integration**: Optionally attach hotels to tour packages.
+- **Pricing Policy**: Define pricing based on the number of participants.
+- **Recommended Tours**: Highlight selected tours for customers.
+- **User Reviews**: Allow users to leave feedback and rate tours.
+- **Advanced Search**: Enable visitors to search for tours based on their preferences.
 
-Nothing extra to do. Can be installed just like any other Bono module. Please refer to documentation.
+## Tour Template
 
-# How to use it
+The `tour-single.phtml` file represents the tour page template. It includes the following methods:
 
-To get started quickly, just download default tour theme and start customizing it from there. Also you can refer to documentation to learn more about available methods and services.
+### General Methods
 
-# Bug reports
+    $tour->getName(); // Returns the tour name.
+    $tour->getDescription(); // Returns the tour description.
+    $tour->getIncluded(); // Returns a list of included features.
+    $tour->getExcluded(); // Returns a list of excluded features.
+    $tour->getAdults(); // Returns the number of adults.
+    $tour->getChildren(); // Returns the number of children.
 
-If you encounter a bug, please report an issue here, providing as much as possible information on how to reproduce that bug. 
+### Gallery Methods
 
-Please don't open an issue if that bug related to security. Instead send an email directly to developer.
+    $tour->getGallery(); // Returns an array of gallery image paths.
+    $tour->hasGalleryControls(); // Checks if there are multiple images.
+    $tour->hasGallery(); // Returns true if the tour has at least one image.
 
-# License
+### Pricing Methods
 
-Licensed under the same license as Bono CMS
+    $tour->getPrice(); // Returns the current price.
+    $tour->hasPrice(); // Checks if a price is set.
+    $tour->hasStartPrice(); // Checks if a starting price is available.
+    $tour->getStartPrice(); // Returns the starting price.
 
-# Credits
+### Itinerary Methods
 
-Icons made by [Freepik](https://www.freepik.com/ "Freepik") from [www.flaticon.com](https://www.flaticon.com/ "Flaticon") is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/ "Creative Commons BY 3.0")
+    $tour->hasDays(); // Checks if the tour has itinerary days.
+    $tour->getDays(); // Returns an array of day entities.
+    $tour->getDaysCount(); // Returns the number of tour days.
+    $tour->getNightsCount(); // Returns the number of nights.
+
+### Date Methods
+
+    $tour->hasDates(); // Checks if the tour has available dates.
+    $tour->getDates(); // Returns an array of available dates.
+
+### Review Methods
+
+    $tour->hasReviews(); // Checks if the tour has any reviews.
+    $tour->getReviews(); // Returns a collection of reviews.
+    $tour->getReviewCount(); // Returns the total review count.
