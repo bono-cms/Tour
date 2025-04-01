@@ -20,6 +20,51 @@ The module provides a comprehensive solution for managing and selling tours effo
 - **User reviews**: Allow users to leave feedback and rate tours.
 - **Advanced search**: Enable visitors to search for tours based on their preferences.
 
+## Category template
+The `tour-category.phtml` file represents the tour category template. It includes the following methods:
+
+###  Available methods
+    $category->getDescription(); // Returns category description
+    $category->getName(); // Returns category name
+    $category->getUrl(); // Returns category URL
+    $category->getImageUrl($size); // Returns image URL
+    $category->getTourCount(); // Returns tour count
+    $category->getStartPrice(); // Returns minimal price of a tour
+    $category->getCover(); // Returns cover basename, if available
+
+It also contains `$tours` array with tour entities.
+
+### Example
+
+    <h1 class="mb-2"><?= $category->getName(); ?></h1>
+    
+    <div class="pt-2">
+        <?= $page->getDescription(); ?>
+    </div>
+    
+    <?php if (!empty($tours)): ?>
+    <div class="row">
+       <?php foreach ($tours as $tour): ?>
+       <div class="col-lg-4">
+           <img src="<?= $tour->getImageUrl('500x500'); ?>" class="img-fluid" />
+           <h4 class="my-3"><?= $tour->getName(); ?></h4>
+           <div class="py-3">
+               <?= $tour->getShort(); ?>
+           </div>
+           <p>Days: <?= $tour->getDaysCount(); ?></p>
+           <a href="<?= $tour->getUrl(); ?>">View details</a>
+       </div>
+       <?php endforeach; ?>
+    </div>
+    
+    <!-- Pagination widget can be included here -->
+
+    <?php else: ?>
+    <p>No available tours</p>
+    <?php endif; ?>
+
+Pagination can be included via built-in widget. Learn more [here](https://bono.software/docs/pagination).
+
 ## Tour Template
 
 The `tour-single.phtml` file represents the tour page template. It includes the following methods:
@@ -28,10 +73,11 @@ The `tour-single.phtml` file represents the tour page template. It includes the 
 
     $tour->getName(); // Returns the tour name.
     $tour->getDescription(); // Returns the tour description.
-    $tour->getIncluded(); // Returns a list of included features.
-    $tour->getExcluded(); // Returns a list of excluded features.
+    $tour->getIncluded(); // Returns a description of included features.
+    $tour->getExcluded(); // Returns a description of excluded features.
     $tour->getAdults(); // Returns the number of adults.
     $tour->getChildren(); // Returns the number of children.
+    $tour->getViews(); // Returns view count.
 
 ### Gallery Methods
 
