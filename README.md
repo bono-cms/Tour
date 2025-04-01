@@ -114,8 +114,8 @@ The `tour-single.phtml` file represents the tour page template. It includes the 
       <tbody>
         <?php foreach($tour->getDates() as $date): ?>   
         <tr>
-           <td><?= $date->getStart(); </td>
-           <td><?= $date->getEnd(); </td>
+           <td><?= $date->getStart(); ?></td>
+           <td><?= $date->getEnd(); ?></td>
         </tr>
         <?php endforeach; ?>
       </tbody>
