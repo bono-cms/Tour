@@ -190,7 +190,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
                    ->setSlug($row['slug'])
                    ->setLangId($row['lang_id'])
                    ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
-            
+
             $output[] = $entity;
         }
 

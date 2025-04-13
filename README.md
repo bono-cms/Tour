@@ -191,3 +191,63 @@ The `tour-single.phtml` file represents the tour page template. It includes the 
     </div>
     
     <?php endif; ?>
+    
+
+## Global service
+
+A globally available service object named `$tourService` provides access to tour-related data and utilities. It offers the following methods:
+
+### Getting Categories and Their Tours
+
+Use the method:
+
+`$tourService->getBasic()`
+
+This returns a list of tours grouped by category names. Each category contains an array of tour entities. Each tour entity provides methods such as `getUrl()` and `getTour()`.
+
+Example:
+
+    <?php foreach ($tourService->getBasic() as $categoryName => $tours): ?>
+    <h4 class="mb-4"><?= $categoryName; ?></h4>
+     
+     <ul class="list-unstyled">   
+      <?php foreach ($tours as $tour): ?>
+        <li>
+           <a href="<?= $tour->getUrl(); ?>"><?= $tour->getTour(); ?></a>
+        </li>
+      <?php endforeach; ?>
+     </ul>
+    <?php endforeach; ?>
+
+### Getting Recommended Tours
+
+Recommended tours are selected in the admin panel.
+Use the method:
+
+    $tourService->getRecommended($limit);
+
+-   **Parameters:**
+    
+    -   `$limit` _(int)_ – The maximum number of recommended tours to return.
+        
+-   **Returns:** An array of recommended tour entities.
+
+### Getting Destinations
+
+Use the method:
+
+`$tourService->getDestinations()`
+
+-   **Returns:** An array of destinations, each containing an ID and name.
+
+### Getting Categories
+
+Use the method:
+
+`$tourService->getCategories($hash)`
+
+-   **Parameters:**
+    
+    -   `$hash` _(bool)_ – If `true`, returns categories as a hash map. If `false`, returns an array of category entities.
+        
+-   **Returns:** Tour categories in the specified format.
