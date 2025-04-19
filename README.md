@@ -90,9 +90,9 @@ The `tour-single.phtml` file represents the tour page template. It includes the 
 
     <?php if ($tour->hasGallery()): ?>
     <div class="row">
-    	<?php foreach ($tour->getGallery() as $image): ?>
+    	<?php foreach ($tour->getGallery() as $src): ?>
     		<div class="col-lg-4">
-	            <img class="img-fluid" src="<?= $image->getImageUrl('500x500'); ?>" />
+	            <img class="img-fluid" src="<?= $src; ?>">
             </div>
     	</div>
     	<?php endforeach; ?>
