@@ -193,6 +193,23 @@ The `tour-single.phtml` file represents the tour page template. It includes the 
     <?php endif; ?>
     
 
+## URL Generation
+
+### Categories
+To generate a URL for a category by its ID (assuming the category ID is 1), use:
+
+    <a href="<?= $cms->createUrl(1, 'Tour (Categories)'); ?>">View category</a>
+
+### Posts
+To generate a URL for a tour by its ID (assuming the post ID is 1), use:
+
+    <a href="<?= $cms->createUrl(1, 'Tour (Tours)'); ?>">View tour</a>
+
+### Hotels
+To generate a URL for a hotel by its ID (assuming the hotel ID is 1), use:
+
+    <a href="<?= $cms->createUrl(1, 'Tour (Hotels)'); ?>">View hotel</a>
+
 ## Global service
 
 A globally available service object named `$tourService` provides access to tour-related data and utilities. It offers the following methods:
