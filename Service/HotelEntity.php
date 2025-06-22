@@ -16,6 +16,16 @@ use Krystal\Stdlib\VirtualEntity;
 final class HotelEntity extends VirtualEntity
 {
     /**
+     * Checks whether there's available gallery
+     * 
+     * @return boolean
+     */
+    public function hasGallery()
+    {
+        return (bool) $this->getGallery();
+    }
+
+    /**
      * Returns a path to image URL
      * 
      * @param string $size
