@@ -1,4 +1,5 @@
 
+
 Tour Module
 ==========
 
@@ -191,6 +192,54 @@ The `tour-single.phtml` file represents the tour page template. It includes the 
     </div>
     
     <?php endif; ?>
+
+### Hotel methods
+
+You can easily attach hotels to a tour from the administration panel. Here's an example of how to render it:
+
+    <?php if ($tour->hasHotels()): ?>
+    <div class="row">
+        <?php foreach($tour->getHotels() as $hotel): ?>
+        <div class="col-lg-4">
+            <div class="pb-3">
+                <img class="img-fluid" src="<?= $hotel->getImageUrl('500x500'); ?>">
+            </div>
+            <a href="<?= $hotel->getUrl(); ?>"><?= $hotel->getName(); ?></a>
+        </div>
+        <?php endforeach;?>
+    </div>
+    <?php endif; ?>
+
+## Hotel template
+
+The template file must be named `tour-hotel.phtml` and placed in your current theme directory.
+
+### General methods
+
+The `$hotel` entity has the following methods:
+
+    $hotel->getDistances(); // Returns distance
+    $hotel->getRooms(); // Returns room count
+    $hotel->getAddress(); // Returns address
+    $hotel->getPhone(); // Returns phone number
+    $hotel->getDescription(); // Returns description
+    $hotel->getName(); // Returns hotel name
+    $hotel->getImageUrl($size); // Returns image location
+
+### Gallery methods
+
+Ensure that at least one gallery image is uploaded before rendering:
+
+    <?php if ($hotel->hasGallery()): ?>
+    <div class="row">
+        <?php foreach ($hotel->getGallery() as $image): ?>
+        <div class="col-lg-4">
+            <img class="img-fluid" src="<?= $image->getImageUrl('500x500'); ?>">
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
     
 
 ## URL Generation
@@ -268,3 +317,5 @@ Use the method:
     -   `$hash` _(bool)_ – If `true`, returns categories as a hash map. If `false`, returns an array of category entities.
         
 -   **Returns:** Tour categories in the specified format.
+
+
