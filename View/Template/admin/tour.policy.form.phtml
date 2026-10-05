@@ -9,26 +9,36 @@ defined('KRYSTAL') or die;
     <?= Element::hidden('policy[id]', $policy->getId()); ?>
     <?= Element::hidden('policy[tour_id]', $policy->getTourId()); ?>
 
-    <div class="form-group">
-        <label class="col-lg-2"><?php $this->show('Number of people'); ?></label>
+    <div class="form-group row">
+        <label class="col-lg-2 col-form-label"><?= $this->translate('Number of people'); ?></label>
         <div class="col-lg-10">
-            <?= Element::text('policy[qty]', $policy->getQty(), array('class' => 'form-control')); ?>
+            <div class="input-group">
+                <?= Element::text('policy[qty]', $policy->getQty(), ['class' => 'form-control']); ?>
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-lg-2"><?php $this->show('Price'); ?></label>
+    <div class="form-group row">
+        <label class="col-lg-2 col-form-label"><?= $this->translate('Price'); ?></label>
         <div class="col-lg-10">
-            <?= Element::text('policy[price]', $policy->getPrice(), array('class' => 'form-control')); ?>
+            <div class="input-group">
+                <?= Element::text('policy[price]', $policy->getPrice(), ['class' => 'form-control']); ?>
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <?php $this->loadPartial('actions', array(
+    <?php $this->loadPartial('actions', [
         'new' => !$policy->getId(),
-        'add' => array('Tour:Admin:TourPricePolicy@addAction', $policy->getTourId()),
+        'add' => ['Tour:Admin:TourPricePolicy@addAction', $policy->getTourId()],
         'edit' => 'Tour:Admin:TourPricePolicy@editAction',
         'save' => 'Tour:Admin:TourPricePolicy@saveAction',
-        'cancel' => array('Tour:Admin:Tour@editAction', $policy->getTourId())
-    )); ?>
+        'cancel' => ['Tour:Admin:Tour@editAction', $policy->getTourId()]
+    ]); ?>
 
 </form>

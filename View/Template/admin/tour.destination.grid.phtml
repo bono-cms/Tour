@@ -9,51 +9,49 @@ defined('KRYSTAL') or die;
 ?>
 
 <div class="btn-toolbar">
-    <a class="btn btn-primary btn-sm" href="<?= $this->url('Tour:Admin:TourDestination@addAction'); ?>"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Add new tour destination'); ?></a>
+    <a class="btn btn-primary btn-sm" href="<?= $this->url('Tour:Admin:TourDestination@addAction'); ?>"><i class="bi bi-arrows-angle-contract"></i> <?= $this->translate('Add new tour destination'); ?></a>
 </div>
 
 <div class="card">
-    <h2 class="page-header"><i class="glyphicon glyphicon-resize-small"></i> <?php $this->show('Tour destinations'); ?> <small>(<?= count($destinations); ?>)</small></h2>
+    <h2 class="page-header"><i class="bi bi-arrows-angle-contract"></i> <?= $this->translate('Tour destinations'); ?> <small>(<?= count($destinations); ?>)</small></h2>
 
-    <?= $this->widget(new GridViewWidget($destinations, array(
+    <?= $this->widget(new GridViewWidget($destinations, [
         'pk' => 'id',
         'tableClass' => 'table table-hover table-bordered table-striped',
-        'columns' => array(
-            array(
+        'columns' => [
+            [
                 'column' => 'id',
                 'label' => '#'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'name',
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'order',
-            )
-        ),
+            ]
+        ],
 
-        'actions' => array(
-            'edit' => function($row){
+        'actions' => [
+            function($row){
                 return Icon::edit(
                     $this->url('Tour:Admin:TourDestination@editAction', $row['id']),
                     $this->translate('Edit this destination')
                 );
             },
 
-            'remove' => function($row){
+            function($row){
                 return Icon::remove(
                     $this->url('Tour:Admin:TourDestination@deleteAction', $row['id']),
                     $this->translate('Remove this destination')
                 );
             }
-        )
-    ))); ?>
+        ]
+    ])); ?>
 
     <?php if (empty($destinations)): ?>
-    <div class="center-block">
-        <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No tour destinations'); ?></h2>
-    </div>
+    <h2 class="text-center text-muted"><i class="bi bi-x"></i> <?= $this->translate('No tour destinations'); ?></h2>
     <?php endif; ?>
 
 </div>

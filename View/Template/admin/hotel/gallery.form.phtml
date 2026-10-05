@@ -6,38 +6,40 @@ defined('KRYSTAL') or die;
 ?>
 
 <form class="card" data-group="image" autocomplete="off">
-    <?php echo Element::hidden('image[id]', $image->getId()); ?>
-    <?php echo Element::hidden('image[image]', $image->getImage()); ?>
-    <?php echo Element::hidden('image[hotel_id]', $image->getHotelId()); ?>
+    <?= Element::hidden('image[id]', $image->getId()); ?>
+    <?= Element::hidden('image[image]', $image->getImage()); ?>
+    <?= Element::hidden('image[hotel_id]', $image->getHotelId()); ?>
 
-    <div class="form-group">
-        <label class="col-lg-12 control-label"><?php $this->show('Image'); ?></label>
+    <div class="form-group row">
+        <label class="col-lg-2 col-form-label"><?= $this->translate('Image'); ?></label>
         <div class="col-lg-10">
             <p>
-                <img data-image="<?php echo $image->getId() ? null : 'preview'; ?>" src="<?php echo $image->getImageUrl('400x400'); ?>" />
+                <img data-image="<?= $image->getId() ? null : 'preview'; ?>" src="<?= $image->getImageUrl('400x400'); ?>" />
             </p>
 
-            <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
-            <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
+            <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="bi bi-image"></i> <?= $this->translate('Upload a file'); ?></a>
+            <?= Element::file('file', 'image/x-png, image/gif, image/jpeg', ['class' => 'hidden', 'data-plugin' => 'preview']); ?>
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-lg-12 control-label"><?php $this->show('Order'); ?></label>
+    <div class="form-group row">
+        <label class="col-lg-2 col-form-label"><?= $this->translate('Order'); ?></label>
         <div class="col-lg-10">
             <div class="input-group">
-                <?php echo Element::text('image[order]', $image->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate('Sorting order'))); ?>
-                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                <?= Element::text('image[order]', $image->getOrder(), ['class' => 'form-control', 'placeholder' => $this->translate('Sorting order')]); ?>
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                </div>
             </div>
         </div>
     </div>
 
-    <?php $this->loadPartial('actions', array(
+    <?php $this->loadPartial('actions', [
         'new' => !$image->getId(),
-        'add' => array('Tour:Admin:HotelGallery@addAction', $image->getHotelId()),
+        'add' => ['Tour:Admin:HotelGallery@addAction', $image->getHotelId()],
         'edit' => 'Tour:Admin:HotelGallery@editAction',
         'save' => 'Tour:Admin:HotelGallery@saveAction',
-        'cancel' => array('Tour:Admin:Hotel@editAction', $image->getHotelId())
-    )); ?>
+        'cancel' => ['Tour:Admin:Hotel@editAction', $image->getHotelId()]
+    ]); ?>
 
 </form>

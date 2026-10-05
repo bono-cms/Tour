@@ -8,31 +8,37 @@ defined('KRYSTAL') or die;
 ?>
 
 <form class="card" data-group="destination" autocomplete="off">
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="nav-item active"><a class="nav-link" href="#page" role="tab" data-toggle="tab"><i class="fas fa-road"></i> <?php $this->show('Tour destination'); ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="fas fa-tasks"></i> <?php $this->show('Configuration'); ?></a></li>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#page" data-toggle="tab"><i class="fas fa-road"></i> <?= $this->translate('Tour destination'); ?></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#configuration" data-toggle="tab"><i class="fas fa-tasks"></i> <?= $this->translate('Configuration'); ?></a>
+        </li>
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="page" role="tabpanel">
+        <div class="tab-pane fade show active" id="page">
             <?php $this->loadPartial('language-tabs'); ?>
 
             <div class="tab-content">
                 <?php foreach ($languages as $index => $language): ?>
-                <div class="tab-pane fade in <?php echo $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                <div class="tab-pane fade show <?= $index == 0 ? 'active' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>">
                     <?php $entity = LanguageManager::findByLangId($language->getId(), $destination); ?>
 
-                    <?php echo Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
-                    <?php echo Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
 
-                    <?php $this->loadPartial('language-name', array('language' => $language)); ?>
+                    <?php $this->loadPartial('language-name', ['language' => $language]); ?>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Name'); ?></label>
                         <div class="col-lg-10">
                             <div class="input-group">
-                                <?php echo Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Category name'))); ?>
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                <?= Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), ['class' => 'form-control', 'placeholder' => $this->translate('Category name')]); ?>
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -40,23 +46,28 @@ defined('KRYSTAL') or die;
                 <?php endforeach; ?>
             </div>
 
-            <?php $this->loadPartial('actions', array(
+            <?php $this->loadPartial('actions', [
                 'new' => !$entity->getId(),
                 'add' => 'Tour:Admin:TourDestination@addAction',
                 'edit' => 'Tour:Admin:TourDestination@editAction',
                 'save' => 'Tour:Admin:TourDestination@saveAction',
                 'cancel' => 'Tour:Admin:Grid@indexAction'
-            )); ?>
+            ]); ?>
 
 		</div>
 
-        <div role="tabpanel" class="tab-pane" id="configuration">
-            <?php echo Element::hidden('destination[id]', $entity->getId()); ?>
+        <div class="tab-pane" id="configuration">
+            <?= Element::hidden('destination[id]', $entity->getId()); ?>
 
-            <div class="form-group">
-                <label class="col-lg-12 control-label"><?php $this->show('Order'); ?></label>
+            <div class="form-group row">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Order'); ?></label>
                 <div class="col-lg-10">
-                    <?php echo Element::number('destination[order]', $entity->getOrder(), array('class' => 'form-control', 'min' => 0)) ?>
+                    <div class="input-group">
+                        <?= Element::number('destination[order]', $entity->getOrder(), ['class' => 'form-control', 'min' => 0]) ?>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

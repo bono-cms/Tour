@@ -115,7 +115,7 @@ abstract class AbstractGalleryService extends AbstractManager
     public function add(array $input)
     {
         $image = $input['data']['image'];
-        $file = $input['files']['file'];
+        $file = isset($input['files']['file']) ? $input['files']['file'] : [];
 
         // Define image attribute
         $image['image'] = $file->getUniqueName();

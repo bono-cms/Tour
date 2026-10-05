@@ -9,45 +9,45 @@ defined('KRYSTAL') or die;
 ?>
 
 <div class="card">
-    <?php $this->loadPartial('items-per-page', array('caption' => 'Reviews')); ?>
+    <?php $this->loadPartial('items-per-page', ['caption' => 'Reviews']); ?>
 
-    <?= $this->widget(new GridViewWidget($reviews, array(
+    <?= $this->widget(new GridViewWidget($reviews, [
         'pk' => 'id',
         'batch' => true,
         'tableClass' => 'table table-hover table-bordered table-striped',
-        'rowAttributes' => array(
+        'rowAttributes' => [
             'class' => function($row){
                 if ($row['published'] == 0){
                     return 'danger';
                 }
             }
-        ),
-        'columns' => array(
-            array(
+        ],
+        'columns' => [
+            [
                 'column' => 'id',
                 'label' => '#'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'tour',
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'datetime',
                 'label' => 'Date and time'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'name',
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'message',
-            )
-        ),
+            ]
+        ],
 
-        'actions' => array(
-            'approve' => function($entity){
+        'actions' => [
+            function($entity){
                 if ($entity['published'] == 0){
                     return Icon::approve(
                         $this->url('Tour:Admin:TourReview@approveAction', $entity['id']),
@@ -56,13 +56,13 @@ defined('KRYSTAL') or die;
                 }
             },
 
-            'remove' => function($row){
+            function($row){
                 return Icon::remove(
                     $this->url('Tour:Admin:TourReview@deleteAction', $row['id']),
                     $this->translate('Remove this review')
                 );
             }
-        )
-    ))); ?>
+        ]
+    ])); ?>
 
 </div>

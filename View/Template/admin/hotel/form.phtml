@@ -10,123 +10,133 @@ defined('KRYSTAL') or die;
 ?>
 
 <form class="card" data-group="hotel" novalidate autocomplete="off">
-	<ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a class="nav-link" href="#page" role="tab" data-toggle="tab"><i class="fas fa-bed"></i> <?php $this->show('Hotel'); ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="fas fa-tasks"></i> <?php $this->show('Configuration'); ?></a></li>
+	<ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#page" data-toggle="tab"><i class="fas fa-bed"></i> <?= $this->translate('Hotel'); ?></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#configuration" data-toggle="tab"><i class="fas fa-tasks"></i> <?= $this->translate('Configuration'); ?></a>
+        </li>
         <?php if (!$new): ?>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#gallery" role="tab" data-toggle="tab"><i class="fas fa-camera-retro"></i> <?php $this->show('Gallery'); ?> <small class="text-muted">(<?= count($gallery); ?>)</small></a></li>
+        <li class="nav-item">
+            <a class="nav-link" href="#gallery" data-toggle="tab"><i class="fas fa-camera-retro"></i> <?= $this->translate('Gallery'); ?> <small class="text-muted">(<?= count($gallery); ?>)</small></a>
+        </li>
         <?php endif; ?>
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="page" role="tabpanel">
+        <div class="tab-pane fade show active" id="page">
             <?php $this->loadPartial('language-tabs'); ?>
 
             <div class="tab-content">
                 <?php foreach ($languages as $index => $language): ?>
-                <div class="tab-pane fade in <?php echo $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                <div class="tab-pane fade show <?= $index == 0 ? 'active' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>">
                     <?php $entity = LanguageManager::findByLangId($language->getId(), $hotel); ?>
 
-                    <?php echo Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
-                    <?php echo Element::hidden(sprintf('translation[%s][web_page_id]', $language->getId()), $entity->getWebPageId()); ?>
-                    <?php echo Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][web_page_id]', $language->getId()), $entity->getWebPageId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
 
-                    <?php $this->loadPartial('language-name', array('language' => $language)); ?>
+                    <?php $this->loadPartial('language-name', ['language' => $language]); ?>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Name'); ?></label>
                         <div class="col-lg-10">
                             <div class="input-group">
-                                <?php echo Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Hotel name'))); ?>
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                <?= Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), ['class' => 'form-control', 'placeholder' => $this->translate('Hotel name')]); ?>
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"><?php $this->show('Phone'); ?></label>
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Phone'); ?></label>
                         <div class="col-lg-10">
-                            <?php echo Element::textarea(sprintf('translation[%s][phone]', $language->getId()), $entity->getPhone(), array('class' => 'form-control')); ?>
+                            <?= Element::textarea(sprintf('translation[%s][phone]', $language->getId()), $entity->getPhone(), ['class' => 'form-control']); ?>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"><?php $this->show('Address'); ?></label>
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Address'); ?></label>
                         <div class="col-lg-10">
-                            <?php echo Element::textarea(sprintf('translation[%s][address]', $language->getId()), $entity->getAddress(), array('class' => 'form-control')); ?>
+                            <?= Element::textarea(sprintf('translation[%s][address]', $language->getId()), $entity->getAddress(), ['class' => 'form-control']); ?>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"><?php $this->show('Distances'); ?></label>
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Distances'); ?></label>
                         <div class="col-lg-10">
-                            <?php echo Element::textarea(sprintf('translation[%s][distances]', $language->getId()), $entity->getDistances(), array('data-wysiwyg' => 'true')); ?>
+                            <?= Element::textarea(sprintf('translation[%s][distances]', $language->getId()), $entity->getDistances(), ['data-wysiwyg' => 'true']); ?>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"><?php $this->show('Rooms'); ?></label>
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Rooms'); ?></label>
                         <div class="col-lg-10">
-                            <?php echo Element::textarea(sprintf('translation[%s][rooms]', $language->getId()), $entity->getRooms(), array('data-wysiwyg' => 'true')); ?>
+                            <?= Element::textarea(sprintf('translation[%s][rooms]', $language->getId()), $entity->getRooms(), ['data-wysiwyg' => 'true']); ?>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Description'); ?></label>
                         <div class="col-lg-10">
-                            <?php echo Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('data-wysiwyg' => 'true')); ?>
+                            <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), ['data-wysiwyg' => 'true']); ?>
                         </div>
                     </div>
 
                     <div class="options">
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label"><?php $this->show('Slug'); ?></label>
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label"><?= $this->translate('Slug'); ?></label>
                             <div class="col-lg-10">
                                 <div class="input-group">
-                                    <?php echo Element::text(sprintf('translation[%s][slug]', $language->getId()), $entity->getSlug(), array('class' => 'form-control', 'placeholder' => $this->translate('URL slug for this tour. By default is taken from the name'))); ?>
+                                    <?= Element::text(sprintf('translation[%s][slug]', $language->getId()), $entity->getSlug(), ['class' => 'form-control', 'placeholder' => $this->translate('URL slug for this tour. By default is taken from the name')]); ?>
 
-                                    <span class="input-group-addon">
-                                        <a href="#" data-slug-selector="<?= LanguageManager::generateSelector($language->getId()); ?>"><i class="glyphicon glyphicon-refresh" data-toggle="tooltip" title="<?php $this->show('Refresh the slug'); ?>"></i></a>
-                                    </span>
+                                    <div class="input-group-append">
+                                        <a class="input-group-text" href="#" data-slug-selector="<?= LanguageManager::generateSelector($language->getId()); ?>"><i class="bi bi-arrow-clockwise" data-toggle="tooltip" title="<?= $this->translate('Refresh the slug'); ?>"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-lg-12 control-label"><?php $this->show('Change frequency'); ?></label>
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label"><?= $this->translate('Change frequency'); ?></label>
                             <div class="col-lg-10">
-                                <?php echo Element::select(sprintf('translation[%s][changefreq]', $language->getId()), $this->translateArray($changeFreqs), $entity->getChangeFreq(), array('class' => 'form-control')); ?>
+                                <?= Element::select(sprintf('translation[%s][changefreq]', $language->getId()), $this->translateArray($changeFreqs), $entity->getChangeFreq(), ['class' => 'form-control']); ?>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label"><?php $this->show('Priority'); ?></label>
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label"><?= $this->translate('Priority'); ?></label>
                             <div class="col-lg-10">
-                                <?php echo Element::select(sprintf('translation[%s][priority]', $language->getId()), $priorities, $entity->getPriority(), array('class' => 'form-control')); ?>
+                                <?= Element::select(sprintf('translation[%s][priority]', $language->getId()), $priorities, $entity->getPriority(), ['class' => 'form-control']); ?>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label"><?php $this->show('Title'); ?></label>
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label"><?= $this->translate('Title'); ?></label>
                             <div class="col-lg-10">
                                 <div class="input-group">
-                                    <?php echo Element::text(sprintf('translation[%s][title]', $language->getId()), $entity->getTitle(), array('class' => 'form-control', 'data-input' => 'title', 'placeholder' => $this->translate("Category title"))); ?>
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <?= Element::text(sprintf('translation[%s][title]', $language->getId()), $entity->getTitle(), ['class' => 'form-control', 'data-input' => 'title', 'placeholder' => $this->translate("Category title")]); ?>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label"><?php $this->show('Keywords'); ?></label>
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label"><?= $this->translate('Keywords'); ?></label>
                             <div class="col-lg-10">
-                                <?php echo Element::textarea(sprintf('translation[%s][meta_keywords]', $language->getId()), $entity->getMetaKeywords(), array('class' => 'form-control', 'placeholder' => $this->translate('Keywords used for search engines'))); ?>
+                                <?= Element::textarea(sprintf('translation[%s][meta_keywords]', $language->getId()), $entity->getMetaKeywords(), ['class' => 'form-control', 'placeholder' => $this->translate('Keywords used for search engines')]); ?>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label"><?= $this->translate('Description'); ?></label>
                             <div class="col-lg-10">
-                                <?php echo Element::textarea(sprintf('translation[%s][meta_description]', $language->getId()), $entity->getMetaDescription(), array('class' => 'form-control', 'placeholder' => $this->translate('Meta description for search engines'))); ?>
+                                <?= Element::textarea(sprintf('translation[%s][meta_description]', $language->getId()), $entity->getMetaDescription(), ['class' => 'form-control', 'placeholder' => $this->translate('Meta description for search engines')]); ?>
                             </div>
                         </div>
                     </div>
@@ -134,76 +144,76 @@ defined('KRYSTAL') or die;
                 <?php endforeach; ?>
             </div>
 
-            <?php $this->loadPartial('actions', array(
+            <?php $this->loadPartial('actions', [
                 'new' => !$entity->getId(),
                 'add' => 'Tour:Admin:Hotel@addAction',
                 'edit' => 'Tour:Admin:Hotel@editAction',
                 'save' => 'Tour:Admin:Hotel@saveAction',
                 'cancel' => 'Tour:Admin:Grid@indexAction',
                 'options' => true
-            )); ?>
+            ]); ?>
 		</div>
 
-        <div role="tabpanel" class="tab-pane" id="configuration">
-            <?php echo Element::hidden('hotel[id]', $entity->getId()); ?>
-            <?php echo Element::hidden('hotel[cover]', $entity->getCover()); ?>
+        <div class="tab-pane" id="configuration">
+            <?= Element::hidden('hotel[id]', $entity->getId()); ?>
+            <?= Element::hidden('hotel[cover]', $entity->getCover()); ?>
 
-            <div class="form-group">
-                <label class="col-lg-2 control-label"><?php $this->show('Image'); ?></label>
+            <div class="form-group row">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Image'); ?></label>
                 <div class="col-lg-10">
                     <p>
-                        <img data-image="<?php echo $entity->getId() ? null : 'preview'; ?>" src="<?php echo $entity->getImageUrl('400x400'); ?>" />
+                        <img data-image="<?= $entity->getId() ? null : 'preview'; ?>" src="<?= $entity->getImageUrl('400x400'); ?>" />
                     </p>
 
-                    <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
-                    <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
+                    <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="bi bi-image"></i> <?= $this->translate('Upload a file'); ?></a>
+                    <?= Element::file('file', 'image/x-png, image/gif, image/jpeg', ['class' => 'hidden', 'data-plugin' => 'preview']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
+            <div class="form-group row">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Order'); ?></label>
                 <div class="col-lg-10">
-                    <?php echo Element::number('hotel[order]', $entity->getOrder(), array('class' => 'form-control', 'min' => 0)) ?>
+                    <?= Element::number('hotel[order]', $entity->getOrder(), ['class' => 'form-control', 'min' => 0]) ?>
                 </div>
             </div>
         </div>
 
         <?php if (!$new): ?>
-        <div role="tabpanel" class="tab-pane" id="gallery">
-            <h2 class="page-header"><i class="glyphicon glyphicon-camera"></i> <?php $this->show('Gallery'); ?> <small>(<?= count($gallery); ?>)</small></h2>
+        <div class="tab-pane" id="gallery">
+            <h2 class="page-header"><i class="bi bi-camera"></i> <?= $this->translate('Gallery'); ?> <small>(<?= count($gallery); ?>)</small></h2>
 
             <p>
-                <a class="btn btn-primary" href="<?php echo $this->url('Tour:Admin:HotelGallery@addAction', $entity->getId()); ?>"><i class="glyphicon glyphicon-retweet"></i> <?php $this->show('Add new image'); ?></a>
+                <a class="btn btn-primary" href="<?= $this->url('Tour:Admin:HotelGallery@addAction', $entity->getId()); ?>"><i class="bi bi-arrow-repeat"></i> <?= $this->translate('Add new image'); ?></a>
             </p>
 
-            <?= $this->widget(new GridViewWidget($gallery, array(
+            <?= $this->widget(new GridViewWidget($gallery, [
                 'pk' => 'id',
-                'columns' => array(
-                    array(
+                'columns' => [
+                    [
                         'column' => 'id',
                         'label' => '#'
-                    ),
-                    array(
+                    ],
+                    [
                         'column' => 'image',
                         'value' => function($entity){
-                            return Element::image($entity->getImageUrl('400x400'), array('class' => 'img-fluid'));                                
+                            return Element::image($entity->getImageUrl('400x400'), ['class' => 'img-fluid']);                                
                         }
-                    ),
-                    array(
+                    ],
+                    [
                         'column' => 'order'
-                    )
-                ),
+                    ]
+                ],
 
-                'actions' => array(
-                    'edit' => function($entity){
+                'actions' => [
+                    function($entity){
                         return Icon::edit($this->url('Tour:Admin:HotelGallery@editAction', $entity['id']), $this->translate('Edit this image'));
                     },
-                    'remove' => function($entity){
+                    function($entity){
                         return Icon::remove($this->url('Tour:Admin:HotelGallery@deleteAction', $entity['id']), $this->translate('Remove this image'));
                     }
-                )
+                ]
 
-            ))); ?>
+            ])); ?>
         </div>
         <?php endif; ?>
 

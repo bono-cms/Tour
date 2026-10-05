@@ -21,14 +21,14 @@ defined('KRYSTAL') or die;
 </div>
 
 <div class="card">
-    <?php $this->loadPartial('items-per-page', array('caption' => 'Bookings')); ?>
+    <?php $this->loadPartial('items-per-page', ['caption' => 'Bookings']); ?>
 
     <form autocomplete="off">
         <?= $this->widget(new GridViewWidget($bookings, [
             // A column to be considered as a primary key
             'pk' => 'id',
             'batch' => true,
-            'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+            'tableClass' => 'table table-hover table-bordered table-striped table-sm',
             'rowAttributes' => [
                 'class' => function($row){
                     if ($row['status'] == -1) {
@@ -79,7 +79,7 @@ defined('KRYSTAL') or die;
             ],
 
             'actions' => [
-                'notify' => function($row){
+                function($row){
                     // Don't let
                     if ($row['amount'] == 0) {
                         return null;
@@ -88,14 +88,14 @@ defined('KRYSTAL') or die;
                     return Icon::button('fas fa-envelope', $this->url('Tour:Admin:Booking@notifyAction', $row['token']), $this->translate('Send invoice to their email'));
                 },
 
-                'edit' => function($row){
+                function($row){
                     return Icon::edit(
                         $this->url('Tour:Admin:Booking@editAction', $row['id']),
                         $this->translate('Edit this booking')
                     );
                 },
 
-                'remove' => function($row){
+                function($row){
                     return Icon::remove(
                         $this->url('Tour:Admin:Booking@deleteAction', $row['id']),
                         $this->translate('Delete this booking')

@@ -1,5 +1,6 @@
 <?php
 
+use Krystal\Form\Element;
 use Cms\Service\LanguageManager;
 
 defined('KRYSTAL') or die;
@@ -7,26 +8,47 @@ defined('KRYSTAL') or die;
 ?>
 
 <form class="card" data-group="day" autocomplete="off">
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="nav-item active"><a class="nav-link" href="#page" role="tab" data-toggle="tab"><i class="fas fa-calendar-day"></i> <?php $this->show('Tour day'); ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="fas fa-tasks"></i> <?php $this->show('Configuration'); ?></a></li>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#page" data-toggle="tab"><i class="fas fa-calendar-day"></i> <?= $this->translate('Tour day'); ?></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#configuration" data-toggle="tab"><i class="fas fa-tasks"></i> <?= $this->translate('Configuration'); ?></a>
+        </li>
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="page" role="tabpanel">
+        <div class="tab-pane fade show active" id="page">
             <?php $this->loadPartial('language-tabs'); ?>
 
             <div class="tab-content">
                 <?php foreach ($languages as $index => $language): ?>
-                <div class="tab-pane fade in <?= $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                <div class="tab-pane fade show <?= $index == 0 ? 'active' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>">
                     <?php $entity = LanguageManager::findByLangId($language->getId(), $day); ?>
 
                     <?php $this->loadPartial('language-name', ['language' => $language]); ?>
 
-                    <?= $this->field()->hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
-                    <?= $this->field()->hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
-                    <?= $this->field('Title')->text(sprintf('translation[%s][title]', $language->getId()), $entity->getTitle(), ['class' => 'form-control', 'placeholder' => $this->translate('Category name')]); ?>
-                    <?= $this->field('Description')->textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), ['data-wysiwyg' => 'true']); ?>
+                    <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Title'); ?></label>
+                        <div class="col-lg-10">
+                            <div class="input-group">
+                                <?= Element::text(sprintf('translation[%s][title]', $language->getId()), $entity->getTitle(), ['class' => 'form-control', 'placeholder' => $this->translate('Category name')]); ?>
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Description'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), ['data-wysiwyg' => 'true']); ?>
+                        </div>
+                    </div>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -40,11 +62,33 @@ defined('KRYSTAL') or die;
             ]); ?>
 		</div>
 
-        <div role="tabpanel" class="tab-pane" id="configuration">
-            <?= $this->field()->hidden('day[id]', $entity->getId()) ?>
-            <?= $this->field()->hidden('day[tour_id]', $entity->getTourId()) ?>
-            <?= $this->field('Order')->number('day[order]', $entity->getOrder(), ['class' => 'form-control', 'min' => 0]) ?>
-            <?= $this->field('Time')->time('day[time]', $entity->getTime(), ['class' => 'form-control']) ?>
+        <div class="tab-pane" id="configuration">
+            <?= Element::hidden('day[id]', $entity->getId()) ?>
+            <?= Element::hidden('day[tour_id]', $entity->getTourId()) ?>
+
+            <div class="form-group row">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Order'); ?></label>
+                <div class="col-lg-10">
+                    <div class="input-group">
+                        <?= Element::number('day[order]', $entity->getOrder(), ['class' => 'form-control', 'min' => 0]) ?>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Time'); ?></label>
+                <div class="col-lg-10">
+                    <div class="input-group">
+                        <?= Element::time('day[time]', $entity->getTime(), ['class' => 'form-control']) ?>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="bi bi-clock"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 	</div>
 </form>

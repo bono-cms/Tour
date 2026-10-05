@@ -99,10 +99,15 @@ final class TourGallery extends AbstractController
      */
     public function saveAction()
     {
+        $input = $this->request->getPost('image');
+
         $validator = $this->createValidation();
 
         $validator->field('image.order')
                   ->addRule('numeric');
+
+        $validator->file('file')
+                  ->required(null, empty($input['id']));
 
         if ($validator->isPassed()) {
             $input = $this->request->getPost('image');
