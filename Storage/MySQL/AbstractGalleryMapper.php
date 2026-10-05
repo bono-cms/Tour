@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -39,10 +37,10 @@ abstract class AbstractGalleryMapper extends AbstractMapper
             $db->orderBy(static::column('id'))
                ->desc();
         } else {
-            $db->orderBy(array(
+            $db->orderBy([
                 static::column('order'), 
                 new RawSqlFragment(sprintf('CASE WHEN %s = 0 THEN %s END DESC', static::column('order'), static::column('id')))
-            ));
+            ]);
         }
 
         return $db->queryAll();

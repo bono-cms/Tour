@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -32,15 +30,15 @@ final class TourDay extends AbstractController
         if ($tour !== false) {
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($tourId)))
+                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', [$tourId]))
                                            ->addOne(!is_array($day) ? 'Add new day' : 'Edit the day');
             // Load plugins
             $this->view->getPluginBag()
                        ->load($this->getWysiwygPluginName());
 
-            return $this->view->render('tour.day.form', array(
+            return $this->view->render('tour.day.form', [
                 'day' => $day
-            ));
+            ]);
         } else {
             return false;
         }
@@ -88,7 +86,10 @@ final class TourDay extends AbstractController
         $this->getModuleService('tourDayService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -98,17 +99,38 @@ final class TourDay extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost();
+        $validator = $this->createValidation();
 
-        $service = $this->getModuleService('tourDayService');
-        $service->save($input);
+        $validator->field('day.order')
+                  ->addRule('numeric');
 
-        if ($input['day']['id']) {
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return '1';
+        $validator->field('translation.*.title')
+                  ->required();
+
+        if ($validator->isPassed()) {
+            $input = $this->request->getPost();
+
+            $service = $this->getModuleService('tourDayService');
+            $service->save($input);
+
+            if ($input['day']['id']) {
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Tour:Admin:TourDay@editAction', [$service->getLastId()]),
+                ]);
+            }
+
         } else {
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $service->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

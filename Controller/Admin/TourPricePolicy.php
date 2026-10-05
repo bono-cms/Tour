@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -13,7 +11,6 @@ namespace Tour\Controller\Admin;
 
 use Cms\Controller\Admin\AbstractController;
 use Krystal\Stdlib\VirtualEntity;
-use Krystal\Validate\Pattern;
 
 final class TourPricePolicy extends AbstractController
 {
@@ -29,12 +26,12 @@ final class TourPricePolicy extends AbstractController
         $tour = $this->getModuleService('tourService')->fetchById($policy->getTourId(), false);
 
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                       ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($policy->getTourId())))
+                                       ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', [$policy->getTourId()]))
                                        ->addOne($title);
         
-        return $this->view->render('tour.policy.form', array(
+        return $this->view->render('tour.policy.form', [
             'policy' => $policy
-        ));
+        ]);
     }
 
     /**
@@ -82,7 +79,10 @@ final class TourPricePolicy extends AbstractController
         $this->getModuleService('tourPricePolicyService')->deleteById($id);
 
         $this->flashBag->set('success', 'Price policy has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -97,38 +97,43 @@ final class TourPricePolicy extends AbstractController
         $qtyChanged = $this->formAttribute->hasChanged('qty', $input['qty']) 
             ? $this->getModuleService('tourPricePolicyService')->hasQty($input['tour_id'], $input['qty']) : false;
 
-        $formValidator = $this->createValidator([
-            'input' => [
-                'source' => $input,
-                'definition' => [
-                    'price' => new Pattern\Price,
-                    'qty' => [
-                        'required' => true,
-                        'rules' => [
-                            'Unique' => [
-                                'message' => 'A price for this number of people already defined',
-                                'value' => $qtyChanged
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]);
+        $validator = $this->createValidation();
 
-        if ($formValidator->isValid()) {
+        $validator->setFieldRule('unique_qty', function($value) use ($qtyChanged) {
+            return !$qtyChanged;
+        }, 'A price for this number of people already defined');
+
+        $validator->field('policy.qty')
+                  ->required()
+                  ->addRule('unique_qty');
+
+        $validator->field('policy.price')
+                  ->required()
+                  ->addRule('numeric')
+                  ->addRule('positive');
+
+        if ($validator->isPassed()) {
             $policyService = $this->getModuleService('tourPricePolicyService');
             $policyService->save($input);
 
             if ($input['id']) {
                 $this->flashBag->set('success', 'Price policy has been updated successfully');
-                return 1;
+
+                return $this->json([
+                    'refresh' => true
+                ]);
             } else {
                 $this->flashBag->set('success', 'Price policy has been added successfully');
-                return $policyService->getLastId();
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Tour:Admin:TourPricePolicy@editAction', [$policyService->getLastId()]),
+                ]);
             }
 
         } else {
-            return $formValidator->getErrors();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -19,7 +17,7 @@ final class TourGallery extends AbstractController
     /**
      * Renders form
      * 
-     * @param mixed $day Tour image
+     * @param mixed $image Tour image
      * @return string
      */
     private function createForm($image)
@@ -31,15 +29,15 @@ final class TourGallery extends AbstractController
 
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($id)))
+                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', [$id]))
                                            ->addOne(!is_array($image) ? 'Add new image' : 'Edit the image');
             // Load plugins
             $this->view->getPluginBag()
                        ->load('preview');
 
-            return $this->view->render('tour.gallery.form', array(
+            return $this->view->render('tour.gallery.form', [
                 'image' => $image
-            ));
+            ]);
 
         } else {
             return false;
@@ -88,7 +86,10 @@ final class TourGallery extends AbstractController
         $this->getModuleService('tourGalleryService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -98,17 +99,35 @@ final class TourGallery extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('image');
-        $service = $this->getModuleService('tourGalleryService');
+        $validator = $this->createValidation();
 
-        if ($input['id']) {
-            $service->update($this->request->getAll());
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return '1';
+        $validator->field('image.order')
+                  ->addRule('numeric');
+
+        if ($validator->isPassed()) {
+            $input = $this->request->getPost('image');
+            $service = $this->getModuleService('tourGalleryService');
+
+            if ($input['id']) {
+                $service->update($this->request->getAll());
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $service->add($this->request->getAll());
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Tour:Admin:TourGallery@editAction', [$service->getLastId()]),
+                ]);
+            }
+
         } else {
-            $service->add($this->request->getAll());
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $service->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

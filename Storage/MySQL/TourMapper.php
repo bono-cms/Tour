@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -42,7 +40,7 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
      */
     private function getColumns()
     {
-        return array(
+        return [
             self::column('id'),
             self::column('destination_id'),
             self::column('lang_constraint_id'),
@@ -70,7 +68,7 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
             WebPageMapper::column('slug'),
             WebPageMapper::column('changefreq'),
             WebPageMapper::column('priority')
-        );
+        ];
     }
 
     /**
@@ -162,37 +160,37 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     public function fetchBasic($excludedId = null)
     {
         // Columns to be selected
-        $columns = array(
+        $columns = [
             CategoryTranslationMapper::column('name') => 'category',
             TourTranslationMapper::column('name') => 'tour',
             WebPageMapper::column('slug'),
             WebPageMapper::column('lang_id')
-        );
+        ];
 
         $db = $this->db->select($columns)
                        ->from(TourCategoryRelation::getTableName())
                        // Tour relation
-                       ->leftJoin(TourMapper::getTableName(), array(
+                       ->leftJoin(TourMapper::getTableName(), [
                             TourMapper::column('id') => TourCategoryRelation::getRawColumn('master_id')
-                       ))
+                       ])
                        // Tour translation relation
-                       ->leftJoin(TourTranslationMapper::getTableName(), array(
+                       ->leftJoin(TourTranslationMapper::getTableName(), [
                             TourTranslationMapper::column('id') => TourMapper::getRawColumn('id')
-                       ))
+                       ])
                        // Category relation
-                       ->leftJoin(CategoryMapper::getTableName(), array(
+                       ->leftJoin(CategoryMapper::getTableName(), [
                             CategoryMapper::column('id') => TourCategoryRelation::getRawColumn('slave_id')
-                       ))
+                       ])
                        // Category translation relation
-                       ->leftJoin(CategoryTranslationMapper::getTableName(), array(
+                       ->leftJoin(CategoryTranslationMapper::getTableName(), [
                             CategoryTranslationMapper::column('id') => CategoryMapper::getRawColumn('id'),
                             CategoryTranslationMapper::column('lang_id') => TourTranslationMapper::getRawColumn('lang_id')
-                       ))
+                       ])
                        // Web page relation
-                       ->leftJoin(WebPageMapper::getTableName(), array(
+                       ->leftJoin(WebPageMapper::getTableName(), [
                             WebPageMapper::column('id') => TourTranslationMapper::getRawColumn('web_page_id'),
                             WebPageMapper::column('lang_id') => TourTranslationMapper::getRawColumn('lang_id')
-                       ))
+                       ])
                        // Language ID constraint
                        ->whereEquals(CategoryTranslationMapper::column('lang_id'), $this->getLangId());
 
@@ -214,10 +212,10 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     public function fetchList()
     {
         // Columns to be selected
-        $columns = array(
+        $columns = [
             self::column('id'),
             TourTranslationMapper::column('name')
-        );
+        ];
 
         return $this->createEntitySelect($columns)
                     ->whereEquals(TourTranslationMapper::column('lang_id'), $this->getLangId())
@@ -257,9 +255,9 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
      */
     private function countOnFilter(InputDecorator $input)
     {
-        $db = $this->createWebPageSelect(array(
+        $db = $this->createWebPageSelect([
             new RawSqlFragment(sprintf('COUNT(DISTINCT %s)', self::column('id')))
-        ));
+        ]);
 
         // Append shared constraints
         $this->appendSharedFilterConstraints($db, $input);
@@ -281,28 +279,28 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
         $hasDate = !empty($input['begin']);
 
         // Tour category junction relation
-        $db->leftJoin(TourCategoryRelation::getTableName(), array(
+        $db->leftJoin(TourCategoryRelation::getTableName(), [
             TourCategoryRelation::column('master_id') => self::getRawColumn('id')
-        ))
+        ])
         // Category relation
-        ->leftJoin(CategoryMapper::getTableName(), array(
+        ->leftJoin(CategoryMapper::getTableName(), [
             CategoryMapper::column('id') => TourCategoryRelation::getRawColumn('slave_id')
-        ))
+        ])
         // Category translation relation
-        ->leftJoin(CategoryTranslationMapper::getTableName(), array(
+        ->leftJoin(CategoryTranslationMapper::getTableName(), [
             CategoryTranslationMapper::column('id') => CategoryMapper::getRawColumn('id'),
             CategoryTranslationMapper::column('lang_id') => TourTranslationMapper::getRawColumn('lang_id')
-        ))
+        ])
         // Tour day mapper
-        ->leftJoin(TourDayMapper::getTableName(), array(
+        ->leftJoin(TourDayMapper::getTableName(), [
             TourDayMapper::column('tour_id') => self::getRawColumn('id')
-        ));
+        ]);
 
         // Optional date constraint
         if ($hasDate) {
-            $db->innerJoin(TourDateMapper::getTableName(), array(
+            $db->innerJoin(TourDateMapper::getTableName(), [
                 TourDateMapper::column('tour_id') => self::getRawColumn('id')
-            ));
+            ]);
         }
 
         // Filtering condition
@@ -325,7 +323,7 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = array())
+    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = [])
     {
         if (!($input instanceof InputDecorator)) {
             $input = new InputDecorator($input);
@@ -339,12 +337,12 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
         }
 
         // Available sorting methods
-        $sortingMethods = array(
+        $sortingMethods = [
             'name' => TourTranslationMapper::column('name'),
             'category_id' => CategoryMapper::column('id'),
             'adults' => self::column('adults'),
             'published' => self::column('published')
-        );
+        ];
 
         // Column to be sorted
         $sortingColumn = isset($sortingMethods[$sortingColumn]) ? $sortingMethods[$sortingColumn] : self::column('id');
@@ -360,7 +358,7 @@ final class TourMapper extends AbstractMapper implements TourMapperInterface
         $this->appendSharedFilterConstraints($db, $input);
 
         $db->groupBy($this->getColumns())
-           ->orderBy(array($sortingColumn => $desc ? 'DESC' : 'ASC'));
+           ->orderBy([$sortingColumn => $desc ? 'DESC' : 'ASC']);
 
         // Apply pagination on demand
         if ($needsPagination) {

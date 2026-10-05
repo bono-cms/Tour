@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -67,7 +65,7 @@ final class TourBookingMapper extends AbstractMapper implements TourBookingMappe
      */
     public function updateStatusByToken($token, $status)
     {
-        return $this->db->update(self::getTableName(), array('status' => $status))
+        return $this->db->update(self::getTableName(), ['status' => $status])
                         ->whereEquals('token', $token)
                         ->execute();
     }

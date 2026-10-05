@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -33,21 +31,21 @@ final class Tour extends AbstractController
                                        ->addOne($title);
         // Load plugins
         $this->view->getPluginBag()
-                   ->load(array($this->getWysiwygPluginName(), 'chosen', 'preview'));
+                   ->load([$this->getWysiwygPluginName(), 'chosen', 'preview']);
 
-        return $this->view->render('tour.form', array(
+        return $this->view->render('tour.form', [
             'new' => $new,
             'tour' => $entity,
-            'days' => !$new ? $this->getModuleService('tourDayService')->fetchAll($id, false) : array(),
-            'dates' => !$new ? $this->getModuleService('tourDateService')->fetchByTourId($id) : array(),
-            'gallery' => !$new ? $this->getModuleService('tourGalleryService')->fetchAll($id, false) : array(),
-            'reviews' => !$new ? $this->getModuleService('tourReviewService')->fetchAll($id, false) : array(),
-            'prices' => !$new ? $this->getModuleService('tourPricePolicyService')->fetchAll($id) : array(),
+            'days' => !$new ? $this->getModuleService('tourDayService')->fetchAll($id, false) : [],
+            'dates' => !$new ? $this->getModuleService('tourDateService')->fetchByTourId($id) : [],
+            'gallery' => !$new ? $this->getModuleService('tourGalleryService')->fetchAll($id, false) : [],
+            'reviews' => !$new ? $this->getModuleService('tourReviewService')->fetchAll($id, false) : [],
+            'prices' => !$new ? $this->getModuleService('tourPricePolicyService')->fetchAll($id) : [],
             'categories' => $this->getModuleService('categoryService')->fetchList(true),
-            'tours' => $this->getModuleService('tourService')->fetchList(array($id)),
+            'tours' => $this->getModuleService('tourService')->fetchList([$id]),
             'destinations' => $this->getModuleService('tourDestinationService')->fetchList(),
             'hotels' => $this->getModuleService('hotelService')->fetchList()
-        ));
+        ]);
     }
 
     /**
@@ -94,21 +92,55 @@ final class Tour extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost();
+        $validator = $this->createValidation();
 
-        $service = $this->getModuleService('tourService');
+        $validator->field('tour.adults')
+                  ->addRule('numeric');
 
-        if (!empty($input['tour']['id'])) {
-            if ($service->update($this->request->getAll())) {
-                $this->flashBag->set('success', 'The element has been updated successfully');
-                return '1';
+        $validator->field('tour.children')
+                  ->addRule('numeric');
+
+        $validator->field('tour.price')
+                  ->addRule('numeric');
+
+        $validator->field('tour.start_price')
+                  ->addRule('numeric');
+
+        $validator->field('tour.order')
+                  ->addRule('numeric');
+
+        $validator->field('translation.*.name')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 2]);
+
+        if ($validator->isPassed()) {
+            $input = $this->request->getPost();
+
+            $service = $this->getModuleService('tourService');
+
+            if (!empty($input['tour']['id'])) {
+                if ($service->update($this->request->getAll())) {
+                    $this->flashBag->set('success', 'The element has been updated successfully');
+
+                    return $this->json([
+                        'refresh' => true
+                    ]);
+                }
+
+            } else {
+                if ($id = $service->add($this->request->getAll())) {
+                    $this->flashBag->set('success', 'The element has been created successfully');
+
+                    return $this->json([
+                        'redirect' => $this->createUrl('Tour:Admin:Tour@editAction', [$id]),
+                    ]);
+                }
             }
 
         } else {
-            if ($id = $service->add($this->request->getAll())) {
-                $this->flashBag->set('success', 'The element has been created successfully');
-                return $id;
-            }
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 
@@ -139,6 +171,8 @@ final class Tour extends AbstractController
             $this->flashBag->set('success', 'Selected element has been removed successfully');
         }
 
-        return 1;
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 }

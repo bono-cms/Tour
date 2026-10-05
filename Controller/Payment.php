@@ -3,15 +3,12 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
 
 namespace Tour\Controller;
 
-use Krystal\Validate\Pattern;
 use Site\Controller\AbstractController;
 use Tour\Gateway\GatewayService;
 
@@ -42,23 +39,29 @@ final class Payment extends AbstractController
      */
     public function invoiceAction()
     {
-        $data = $this->request->getPost();
+        $validator = $this->createValidation();
 
-        // Build form validator
-        $formValidator = $this->createValidator(array(
-            'input' => array(
-                'source' => $data,
-                'definition' => array(
-                    'client' => new Pattern\Name(),
-                    'tour' => new Pattern\Name(),
-                    'email' => new Pattern\Email(),
-                    'phone' => new Pattern\Phone(),
-                    'captcha' => new Pattern\Captcha($this->captcha)
-                )
-            )
-        ));
+        $validator->field('client')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 2]);
 
-        if ($formValidator->isValid()) {
+        $validator->field('tour')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 2]);
+
+        $validator->field('email')
+                  ->required()
+                  ->addRule('email');
+
+        $validator->field('phone')
+                  ->required();
+
+        $validator->field('captcha')
+                  ->addRule('captcha', null, ['expected' => $this->captcha]);
+
+        if ($validator->isPassed()) {
+            $data = $this->request->getPost();
+
             // Create email body
             $body = $this->view->renderRaw('Tour', 'mail', 'new', $data);
 
@@ -71,16 +74,21 @@ final class Payment extends AbstractController
             // If amount not provided, then update
             if (!isset($data['amount'])) {
                 $this->flashBag->set('success', 'Thanks! Your invoice has been sent');
-                return '1';
+
+                return $this->json([
+                    'refresh' => true
+                ]);
             } else {
                 // Otherwise redirect to payment page
                 return $this->json([
-                    'url' => $this->request->getBaseUrl() . $this->createUrl('Tour:Payment@gatewayAction', array($token))
+                    'url' => $this->request->getBaseUrl() . $this->createUrl('Tour:Payment@gatewayAction', [$token])
                 ]);
             }
 
         } else {
-            return $formValidator->getErrors();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 
@@ -117,12 +125,12 @@ final class Payment extends AbstractController
 
         if ($invoice) {
             // Create back URL
-            $backUrl = $this->request->getBaseUrl() . $this->createUrl('Tour:Payment@successAction', array($token));
+            $backUrl = $this->request->getBaseUrl() . $this->createUrl('Tour:Payment@successAction', [$token]);
             $gateway = GatewayService::factory($invoice['id'], $invoice['amount'], $backUrl);
 
-            return $this->view->render('gateway', array(
+            return $this->view->render('gateway', [
                 'gateway' => $gateway
-            ));
+            ]);
 
         } else {
             // Invalid token

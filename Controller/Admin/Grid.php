@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -31,12 +29,12 @@ final class Grid extends AbstractController
         // Grab tour service
         $tourService = $this->getModuleService('tourService');
 
-        return $this->view->render('grid', array(
+        return $this->view->render('grid', [
             'categories' => $this->getModuleService('categoryService')->fetchAll(),
             'categoryList' => $this->getModuleService('categoryService')->fetchList(),
             'tours' => $this->getFilter($tourService),
             'paginator' => $tourService->getPaginator(),
             'newReviews' => $this->getModuleService('tourReviewService')->countUnpublished()
-        ));
+        ]);
     }
 }

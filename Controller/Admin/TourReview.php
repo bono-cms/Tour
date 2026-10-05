@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -57,10 +55,10 @@ final class TourReview extends AbstractController
         $paginator = $service->getPaginator();
         $paginator->setUrl($this->createUrl('Tour:Admin:TourReview@indexAction'));
 
-        return $this->view->render('reviews', array(
+        return $this->view->render('reviews', [
             'reviews' => $reviews,
             'paginator' => $paginator
-        ));
+        ]);
     }
 
     /**
@@ -74,6 +72,9 @@ final class TourReview extends AbstractController
         $this->getModuleService('tourReviewService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 }

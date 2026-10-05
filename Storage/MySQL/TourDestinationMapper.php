@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -40,12 +38,12 @@ final class TourDestinationMapper extends AbstractMapper implements TourDestinat
      */
     private function getColumns()
     {
-        return array(
+        return [
             self::column('id'),
             self::column('order'),
             TourDestinationTranslationMapper::column('lang_id'),
             TourDestinationTranslationMapper::column('name')
-        );
+        ];
     }
 
     /**
@@ -64,10 +62,10 @@ final class TourDestinationMapper extends AbstractMapper implements TourDestinat
             $db->orderBy(self::column('id'))
                ->desc();
         } else {
-            $db->orderBy(array(
+            $db->orderBy([
                 self::column('order'), 
                 new RawSqlFragment(sprintf('CASE WHEN %s = 0 THEN %s END DESC', self::column('order'), self::column('id')))
-            ));
+            ]);
         }
 
         return $db->queryAll();

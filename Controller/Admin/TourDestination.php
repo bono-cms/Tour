@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -27,9 +25,9 @@ final class TourDestination extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                        ->addOne('Tour destinations');
 
-        return $this->view->render('tour.destination.grid', array(
+        return $this->view->render('tour.destination.grid', [
             'destinations' => $this->getModuleService('tourDestinationService')->fetchAll(false)
-        ));
+        ]);
     }
 
     /**
@@ -48,10 +46,10 @@ final class TourDestination extends AbstractController
                                        ->addOne('Tour destinations', 'Tour:Admin:TourDestination@indexAction')
                                        ->addOne($new ? 'Add new tour destination' : 'Update tour destination');
 
-        return $this->view->render('tour.destination.form', array(
+        return $this->view->render('tour.destination.form', [
             'destination' => $destination,
             'new' => $new
-        ));
+        ]);
     }
 
     /**
@@ -92,7 +90,10 @@ final class TourDestination extends AbstractController
         $this->getModuleService('tourDestinationService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -102,18 +103,40 @@ final class TourDestination extends AbstractController
      */
     public function saveAction()
     {
-        // Raw request data
-        $input = $this->request->getPost();
+        $validator = $this->createValidation();
 
-        $tourDestinationService = $this->getModuleService('tourDestinationService');
-        $tourDestinationService->save($input);
+        $validator->field('destination.order')
+                  ->addRule('numeric');
 
-        if ($input['destination']['id']) {
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return 1;
+        $validator->field('translation.*.name')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 2]);
+
+        if ($validator->isPassed()) {
+            // Raw request data
+            $input = $this->request->getPost();
+
+            $tourDestinationService = $this->getModuleService('tourDestinationService');
+            $tourDestinationService->save($input);
+
+            if ($input['destination']['id']) {
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Tour:Admin:TourDestination@editAction', [$tourDestinationService->getLastId()]),
+                ]);
+            }
+
         } else {
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $tourDestinationService->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

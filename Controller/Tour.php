@@ -3,15 +3,12 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
 
 namespace Tour\Controller;
 
-use Krystal\Validate\Pattern;
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Form\Gadget\LastCategoryKeeper;
 use Site\Controller\AbstractController;
@@ -53,28 +50,33 @@ final class Tour extends AbstractController
      */
     public function reviewAction()
     {
-        // Grab POST data
-        $input = $this->request->getPost();
+        $validator = $this->createValidation();
 
-        $formValidator = $this->createValidator(array(
-            'input' => array(
-                'source' => $input,
-                'definition' => array(
-                    'name' => new Pattern\Name(),
-                    'message' => new Pattern\Message()
-                )
-            )
-        ));
+        $validator->field('name')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 2]);
 
-        if ($formValidator->isValid()) {
+        $validator->field('message')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 10]);
+
+        if ($validator->isPassed()) {
+            // Grab POST data
+            $input = $this->request->getPost();
+
             // Saves a review
             $this->getModuleService('tourReviewService')->save($input);
             
             $this->flashBag->set('success', 'Thank you for your review!');
-            return 1;
+
+            return $this->json([
+                'refresh' => true
+            ]);
 
         } else {
-            return $formValidator->getErrors();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 
@@ -99,13 +101,13 @@ final class Tour extends AbstractController
                    ->setTourId($tour->getId())
                    ->setAmount($tour->hasPrice() ? $tour->getPrice() : false);
 
-            return $this->view->render('tour-booking', array(
+            return $this->view->render('tour-booking', [
                 'invoice' => $entity,
                 'title' => 'New invoice',
                 'asClient' => true,
                 'page' => $entity,
                 'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true)
-            ));
+            ]);
         } else {
             return false;
         }
@@ -132,11 +134,11 @@ final class Tour extends AbstractController
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne($hotel->getName());
 
-            return $this->view->render('tour-hotel', array(
+            return $this->view->render('tour-hotel', [
                 'hotel' => $hotel,
                 'page' => $hotel,
                 'languages' => $hotelService->getSwitchUrls($id)
-            ));
+            ]);
 
         } else {
             return false;
@@ -184,11 +186,11 @@ final class Tour extends AbstractController
                                                ->addOne($tour->getName());
             }
 
-            $response = $this->view->render('tour-single', array(
+            $response = $this->view->render('tour-single', [
                 'tour' => $tour,
                 'page' => $tour,
                 'languages' => $service->getSwitchUrls($id)
-            ));
+            ]);
 
             // Increment view counter
             $service->incrementViewCount($id);
@@ -222,12 +224,12 @@ final class Tour extends AbstractController
              ->setTitle($this->translator->translate('Search results'))
              ->setName($this->translator->translate('Search results') . sprintf(' (%s) ', count($tours)));
 
-        return $this->view->render('tour-category', array(
+        return $this->view->render('tour-category', [
             'page' => $page,
             'tours' => $tours,
             'category' => $page,
             'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true)
-        ));
+        ]);
     }
 
     /**
@@ -258,12 +260,12 @@ final class Tour extends AbstractController
             $paginator = $tourService->getPaginator();
             $this->preparePaginator($paginator, $code, $slug, $pageNumber);
 
-            return $this->view->render('tour-recommended', array(
+            return $this->view->render('tour-recommended', [
                 'tours' => $tours,
                 'page' => $page,
                 'paginator' => $paginator,
                 'languages' => $pageService->getSwitchUrls($id)
-            ));
+            ]);
 
         } else {
             return false;
@@ -303,13 +305,13 @@ final class Tour extends AbstractController
             $paginator = $tourService->getPaginator();
             $this->preparePaginator($paginator, $code, $slug, $pageNumber);
 
-            return $this->view->render('tour-category', array(
+            return $this->view->render('tour-category', [
                 'tours' => $tours,
                 'category' => $category,
                 'page' => $category,
                 'paginator' => $paginator,
                 'languages' => $categoryService->getSwitchUrls($id)
-            ));
+            ]);
 
         } else {
             return false;

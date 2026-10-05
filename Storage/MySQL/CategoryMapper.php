@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -41,7 +39,7 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
      */
     private function getColumns()
     {
-        return array(
+        return [
             self::column('id'),
             self::column('order'),
             self::column('seo'),
@@ -56,7 +54,7 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
             WebPageMapper::column('slug'),
             WebPageMapper::column('changefreq'),
             WebPageMapper::column('priority')
-        );
+        ];
     }
 
     /**
@@ -84,13 +82,13 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
 
         $db = $this->createWebPageSelect($columns)
                     // Tour -> category relation
-                    ->leftJoin(TourCategoryRelation::getTableName(), array(
+                    ->leftJoin(TourCategoryRelation::getTableName(), [
                         TourCategoryRelation::column('slave_id') => self::getRawColumn($this->getPk())
-                    ))
+                    ])
                     // Tour relation
-                    ->leftJoin(TourMapper::getTableName(), array(
+                    ->leftJoin(TourMapper::getTableName(), [
                         TourMapper::column('id') => TourCategoryRelation::getRawColumn('master_id')
-                    ))
+                    ])
                     ->whereEquals(CategoryTranslationMapper::column('lang_id'), $this->getLangId())
                     ->groupBy($this->getColumns())
                     ->orderBy(self::column($this->getPk()))

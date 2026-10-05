@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -30,11 +28,11 @@ final class Category extends AbstractController
                                        ->addOne($title);
         // Load plugins
         $this->view->getPluginBag()
-                   ->load(array($this->getWysiwygPluginName(), 'preview'));
+                   ->load([$this->getWysiwygPluginName(), 'preview']);
 
-        return $this->view->render('category.form', array(
+        return $this->view->render('category.form', [
             'category' => $entity
-        ));
+        ]);
     }
 
     /**
@@ -85,7 +83,10 @@ final class Category extends AbstractController
         $service->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -95,21 +96,43 @@ final class Category extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost();
+        $validator = $this->createValidation();
 
-        $service = $this->getModuleService('categoryService');
+        $validator->field('category.order')
+                  ->addRule('numeric');
 
-        if (!empty($input['category']['id'])) {
-            if ($service->update($this->request->getAll())) {
-                $this->flashBag->set('success', 'The element has been updated successfully');
-                return '1';
+        $validator->field('translation.*.name')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 2]);
+
+        if ($validator->isPassed()) {
+            $input = $this->request->getPost();
+
+            $service = $this->getModuleService('categoryService');
+
+            if (!empty($input['category']['id'])) {
+                if ($service->update($this->request->getAll())) {
+                    $this->flashBag->set('success', 'The element has been updated successfully');
+
+                    return $this->json([
+                        'refresh' => true
+                    ]);
+                }
+
+            } else {
+                if ($service->add($this->request->getAll())) {
+                    $this->flashBag->set('success', 'The element has been created successfully');
+
+                    return $this->json([
+                        'redirect' => $this->createUrl('Tour:Admin:Category@editAction', [$service->getLastId()]),
+                    ]);
+                }
             }
 
         } else {
-            if ($service->add($this->request->getAll())) {
-                $this->flashBag->set('success', 'The element has been created successfully');
-                return $service->getLastId();
-            }
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

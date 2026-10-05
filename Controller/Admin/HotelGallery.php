@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -19,7 +17,7 @@ final class HotelGallery extends AbstractController
     /**
      * Renders a form
      * 
-     * @param \Krystal\Stdlib\VirtualEntity $photo
+     * @param \Krystal\Stdlib\VirtualEntity $image
      * @param string $title Page title
      * @return mixed
      */
@@ -35,12 +33,12 @@ final class HotelGallery extends AbstractController
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                            ->addOne('Hotels', 'Tour:Admin:Hotel@indexAction')
-                                           ->addOne($this->translator->translate('Edit the hotel "%s"', $hotel->getName()), $this->createUrl('Tour:Admin:Hotel@editAction', array($image->getHotelId())))
+                                           ->addOne($this->translator->translate('Edit the hotel "%s"', $hotel->getName()), $this->createUrl('Tour:Admin:Hotel@editAction', [$image->getHotelId()]))
                                            ->addOne($title);
 
-            return $this->view->render('hotel/gallery.form', array(
+            return $this->view->render('hotel/gallery.form', [
                 'image' => $image
-            ));
+            ]);
         } else {
             // Wrong hotel id supplied
             return false;
@@ -88,7 +86,10 @@ final class HotelGallery extends AbstractController
         $this->getModuleService('hotelGalleryService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -98,19 +99,38 @@ final class HotelGallery extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('image');
-        $service = $this->getModuleService('hotelGalleryService');
+        $validator = $this->createValidation();
 
-        if ($input['id']) {
-            $service->update($this->request->getAll());
+        $validator->field('image.order')
+                  ->addRule('numeric');
 
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return '1';
+        if ($validator->isPassed()) {
+            $input = $this->request->getPost('image');
+            $service = $this->getModuleService('hotelGalleryService');
+
+            if ($input['id']) {
+                $service->update($this->request->getAll());
+
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+
+            } else {
+                $service->add($this->request->getAll());
+
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Tour:Admin:HotelGallery@editAction', [$service->getLastId()]),
+                ]);
+            }
+
         } else {
-            $service->add($this->request->getAll());
-
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $service->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

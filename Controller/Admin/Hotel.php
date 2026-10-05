@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -40,11 +38,11 @@ final class Hotel extends AbstractController
         $this->view->getPluginBag()
                    ->load($this->getWysiwygPluginName());
 
-        return $this->view->render('hotel/form', array(
+        return $this->view->render('hotel/form', [
             'new' => $new,
             'hotel' => $hotel,
-            'gallery' => !$new ? $this->getModuleService('hotelGalleryService')->fetchAll($id, false) : array(),
-        ));
+            'gallery' => !$new ? $this->getModuleService('hotelGalleryService')->fetchAll($id, false) : [],
+        ]);
     }
 
     /**
@@ -58,9 +56,9 @@ final class Hotel extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
                                        ->addOne('Hotels');
 
-        return $this->view->render('hotel/index', array(
+        return $this->view->render('hotel/index', [
             'hotels' => $this->getModuleService('hotelService')->fetchAll(false)
-        ));
+        ]);
     }
 
     /**
@@ -109,7 +107,10 @@ final class Hotel extends AbstractController
         $this->getModuleService('hotelService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -119,19 +120,41 @@ final class Hotel extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getAll();
-        $service = $this->getModuleService('hotelService');
+        $validator = $this->createValidation();
 
-        if ($input['data']['hotel']['id']) {
-            $service->update($input);
-            
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return '1';
+        $validator->field('hotel.order')
+                  ->addRule('numeric');
+
+        $validator->field('translation.*.name')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 2]);
+
+        if ($validator->isPassed()) {
+            $input = $this->request->getAll();
+            $service = $this->getModuleService('hotelService');
+
+            if ($input['data']['hotel']['id']) {
+                $service->update($input);
+
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $id = $service->add($input);
+
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Tour:Admin:Hotel@editAction', [$id]),
+                ]);
+            }
+
         } else {
-            $id = $service->add($input);
-
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $id;
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

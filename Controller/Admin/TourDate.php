@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -29,15 +27,15 @@ final class TourDate extends AbstractController
         if ($tour !== false) {
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Tours', 'Tour:Admin:Grid@indexAction')
-                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', array($date->getTourId())))
+                                           ->addOne($this->translator->translate('Edit the tour "%s"', $tour->getName()), $this->createUrl('Tour:Admin:Tour@editAction', [$date->getTourId()]))
                                            ->addOne(!$date->getId() ? 'Add new date' : 'Edit the date');
             // Load plugins
             $this->view->getPluginBag()
                        ->load('datepicker');
 
-            return $this->view->render('tour.date.form', array(
+            return $this->view->render('tour.date.form', [
                 'date' => $date
-            ));
+            ]);
         } else {
             return false;
         }
@@ -85,7 +83,10 @@ final class TourDate extends AbstractController
         $this->getModuleService('tourDateService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -95,17 +96,38 @@ final class TourDate extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('date');
+        $validator = $this->createValidation();
 
-        $service = $this->getModuleService('tourDateService');
-        $service->save($input);
+        $validator->field('date.start')
+                  ->required();
 
-        if ($input['id']) {
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return '1';
+        $validator->field('date.end')
+                  ->required();
+
+        if ($validator->isPassed()) {
+            $input = $this->request->getPost('date');
+
+            $service = $this->getModuleService('tourDateService');
+            $service->save($input);
+
+            if ($input['id']) {
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Tour:Admin:TourDate@editAction', [$service->getLastId()]),
+                ]);
+            }
+
         } else {
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $service->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

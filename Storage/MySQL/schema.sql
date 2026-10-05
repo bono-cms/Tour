@@ -1,4 +1,3 @@
-
 /* Categories */
 DROP TABLE IF EXISTS `bono_module_tour_category`;
 CREATE TABLE `bono_module_tour_category` (
@@ -11,7 +10,7 @@ CREATE TABLE `bono_module_tour_category` (
 DROP TABLE IF EXISTS `bono_module_tour_category_translation`;
 CREATE TABLE `bono_module_tour_category_translation` (
     `id` INT NOT NULL,
-    `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
+    `lang_id` INT NOT NULL COMMENT 'Language identifier of this page',
     `web_page_id` INT NOT NULL COMMENT 'Attached web-page ID',
     `name` varchar(255) NOT NULL COMMENT 'Category name',
     `description` TEXT NOT NULL COMMENT 'Category description',
@@ -29,12 +28,12 @@ CREATE TABLE `bono_module_tour_category_translation` (
 DROP TABLE IF EXISTS `bono_module_tour_tours`;
 CREATE TABLE `bono_module_tour_tours` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `destination_id` INT DEFAULT NULL COMMENT 'Optional tour ID',
+    `destination_id` INT DEFAULT NULL COMMENT 'Attached tour destination ID',
     `lang_constraint_id` INT DEFAULT NULL COMMENT 'Language ID constraint',
     `order` INT NOT NULL COMMENT 'Sorting order',
     `seo` BOOLEAN NOT NULL COMMENT 'Whether SEO is enabled',
     `adults` INT NOT NULL COMMENT 'Number of adults',
-    `children` INT NOT NULL COMMENT 'NUMBER of children',
+    `children` INT NOT NULL COMMENT 'Number of children',
     `published` BOOLEAN NOT NULL COMMENT 'Whether this tour is published or not',
     `recommended` BOOLEAN NOT NULL COMMENT 'Whether marked as recommended',
     `price` FLOAT NOT NULL COMMENT 'Price of this tour',
@@ -47,7 +46,7 @@ CREATE TABLE `bono_module_tour_tours` (
 DROP TABLE IF EXISTS `bono_module_tour_tours_translation`;
 CREATE TABLE `bono_module_tour_tours_translation` (
     `id` INT NOT NULL,
-    `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
+    `lang_id` INT NOT NULL COMMENT 'Language identifier of this page',
     `web_page_id` INT NOT NULL COMMENT 'Attached web-page ID',
     `name` varchar(255) NOT NULL COMMENT 'Tour name',
     `short` TEXT NOT NULL COMMENT 'Short description',
@@ -77,7 +76,7 @@ CREATE TABLE `bono_module_tour_tours_days` (
 DROP TABLE IF EXISTS `bono_module_tour_tours_days_translations`;
 CREATE TABLE `bono_module_tour_tours_days_translations` (
     `id` INT NOT NULL COMMENT 'Tour ID',
-    `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
+    `lang_id` INT NOT NULL COMMENT 'Language identifier of this page',
     `title` varchar(255) NOT NULL COMMENT 'Generic title',
     `description` TEXT NOT NULL COMMENT 'Detailed description',
 
@@ -128,7 +127,7 @@ CREATE TABLE `bono_module_tour_booking` (
     `client` varchar(255) NOT NULL COMMENT 'Client name',
     `email` varchar(255) NOT NULL COMMENT 'Client email',
     `phone` varchar(255) NOT NULL COMMENT 'Client phone',
-    `datetime` DATETIME NOT NULL COMMENT 'Unqury datetime',
+    `datetime` DATETIME NOT NULL COMMENT 'Inquiry datetime',
     `amount` FLOAT NOT NULL COMMENT 'Price',
     `token` varchar(32) NOT NULL COMMENT 'Unique order token'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -141,12 +140,12 @@ CREATE TABLE `bono_module_tour_booking_guests` (
     `first_name` varchar(255) NOT NULL,
     `last_name` varchar(255) NOT NULL,
     `birth` DATE NOT NULL,
-    `address_primary` TEXT NOT NULL COMMENT 'Address line 2',
+    `address_primary` TEXT NOT NULL COMMENT 'Address line 1',
     `address_secondary` TEXT NOT NULL COMMENT 'Address line 2',
     `email` varchar(255) NOT NULL COMMENT 'Email',
     `city` varchar(255) NOT NULL COMMENT 'City',
-    `state` varchar(255) NOT NULL COMMENT 'State/Provice',
-    `country`varchar(1) NOT NULL COMMENT 'Country',
+    `state` varchar(255) NOT NULL COMMENT 'State/Province',
+    `country`varchar(255) NOT NULL COMMENT 'Country',
     `phone` varchar(255) NOT NULL COMMENT 'Optional phone',
     `postal` varchar(255) NOT NULL COMMENT 'Postal code',
 
@@ -181,13 +180,13 @@ CREATE TABLE `bono_module_tour_dates` (
 DROP TABLE IF EXISTS `bono_module_tour_destinations`;
 CREATE TABLE `bono_module_tour_destinations` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `order` INT NOT NULL COMMENT 'Sortiing order'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
+    `order` INT NOT NULL COMMENT 'Sorting order'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `bono_module_tour_destinations_translations`;
 CREATE TABLE `bono_module_tour_destinations_translations` (
     `id` INT NOT NULL COMMENT 'Destination ID',
-    `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
+    `lang_id` INT NOT NULL COMMENT 'Language identifier of this page',
     `name` varchar(255) NOT NULL COMMENT 'Destination name',
 
     FOREIGN KEY (id) REFERENCES bono_module_tour_destinations(id) ON DELETE CASCADE
@@ -197,14 +196,14 @@ CREATE TABLE `bono_module_tour_destinations_translations` (
 DROP TABLE IF EXISTS `bono_module_tour_hotels`;
 CREATE TABLE `bono_module_tour_hotels` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `order` INT NOT NULL COMMENT 'Sortiing order',
+    `order` INT NOT NULL COMMENT 'Sorting order',
     `cover` varchar(255) NOT NULL COMMENT 'Cover file'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `bono_module_tour_hotels_translations`;
 CREATE TABLE `bono_module_tour_hotels_translations` (
     `id` INT NOT NULL COMMENT 'Hotel ID',
-    `lang_id` INT NOT NULL COMMENT 'Language identificator of this page',
+    `lang_id` INT NOT NULL COMMENT 'Language identifier of this page',
     `web_page_id` INT NOT NULL COMMENT 'Attached web-page ID',
     `name` varchar(255) NOT NULL COMMENT 'Hotel name',
     `description` TEXT NOT NULL COMMENT 'Hotel description',

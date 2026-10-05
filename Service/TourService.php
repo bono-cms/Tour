@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -164,7 +162,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      * @param array $parameters
      * @return array
      */
-    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = array())
+    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = [])
     {
         return $this->prepareResults($this->tourMapper->filter($input, $page, $itemsPerPage, $sortingColumn, $desc, $parameters), false);
     }
@@ -180,7 +178,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         // Grab raw rows
         $rows = $this->tourMapper->fetchBasic($excludedId);
 
-        $output = array();
+        $output = [];
 
         // Turn rows into entities
         foreach ($rows as $row) {
@@ -206,9 +204,9 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     public function fetchRecommended($page = null, $itemsPerPage = null)
     {
-        $filter = array(
+        $filter = [
             'recommended' => '1'
-        );
+        ];
 
         return $this->filter($filter, $page, $itemsPerPage, false, true);
     }
@@ -223,9 +221,9 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      */
     public function fetchAllByCategoryId($categoryId, $page, $itemsPerPage)
     {
-        $filter = array(
+        $filter = [
             'category_id' => $categoryId
-        );
+        ];
 
         return $this->filter($filter, $page, $itemsPerPage, false, true);
     }
@@ -263,7 +261,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
      * @param array $excludedIds A collection excluded tour IDs
      * @return array
      */
-    public function fetchList(array $excludedIds = array())
+    public function fetchList(array $excludedIds = [])
     {
         $rows = ArrayUtils::arrayList($this->tourMapper->fetchList(), 'id', 'name');
 
@@ -313,7 +311,7 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         $tour =& $input['data']['tour'];
         $file = isset($input['files']['file']) ? $input['files']['file'] : false;
 
-        $tour = ArrayUtils::arrayWithout($tour, array('slug'));
+        $tour = ArrayUtils::arrayWithout($tour, ['slug']);
 
         // Adding
         if (!$tour['id'] && $file) {
@@ -347,9 +345,9 @@ final class TourService extends AbstractManager implements FilterableServiceInte
         }
 
         // Attach related ones
-        $this->tourMapper->attachCategories($id, isset($input['data']['categories']) ? $input['data']['categories'] : array());
-        $this->tourMapper->attachRelatedTours($id, isset($input['data']['related']) ? $input['data']['related'] : array());
-        $this->tourMapper->attachHotels($id, isset($input['data']['hotels']) ? $input['data']['hotels'] : array());
+        $this->tourMapper->attachCategories($id, isset($input['data']['categories']) ? $input['data']['categories'] : []);
+        $this->tourMapper->attachRelatedTours($id, isset($input['data']['related']) ? $input['data']['related'] : []);
+        $this->tourMapper->attachHotels($id, isset($input['data']['hotels']) ? $input['data']['hotels'] : []);
 
         return $id;
     }

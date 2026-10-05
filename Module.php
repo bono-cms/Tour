@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -35,19 +33,19 @@ final class Module extends AbstractCmsModule
      */
     private function createHotelImageManager()
     {
-        $plugins = array(
-            'thumb' => array(
+        $plugins = [
+            'thumb' => [
                 'quality' => 80,
-                'dimensions' => array(
+                'dimensions' => [
                     // For administration panel
-                    array(400, 400)
-                )
-            ),
+                    [400, 400]
+                ]
+            ],
 
-            'original' => array(
+            'original' => [
                 'prefix' => 'original'
-            )
-        );
+            ]
+        ];
 
         return new ImageManager(
             '/data/uploads/module/tour/hotels/covers/',
@@ -64,19 +62,19 @@ final class Module extends AbstractCmsModule
      */
     private function createHotelGalleryImageManager()
     {
-        $plugins = array(
-            'thumb' => array(
+        $plugins = [
+            'thumb' => [
                 'quality' => 80,
-                'dimensions' => array(
+                'dimensions' => [
                     // For administration panel
-                    array(400, 400)
-                )
-            ),
+                    [400, 400]
+                ]
+            ],
 
-            'original' => array(
+            'original' => [
                 'prefix' => 'original'
-            )
-        );
+            ]
+        ];
 
         return new ImageManager(
             '/data/uploads/module/tour/hotels/gallery/',
@@ -93,19 +91,19 @@ final class Module extends AbstractCmsModule
      */
     private function createTourGalleryImageManager()
     {
-        $plugins = array(
-            'thumb' => array(
+        $plugins = [
+            'thumb' => [
                 'quality' => 80,
-                'dimensions' => array(
+                'dimensions' => [
                     // For administration panel
-                    array(400, 400)
-                )
-            ),
+                    [400, 400]
+                ]
+            ],
 
-            'original' => array(
+            'original' => [
                 'prefix' => 'original'
-            )
-        );
+            ]
+        ];
 
         return new ImageManager(
             '/data/uploads/module/tour/gallery/',
@@ -122,15 +120,15 @@ final class Module extends AbstractCmsModule
      */
     private function createTourCoverImageManager()
     {
-        $plugins = array(
-            'thumb' => array(
+        $plugins = [
+            'thumb' => [
                 'quality' => 80,
-                'dimensions' => array(
+                'dimensions' => [
                     // For administration panel
-                    array(400, 400)
-                )
-            )
-        );
+                    [400, 400]
+                ]
+            ]
+        ];
 
         return new ImageManager(
             '/data/uploads/module/tour/cover/',
@@ -147,15 +145,15 @@ final class Module extends AbstractCmsModule
      */
     private function createCategoryImageManager()
     {
-        $plugins = array(
-            'thumb' => array(
+        $plugins = [
+            'thumb' => [
                 'quality' => 80,
-                'dimensions' => array(
+                'dimensions' => [
                     // For administration panel
-                    array(400, 400)
-                )
-            )
-        );
+                    [400, 400]
+                ]
+            ]
+        ];
 
         return new ImageManager(
             '/data/uploads/module/tour/category/',
@@ -191,7 +189,7 @@ final class Module extends AbstractCmsModule
         $tourDestinationService = new TourDestinationService($tourDestinationMapper);
         $tourService = new TourService($tourMapper, $webPageManager, $this->createTourCoverImageManager());
 
-        return array(
+        return [
             'tourPricePolicyService' => new TourPricePolicyService($policyMapper),
             'hotelService' => new HotelService($hotelMapper, $webPageManager, $this->createHotelImageManager()),
             'hotelGalleryService' => new HotelGalleryService($hotelGalleryMapper, $this->createHotelGalleryImageManager()),
@@ -204,6 +202,6 @@ final class Module extends AbstractCmsModule
             'tourDateService' => new TourDateService($tourDateMapper),
             'tourDestinationService' => $tourDestinationService,
             'siteService' => new SiteService($categoryService, $tourDestinationService, $tourService)
-        );
+        ];
     }
 }

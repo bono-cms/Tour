@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -42,7 +40,7 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
      */
     public function approveById($id)
     {
-        return $this->updateColumnsByPk($id, array('published' => 1));
+        return $this->updateColumnsByPk($id, ['published' => 1]);
     }
 
     /**
@@ -57,7 +55,7 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
     public function fetchAll($tourId = null, $published = false, $page = null, $itemsPerPage = null)
     {
         // To be selected
-        $columns = array(
+        $columns = [
             self::column('id'),
             self::column('tour_id'),
             self::column('datetime'),
@@ -65,18 +63,18 @@ final class TourReviewMapper extends AbstractMapper implements TourReviewMapperI
             self::column('message'),
             self::column('published'),
             TourTranslationMapper::column('name') => 'tour'
-        );
+        ];
 
         $db = $this->db->select($columns)
                        ->from(self::getTableName())
                        // Tour relation
-                       ->innerJoin(TourMapper::getTableName(), array(
+                       ->innerJoin(TourMapper::getTableName(), [
                             TourMapper::column('id') => self::getRawColumn('tour_id')
-                       ))
+                       ])
                        // Tour translation relation
-                       ->leftJoin(TourTranslationMapper::getTableName(), array(
+                       ->leftJoin(TourTranslationMapper::getTableName(), [
                             TourTranslationMapper::column('id') => TourMapper::getRawColumn('id')
-                       ))
+                       ])
                        // Constraints
                        ->whereEquals(TourTranslationMapper::column('lang_id'), $this->getLangId());
 

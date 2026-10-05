@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -41,7 +39,7 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
      */
     private function getColumns()
     {
-        return array(
+        return [
             self::column('id'),
             self::column('order'),
             self::column('cover'),
@@ -59,7 +57,7 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
             WebPageMapper::column('slug'),
             WebPageMapper::column('changefreq'),
             WebPageMapper::column('priority'),
-        );
+        ];
     }
 
     /**
@@ -71,29 +69,29 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
     public function findHotelsByTourId($id)
     {
         // Columns to be selected
-        $columns = array(
+        $columns = [
             self::column('id'),
             self::column('cover'),
             HotelTranslationMapper::column('lang_id'),
             HotelTranslationMapper::column('name'),
             WebPageMapper::column('slug')
-        );
+        ];
 
         $db = $this->db->select($columns)
                        ->from(TourHotelRelationMapper::getTableName())
                        // Hotel relation
-                       ->leftJoin(self::getTableName(), array(
+                       ->leftJoin(self::getTableName(), [
                             self::column('id') => TourHotelRelationMapper::getRawColumn('slave_id')
-                       ))
+                       ])
                        // Hotel translation relation
-                       ->leftJoin(HotelTranslationMapper::getTableName(), array(
+                       ->leftJoin(HotelTranslationMapper::getTableName(), [
                             HotelTranslationMapper::column('id') => self::getRawColumn('id')
-                       ))
+                       ])
                        // Web page relation
-                       ->leftJoin(WebPageMapper::getTableName(), array(
+                       ->leftJoin(WebPageMapper::getTableName(), [
                             WebPageMapper::column('id') => HotelTranslationMapper::getRawColumn('web_page_id'),
                             WebPageMapper::column('lang_id') => HotelTranslationMapper::getRawColumn('lang_id')
-                       ))
+                       ])
                        ->whereEquals(TourHotelRelationMapper::column('master_id'), $id)
                        ->andWhereEquals(HotelTranslationMapper::column('lang_id'), $this->getLangId());
 
@@ -117,10 +115,10 @@ final class HotelMapper extends AbstractMapper implements HotelMapperInterface
             $db->orderBy(self::column('id'))
                ->desc();
         } else {
-            $db->orderBy(array(
+            $db->orderBy([
                 self::column('order'), 
                 new RawSqlFragment(sprintf('CASE WHEN %s = 0 THEN %s END DESC', self::column('order'), self::column('id')))
-            ));
+            ]);
         }
 
         return $db->queryAll();
