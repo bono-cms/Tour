@@ -4,11 +4,9 @@ use Krystal\Widget\GridView\GridViewWidget;
 use Krystal\Form\Element;
 use Cms\View\Icon;
 
-defined('KRYSTAL') or die;
-
 ?>
 
-<div class="card">
+<div class="card card-body">
     <?php $this->loadPartial('items-per-page', ['caption' => 'Reviews']); ?>
 
     <?= $this->widget(new GridViewWidget($reviews, [
@@ -18,7 +16,7 @@ defined('KRYSTAL') or die;
         'rowAttributes' => [
             'class' => function($row){
                 if ($row['published'] == 0){
-                    return 'danger';
+                    return 'table-danger';
                 }
             }
         ],

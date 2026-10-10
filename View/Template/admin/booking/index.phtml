@@ -4,11 +4,9 @@ use Krystal\Widget\GridView\GridViewWidget;
 use Krystal\Form\Element;
 use Cms\View\Icon;
 
-defined('KRYSTAL') or die;
-
 ?>
 
-<div class="btn-toolbar">
+<div class="btn-toolbar mb-3">
     <?php $this->loadPartial('menu', [
         'items' => [
             'Tour:Admin:Booking@addAction' => 'New booking'
@@ -32,7 +30,7 @@ defined('KRYSTAL') or die;
             'rowAttributes' => [
                 'class' => function($row){
                     if ($row['status'] == -1) {
-                        return 'danger';
+                        return 'table-danger';
                     }
                 }
             ],

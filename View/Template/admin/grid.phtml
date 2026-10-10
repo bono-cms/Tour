@@ -4,13 +4,11 @@ use Krystal\Widget\GridView\GridViewWidget;
 use Krystal\Form\Element;
 use Cms\View\Icon;
 
-defined('KRYSTAL') or die;
-
 ?>
 
 <form autocomplete="off">
-    <div class="btn-toolbar">
-        <div class="btn-group mr-2">
+    <div class="btn-toolbar mb-3">
+        <div class="btn-group me-2">
             <?php $this->loadPartial('menu', [
                 'notifications' => $newReviews,
                 'items' => [
@@ -32,12 +30,12 @@ defined('KRYSTAL') or die;
             ]); ?>
         </div>
 
-        <div class="btn-group mr-2">
+        <div class="btn-group me-2">
             <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> <?= $this->translate('Filter'); ?></button>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card card-body">
         <?php $this->loadPartial('items-per-page', ['caption' => 'Tours']); ?>
 
         <?= $this->widget(new GridViewWidget($tours, [
@@ -117,7 +115,7 @@ defined('KRYSTAL') or die;
         <?php endif; ?>
     </div>
 
-    <div class="card">
+    <div class="card card-body">
         <h2><i class="bi bi-folder2-open"></i> <?= $this->translate('Categories'); ?> <small>(<?= count($categories); ?>)</small></h2>
 
         <?= $this->widget(new GridViewWidget($categories, [

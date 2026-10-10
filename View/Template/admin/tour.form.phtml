@@ -5,58 +5,57 @@ use Krystal\Widget\GridView\GridViewWidget;
 use Cms\Service\LanguageManager;
 use Cms\View\Icon;
 
-defined('KRYSTAL') or die;
-
 // Required for internal language tab
 $single = LanguageManager::extractOptions($tour);
 
 ?>
 
 <?php if (empty($categories)): ?>
-<div class="alert alert-dismissible alert-danger">
+<div class="alert alert-danger alert-dismissible fade show">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     <p><?= $this->translate('Error occurred'); ?>!</p>
     <strong><?= $this->translate('You have no categories to attach tours'); ?>.</strong> <?= $this->translate('Please add at least one category'); ?>.
 </div>
 <?php else: ?>
 
-<form class="card" data-group="tour" novalidate autocomplete="off">
+<form class="card" novalidate autocomplete="off">
 	<ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="#page" data-toggle="tab"><i class="fas fa-vector-square"></i> <?= $this->translate('Tour'); ?></a>
+            <a class="nav-link active" href="#page" data-bs-toggle="tab"><i class="fas fa-vector-square"></i> <?= $this->translate('Tour'); ?></a>
         </li>
         <?php if (!$new): ?>
         <li class="nav-item">
-            <a class="nav-link" href="#days" data-toggle="tab"><i class="fas fa-calendar-day"></i> <?= $this->translate('Days'); ?> <small class="text-muted">(<?= count($days); ?>)</small></a>
+            <a class="nav-link" href="#days" data-bs-toggle="tab"><i class="fas fa-calendar-day"></i> <?= $this->translate('Days'); ?> <small class="text-muted">(<?= count($days); ?>)</small></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#dates" data-toggle="tab"><i class="far fa-calendar"></i> <?= $this->translate('Dates'); ?> <small class="text-muted">(<?= count($dates); ?>)</small></a>
+            <a class="nav-link" href="#dates" data-bs-toggle="tab"><i class="far fa-calendar"></i> <?= $this->translate('Dates'); ?> <small class="text-muted">(<?= count($dates); ?>)</small></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#prices" data-toggle="tab"><i class="fas fa-money-bill-wave"></i> <?= $this->translate('Price policies'); ?> <small class="text-muted">(<?= count($prices); ?>)</small></a>
+            <a class="nav-link" href="#prices" data-bs-toggle="tab"><i class="fas fa-money-bill-wave"></i> <?= $this->translate('Price policies'); ?> <small class="text-muted">(<?= count($prices); ?>)</small></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#gallery" data-toggle="tab"><i class="fas fa-camera-retro"></i> <?= $this->translate('Gallery'); ?> <small class="text-muted">(<?= count($gallery); ?>)</small></a>
+            <a class="nav-link" href="#gallery" data-bs-toggle="tab"><i class="fas fa-camera-retro"></i> <?= $this->translate('Gallery'); ?> <small class="text-muted">(<?= count($gallery); ?>)</small></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#reviews" data-toggle="tab"><i class="fas fa-comment"></i> <?= $this->translate('Reviews'); ?> <small class="text-muted">(<?= count($reviews); ?>)</small></a>
+            <a class="nav-link" href="#reviews" data-bs-toggle="tab"><i class="fas fa-comment"></i> <?= $this->translate('Reviews'); ?> <small class="text-muted">(<?= count($reviews); ?>)</small></a>
         </li>
         <?php endif; ?>
         <li class="nav-item">
-            <a class="nav-link" href="#configuration" data-toggle="tab"><i class="fas fa-tasks"></i> <?= $this->translate('Configuration'); ?></a>
+            <a class="nav-link" href="#configuration" data-bs-toggle="tab"><i class="fas fa-tasks"></i> <?= $this->translate('Configuration'); ?></a>
         </li>
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-content pt-3">
         <div class="tab-pane fade show active" id="page">
             <ul class="nav nav-tabs">
                 <?php foreach ($languages as $index => $language): ?>
-                <li class="nav-item"><a class="<?= $single->hasConstraintLanguageId() ? !$single->isConstraintLanguageId($language->getId()) ? 'disabled' : null : null; ?> nav-link <?= $index == 0 ? 'active' : null; ?>" href="<?php printf('#language-%s', $language->getId()); ?>" data-toggle="tab"><i class="<?php printf('famfamfam-flag-%s', $language->getFlag()); ?>"></i> <?= $language->getName(); ?></a></li>
+                <li class="nav-item"><a class="<?= $single->hasConstraintLanguageId() ? !$single->isConstraintLanguageId($language->getId()) ? 'disabled' : null : null; ?> nav-link <?= $index == 0 ? 'active' : null; ?>" href="<?= sprintf('#language-%s', $language->getId()); ?>" data-bs-toggle="tab"><i class="<?= sprintf('famfamfam-flag-%s', $language->getFlag()); ?>"></i> <?= $language->getName(); ?></a></li>
                 <?php endforeach; ?>
             </ul>
 
             <div class="tab-content">
                 <?php foreach ($languages as $index => $language): ?>
-                <div class="tab-pane fade show <?= $index == 0 ? 'active' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>">
+                <div class="tab-pane fade <?= $index == 0 ? 'show active' : null; ?>" id="<?= sprintf('language-%s', $language->getId()); ?>">
                     <?php $entity = LanguageManager::findByLangId($language->getId(), $tour); ?>
                     <?php $this->loadPartial('language-name', ['language' => $language]); ?>
 
@@ -64,40 +63,38 @@ $single = LanguageManager::extractOptions($tour);
                     <?= Element::hidden(sprintf('translation[%s][web_page_id]', $language->getId()), $entity->getWebPageId()); ?>
                     <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
 
-                    <div class="form-group row">
+                    <div class="row mb-3">
                         <label class="col-lg-2 col-form-label"><?= $this->translate('Name'); ?></label>
                         <div class="col-lg-10">
                             <div class="input-group">
                                 <?= Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), ['class' => 'form-control', 'placeholder' => $this->translate('Tour name')]); ?>
-                                <div class="input-group-append">
-                                    <span class="input-group-text"><i class="bi bi-pencil"></i></span>
-                                </div>
+                                <span class="input-group-text"><i class="bi bi-pencil"></i></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="row mb-3">
                         <label class="col-lg-2 col-form-label"><?= $this->translate('Short description'); ?></label>
                         <div class="col-lg-10">
                             <?= Element::textarea(sprintf('translation[%s][short]', $language->getId()), $entity->getShort(), ['data-wysiwyg' => 'true']); ?>
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="row mb-3">
                         <label class="col-lg-2 col-form-label"><?= $this->translate('Description'); ?></label>
                         <div class="col-lg-10">
                             <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), ['data-wysiwyg' => 'true']); ?>
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="row mb-3">
                         <label class="col-lg-2 col-form-label"><?= $this->translate('What\'s included'); ?></label>
                         <div class="col-lg-10">
                             <?= Element::textarea(sprintf('translation[%s][included]', $language->getId()), $entity->getIncluded(), ['data-wysiwyg' => 'true']); ?>
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="row mb-3">
                         <label class="col-lg-2 col-form-label"><?= $this->translate('What\'s not included'); ?></label>
                         <div class="col-lg-10">
                             <?= Element::textarea(sprintf('translation[%s][excluded]', $language->getId()), $entity->getExcluded(), ['data-wysiwyg' => 'true']); ?>
@@ -105,53 +102,51 @@ $single = LanguageManager::extractOptions($tour);
                     </div>
 
                     <div class="options">
-                        <div class="form-group row">
+                        <div class="row mb-3">
                             <label class="col-lg-2 col-form-label"><?= $this->translate('Slug'); ?></label>
                             <div class="col-lg-10">
                                 <div class="input-group">
                                     <?= Element::text(sprintf('translation[%s][slug]', $language->getId()), $entity->getSlug(), ['class' => 'form-control', 'placeholder' => $this->translate('URL slug for this tour. By default is taken from the name')]); ?>
 
-                                    <div class="input-group-append">
-                                        <a class="input-group-text" href="#" data-slug-selector="<?= LanguageManager::generateSelector($language->getId()); ?>"><i class="bi bi-arrow-clockwise" data-toggle="tooltip" title="<?= $this->translate('Refresh the slug'); ?>"></i></a>
-                                    </div>
+                                    <span class="input-group-text">
+                                        <a href="#" data-slug-selector="<?= LanguageManager::generateSelector($language->getId()); ?>"><i class="bi bi-arrow-clockwise" data-bs-toggle="tooltip" title="<?= $this->translate('Refresh the slug'); ?>"></i></a>
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="row mb-3">
                             <label class="col-lg-2 col-form-label"><?= $this->translate('Change frequency'); ?></label>
                             <div class="col-lg-10">
-                                <?= Element::select(sprintf('translation[%s][changefreq]', $language->getId()), $this->translateArray($changeFreqs), $entity->getChangeFreq(), ['class' => 'form-control']); ?>
+                                <?= Element::select(sprintf('translation[%s][changefreq]', $language->getId()), $this->translateArray($changeFreqs), $entity->getChangeFreq(), ['class' => 'form-select']); ?>
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="row mb-3">
                             <label class="col-lg-2 col-form-label"><?= $this->translate('Priority'); ?></label>
                             <div class="col-lg-10">
-                                <?= Element::select(sprintf('translation[%s][priority]', $language->getId()), $priorities, $entity->getPriority(), ['class' => 'form-control']); ?>
+                                <?= Element::select(sprintf('translation[%s][priority]', $language->getId()), $priorities, $entity->getPriority(), ['class' => 'form-select']); ?>
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="row mb-3">
                             <label class="col-lg-2 col-form-label"><?= $this->translate('Title'); ?></label>
                             <div class="col-lg-10">
                                 <div class="input-group">
                                     <?= Element::text(sprintf('translation[%s][title]', $language->getId()), $entity->getTitle(), ['class' => 'form-control']); ?>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="bi bi-pencil"></i></span>
-                                    </div>
+                                    <span class="input-group-text"><i class="bi bi-pencil"></i></span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="row mb-3">
                             <label class="col-lg-2 col-form-label"><?= $this->translate('Keywords'); ?></label>
                             <div class="col-lg-10">
                                 <?= Element::text(sprintf('translation[%s][meta_keywords]', $language->getId()), $entity->getMetaKeywords(), ['class' => 'form-control', 'placeholder' => $this->translate('Keywords used for search engines')]); ?>
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="row mb-3">
                             <label class="col-lg-2 col-form-label"><?= $this->translate('Description'); ?></label>
                             <div class="col-lg-10">
                                 <?= Element::textarea(sprintf('translation[%s][meta_description]', $language->getId()), $entity->getMetaDescription(), ['class' => 'form-control', 'placeholder' => $this->translate('Meta description for search engines')]); ?>
@@ -172,11 +167,11 @@ $single = LanguageManager::extractOptions($tour);
             ]); ?>
 		</div>
 
-        <div class="tab-pane" id="configuration">
+        <div class="tab-pane fade" id="configuration">
             <?= Element::hidden('tour[id]', $entity->getId()); ?>
             <?= Element::hidden('tour[cover]', $entity->getCover()); ?>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Image'); ?></label>
                 <div class="col-lg-10">
                     <p>
@@ -184,102 +179,108 @@ $single = LanguageManager::extractOptions($tour);
                     </p>
 
                     <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="bi bi-image"></i> <?= $this->translate('Upload a file'); ?></a>
-                    <?= Element::file('file', 'image/x-png, image/gif, image/jpeg', ['class' => 'hidden', 'data-plugin' => 'preview']); ?>
+                    <?= Element::file('file', 'image/x-png, image/gif, image/jpeg', ['class' => 'd-none', 'data-plugin' => 'preview']); ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Language constraint'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('tour[lang_constraint_id]', LanguageManager::toHashList($languages), $entity->getLangConstraintId(), ['class' => 'form-control'], ''); ?>
+                    <?= Element::select('tour[lang_constraint_id]', LanguageManager::toHashList($languages), $entity->getLangConstraintId(), ['class' => 'form-select'], ''); ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Attached hotels'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('hotels[]', $hotels, $entity->getHotelIds(), ['class' => 'form-control', 'multiple' => true, 'data-plugin' => 'chosen']); ?>
+                    <?= Element::select('hotels[]', $hotels, $entity->getHotelIds(), ['class' => 'form-select', 'multiple' => true, 'data-plugin' => 'chosen']); ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Categories'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('categories[]', $categories, $entity->getCategoryIds(), ['class' => 'form-control', 'multiple' => true, 'data-plugin' => 'chosen']) ?>
+                    <?= Element::select('categories[]', $categories, $entity->getCategoryIds(), ['class' => 'form-select', 'multiple' => true, 'data-plugin' => 'chosen']) ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Related tours'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('related[]', $tours, $entity->getRelatedIds(), ['class' => 'form-control', 'multiple' => true, 'data-plugin' => 'chosen']) ?>
+                    <?= Element::select('related[]', $tours, $entity->getRelatedIds(), ['class' => 'form-select', 'multiple' => true, 'data-plugin' => 'chosen']) ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Enable SEO'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::checkbox('tour[seo]', $entity->getSeo()) ?>
+                    <div class="form-check">
+                        <?= Element::checkbox('tour[seo]', $entity->getSeo(), ['class' => 'form-check-input']) ?>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Recommended'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::checkbox('tour[recommended]', $entity->getRecommended()) ?>
+                    <div class="form-check">
+                        <?= Element::checkbox('tour[recommended]', $entity->getRecommended(), ['class' => 'form-check-input']) ?>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Published'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::checkbox('tour[published]', $entity->getPublished()) ?>
+                    <div class="form-check">
+                        <?= Element::checkbox('tour[published]', $entity->getPublished(), ['class' => 'form-check-input']) ?>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Tour destination'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('tour[destination_id]', $destinations, $entity->getDestinationId(), ['class' => 'form-control'], '') ?>
+                    <?= Element::select('tour[destination_id]', $destinations, $entity->getDestinationId(), ['class' => 'form-select'], '') ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Days before cancellation'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::number('tour[cancellation]', $entity->getCancellation(), ['class' => 'form-control', 'min' => 0]) ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Price'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::number('tour[price]', $entity->getPrice(), ['class' => 'form-control', 'min' => 1]) ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Start price'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::number('tour[start_price]', $entity->getStartPrice(), ['class' => 'form-control', 'min' => 1]) ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Order'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::number('tour[order]', $entity->getOrder(), ['class' => 'form-control', 'min' => 0]) ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Number of adults'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::number('tour[adults]', $entity->getAdults(), ['class' => 'form-control', 'min' => 0]) ?>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Number of children'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::number('tour[children]', $entity->getChildren(), ['class' => 'form-control', 'min' => 0]) ?>
@@ -287,7 +288,7 @@ $single = LanguageManager::extractOptions($tour);
             </div>
         </div>
 
-        <div class="tab-pane" id="days">
+        <div class="tab-pane fade" id="days">
             <h2 class="mt-2 mb-4"><i class="fas fa-calendar-day"></i> <?= $this->translate('Days'); ?> <small>(<?= count($days); ?>)</small></h2>
             <p><a class="btn btn-primary" href="<?= $this->url('Tour:Admin:TourDay@addAction', $entity->getId()); ?>"><?= $this->translate('Add new day'); ?></a></p>
 
@@ -319,7 +320,7 @@ $single = LanguageManager::extractOptions($tour);
             ])); ?>
         </div>
 
-        <div class="tab-pane" id="prices">
+        <div class="tab-pane fade" id="prices">
             <h2 class="mt-2 mb-4"><i class="fas fa-money-bill-wave"></i> <?= $this->translate('Price policies'); ?> <small>(<?= count($prices); ?>)</small></h2>
             <p><a class="btn btn-primary" href="<?= $this->url('Tour:Admin:TourPricePolicy@addAction', $entity->getId()); ?>"><?= $this->translate('Add new price policy'); ?></a></p>
 
@@ -353,7 +354,7 @@ $single = LanguageManager::extractOptions($tour);
             ])); ?>
         </div>
 
-        <div class="tab-pane" id="dates">
+        <div class="tab-pane fade" id="dates">
             <h2 class="mt-2 mb-4"><i class="far fa-calendar"></i> <?= $this->translate('Dates'); ?> <small>(<?= count($dates); ?>)</small></h2>
             <p><a class="btn btn-primary" href="<?= $this->url('Tour:Admin:TourDate@addAction', $entity->getId()); ?>"><?= $this->translate('Add new date'); ?></a></p>
 
@@ -386,7 +387,7 @@ $single = LanguageManager::extractOptions($tour);
             ])); ?>
         </div>
 
-        <div class="tab-pane" id="gallery">
+        <div class="tab-pane fade" id="gallery">
             <h2 class="mt-2 mb-4"><i class="fas fa-camera-retro"></i> <?= $this->translate('Gallery'); ?> <small>(<?= count($gallery); ?>)</small></h2>
             <p><a class="btn btn-primary" href="<?= $this->url('Tour:Admin:TourGallery@addAction', $entity->getId()); ?>"><?= $this->translate('Add new image'); ?></a></p>
 
@@ -419,7 +420,7 @@ $single = LanguageManager::extractOptions($tour);
             ])); ?>
         </div>
 
-        <div class="tab-pane" id="reviews">
+        <div class="tab-pane fade" id="reviews">
             <h2 class="mt-2 mb-4"><i class="fas fa-comment"></i> <?= $this->translate('Reviews'); ?> <small>(<?= count($reviews); ?>)</small></h2>
 
             <?= $this->widget(new GridViewWidget($reviews, [
@@ -427,7 +428,7 @@ $single = LanguageManager::extractOptions($tour);
                 'rowAttributes' => [
                     'class' => function($row){
                         if ($row['published'] == 0){
-                            return 'danger';
+                            return 'table-danger';
                         }
                     }
                 ],
@@ -455,7 +456,7 @@ $single = LanguageManager::extractOptions($tour);
                     function($entity){
                         if ($entity['published'] == 0){
                             $url = $this->url('Tour:Admin:TourReview@approveAction', $entity['id']);
-                            return Icon::button('glyphicon glyphicon-check', $url, $this->translate('Approve this review'));
+                            return Icon::button('bi bi-check-circle', $url, $this->translate('Approve this review'));
                         }
                     },
 
